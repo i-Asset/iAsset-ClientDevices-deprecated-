@@ -4,6 +4,12 @@
 CWD=$(pwd)
 echo "CWD: $CWD"
 
+# build base device project of iAsset
+cd ../devices/BASE/basys.basedevice
+mvn clean install
+mvn verify
+cd "$CWD"
+
 # build panda project of iAsset
 cd ../devices/panda/basys.panda
 mvn clean install
