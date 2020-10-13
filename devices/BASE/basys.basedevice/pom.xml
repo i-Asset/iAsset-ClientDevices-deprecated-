@@ -156,6 +156,18 @@
 			<version>2.0</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.xml.xquery/xqj-api -->
+        <dependency>
+            <groupId>javax.xml.xquery</groupId>
+            <artifactId>xqj-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+		<!-- https://mvnrepository.com/artifact/net.sf.saxon/saxon-xqj -->
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>saxon-xqj</artifactId>
+            <version>9.0</version>
+        </dependency>
 		<!-- https://mvnrepository.com/artifact/javax.el/el-api -->
 		<dependency>
 			<groupId>javax.el</groupId>

@@ -337,10 +337,10 @@ public class MainPandaDevice extends javax.swing.JFrame {
         RequestManager manager = new RequestManager();
 
         // register AAS descriptor for lookup of others
-        manager.SendRegisterRequest(RequestManager.RegistryType.eDirectory, "/panda");
+        manager.SendRegisterRequest(RequestManager.RegistryType.eDirectory, "POST", "/panda");
 
         // register full AAS (TEST)
-        manager.SendRegisterRequest(RequestManager.RegistryType.eFullAAS, "{\"name\": \"Panda\", \"job\": \"robot\"}");
+        manager.SendRegisterRequest(RequestManager.RegistryType.eFullAAS, "POST", "{\"name\": \"Panda\", \"job\": \"robot\"}");
     }
 
     /*********************************************************************************************************

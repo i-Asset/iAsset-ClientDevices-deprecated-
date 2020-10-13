@@ -287,10 +287,10 @@ public class MainConveyorBelt extends javax.swing.JFrame {
         RequestManager manager = new RequestManager();
 
         // register AAS descriptor for lookup of others
-        manager.SendRegisterRequest(RequestManager.RegistryType.eDirectory, "/belt");
+        manager.SendRegisterRequest(RequestManager.RegistryType.eDirectory, "POST", "/belt");
 
         // register full AAS (TEST)
-        manager.SendRegisterRequest(RequestManager.RegistryType.eFullAAS, "{\"name\": \"Belt\", \"job\": \"robot\"}");
+        manager.SendRegisterRequest(RequestManager.RegistryType.eFullAAS, "POST", "{\"name\": \"Belt\", \"job\": \"robot\"}");
     }
 
     /*********************************************************************************************************

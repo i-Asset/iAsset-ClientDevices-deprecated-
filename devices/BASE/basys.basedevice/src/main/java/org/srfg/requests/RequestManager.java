@@ -15,7 +15,6 @@ public class RequestManager {
     private String strURL_AAS = "/aas";
     private HttpURLConnection conDIR = null;
     private HttpURLConnection conAAS = null;
-
     private boolean isInit = false;
 
     public enum RegistryType {eDirectory, eFullAAS}
@@ -34,33 +33,34 @@ public class RequestManager {
             return;
         }
 
-        try {
-            conDIR.setRequestMethod("POST");
-            conDIR.setRequestProperty("Content-Type", "application/json; utf-8"); // set request header
-            conDIR.setRequestProperty("Accept", "application/json"); // set response read type
-            conDIR.setDoOutput(true); // to enable writing content to output stream
+        conDIR.setRequestProperty("Content-Type", "application/json; utf-8"); // set request header
+        conDIR.setRequestProperty("Accept", "application/json"); // set response read type
+        conDIR.setDoOutput(true); // to enable writing content to output stream
 
-            conAAS.setRequestMethod("POST");
-            conAAS.setRequestProperty("Content-Type", "application/json; utf-8"); // set request header
-            conAAS.setRequestProperty("Accept", "application/json"); // set response read type
-            conAAS.setDoOutput(true); // to enable writing content to output stream
-        }
-        catch (ProtocolException e) {
-            e.printStackTrace();
-            return;
-        }
+        conAAS.setRequestProperty("Content-Type", "application/json; utf-8"); // set request header
+        conAAS.setRequestProperty("Accept", "application/json"); // set response read type
+        conAAS.setDoOutput(true); // to enable writing content to output stream
 
         isInit = true;
     }
 
     /*********************************************************************************************************
      * SendRegisterRequest
+     * method = GET, POST, HEAD, OPTIONS, PUT, DELETE, TRACE
      ********************************************************************************************************/
-    public boolean SendRegisterRequest(RegistryType type, String parameter)
+    public boolean SendRegisterRequest(RegistryType type, String method, String parameter)
     {
         if(!isInit) return false;
 
         HttpURLConnection localConnection = (type == RegistryType.eDirectory) ? conDIR : conAAS;
+
+        try {
+            localConnection.setRequestMethod(method);
+        }
+        catch (ProtocolException e) {
+            e.printStackTrace();
+            return false;
+        }
 
         // write POST
         try(OutputStream os = localConnection.getOutputStream())
