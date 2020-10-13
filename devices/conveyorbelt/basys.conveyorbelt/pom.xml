@@ -20,34 +20,41 @@
   </build>
   
   <dependencies>
+      
+	<dependency>
+        <groupId>org.eclipse.basyx</groupId>
+        <artifactId>basyx.basedevice</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <scope>compile</scope>
+    </dependency>
 
-	  <!-- Client SDK for OPCUA Client: DigitalPetri -->
-	  <!-- https://mvnrepository.com/artifact/com.digitalpetri.opcua/stack-core -->
-	  <dependency>
-		  <groupId>com.digitalpetri.opcua</groupId>
-		  <artifactId>stack-core</artifactId>
-		  <version>1.0.0</version>
-	  </dependency>
+	<!-- Client SDK for OPCUA Client: DigitalPetri -->
+	<!-- https://mvnrepository.com/artifact/com.digitalpetri.opcua/stack-core -->
+	<dependency>
+		<groupId>com.digitalpetri.opcua</groupId>
+		<artifactId>stack-core</artifactId>
+		<version>1.0.0</version>
+	</dependency>
 
-	  <dependency>
-		  <groupId>com.digitalpetri.opcua</groupId>
-		  <artifactId>ua-client</artifactId>
-		  <version>1.0.0</version>
-	  </dependency>
+	<dependency>
+		<groupId>com.digitalpetri.opcua</groupId>
+		<artifactId>ua-client</artifactId>
+		<version>1.0.0</version>
+	</dependency>
 
-	  <dependency>
-		  <groupId>com.digitalpetri.opcua</groupId>
-		  <artifactId>opc-ua-stack</artifactId>
-		  <version>1.0.0</version>
-		  <type>pom</type>
-	  </dependency>
+	<dependency>
+		<groupId>com.digitalpetri.opcua</groupId>
+		<artifactId>opc-ua-stack</artifactId>
+		<version>1.0.0</version>
+		<type>pom</type>
+	</dependency>
 
-	  <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
-	  <dependency>
-		  <groupId>com.google.guava</groupId>
-		  <artifactId>guava</artifactId>
-		  <version>14.0</version>
-	  </dependency>
+	<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+	<dependency>
+		<groupId>com.google.guava</groupId>
+		<artifactId>guava</artifactId>
+		<version>14.0</version>
+	</dependency>
 
   </dependencies>
 </project>

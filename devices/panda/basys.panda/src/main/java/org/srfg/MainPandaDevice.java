@@ -17,7 +17,7 @@ import org.eclipse.basyx.vab.protocol.http.server.BaSyxContext;
 import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
 import org.srfg.panda.PandaDevice;
 import org.srfg.panda.PandaListener;
-import org.srfg.panda.requests.RequestManager;
+import org.srfg.requests.RequestManager;
 
 /**
  *

@@ -18,7 +18,7 @@ import org.eclipse.basyx.vab.protocol.http.server.BaSyxContext;
 import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
 import org.srfg.conveyorbelt.BeltListener;
 import org.srfg.conveyorbelt.ConveyorBelt;
-import org.srfg.panda.requests.RequestManager;
+import org.srfg.requests.RequestManager;
 
 /**
  *

@@ -20,39 +20,46 @@
   </build>
   
   <dependencies>
+  
+    <dependency>
+       <groupId>org.eclipse.basyx</groupId>
+       <artifactId>basyx.basedevice</artifactId>
+       <version>0.0.1-SNAPSHOT</version>
+       <scope>compile</scope>
+    </dependency>
 
-		<!-- ros.org to implement a ROS node-->
-		<dependency>
-          	<groupId>org.ros.rosjava_core</groupId>
-          	<artifactId>rosjava</artifactId>
-          	<version>[0.3, 0.4)</version>
-        </dependency>
+	<!-- ros.org to implement a ROS node-->
+    <dependency>
+        <groupId>org.ros.rosjava_core</groupId>
+        <artifactId>rosjava</artifactId>
+        <version>[0.3, 0.4)</version>
+    </dependency>
         
-        <dependency>
-       		<groupId>org.ros.rosjava_messages</groupId>
-       		<artifactId>std_msgs</artifactId>
-       		<version>0.5.10</version>
-		</dependency>
+    <dependency>
+        <groupId>org.ros.rosjava_messages</groupId>
+       	<artifactId>std_msgs</artifactId>
+       	<version>0.5.10</version>
+	</dependency>
 		
-		<dependency>
-       		<groupId>org.ros.rosjava_messages</groupId>
-       		<artifactId>sensor_msgs</artifactId>
-       		<version>1.12.5</version>
-		</dependency>
+	<dependency>
+       	<groupId>org.ros.rosjava_messages</groupId>
+       	<artifactId>sensor_msgs</artifactId>
+       	<version>1.12.5</version>
+	</dependency>
 		
-		<dependency>
-       		<groupId>org.ros.rosjava_bootstrap</groupId>
-       		<artifactId>message_generation</artifactId>
-       		<version>0.3.3</version>
-		</dependency>
+    <dependency>
+       	<groupId>org.ros.rosjava_bootstrap</groupId>
+       	<artifactId>message_generation</artifactId>
+       	<version>0.3.3</version>
+	</dependency>
 
-	  <dependency>
-		  <groupId>com.sample</groupId>
-		  <artifactId>sample</artifactId>
-		  <version>1.0</version>
-		  <scope>system</scope>
-		  <systemPath>${pom.basedir}/jars/franka_msgs-0.7.0.jar</systemPath>
-	  </dependency>
+	<dependency>
+		<groupId>com.sample</groupId>
+		<artifactId>sample</artifactId>
+		<version>1.0</version>
+		<scope>system</scope>
+		<systemPath>${pom.basedir}/jars/franka_msgs-0.7.0.jar</systemPath>
+	</dependency>
 
   </dependencies>
 </project>

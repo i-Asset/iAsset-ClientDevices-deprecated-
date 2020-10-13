@@ -20,6 +20,14 @@
   </build>
   
   <dependencies>
+  
+    <dependency>
+       <groupId>org.eclipse.basyx</groupId>
+       <artifactId>basyx.basedevice</artifactId>
+       <version>0.0.1-SNAPSHOT</version>
+       <scope>compile</scope>
+    </dependency>
+  
     <!--TODO-->
   </dependencies>
 </project>
