@@ -162,12 +162,6 @@
             <artifactId>xqj-api</artifactId>
             <version>1.0</version>
         </dependency>
-		<!-- https://mvnrepository.com/artifact/net.sf.saxon/saxon-xqj -->
-        <dependency>
-            <groupId>net.sf.saxon</groupId>
-            <artifactId>saxon-xqj</artifactId>
-            <version>9.0</version>
-        </dependency>
 		<!-- https://mvnrepository.com/artifact/javax.el/el-api -->
 		<dependency>
 			<groupId>javax.el</groupId>
