@@ -63,16 +63,16 @@ public class RequestManager {
         }
 
         // write POST
-        try(OutputStream os = localConnection.getOutputStream())
-        {
+        try{
+			OutputStream os = localConnection.getOutputStream();
             byte[] input = parameter.getBytes("utf-8");
             os.write(input, 0, input.length);
         }
         catch (IOException e) { e.printStackTrace(); }
 
         // wait for response
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(localConnection.getInputStream(), "utf-8")))
-        {
+        try{
+			BufferedReader br = new BufferedReader(new InputStreamReader(localConnection.getInputStream(), "utf-8"));
             StringBuilder response = new StringBuilder();
             String responseLine = null;
             while ((responseLine = br.readLine()) != null) {
