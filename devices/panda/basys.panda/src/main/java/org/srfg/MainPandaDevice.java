@@ -130,12 +130,17 @@ public class MainPandaDevice extends javax.swing.JFrame {
         jTextFieldForceZ = new javax.swing.JTextField();
         jTextFieldGripperDistance = new javax.swing.JTextField();
 
-
         jScrollPane1.setViewportView(jTree1);
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         jToolBar1.setRollover(true);
+
+        jToggleButtonComponent.setText("I4.0 Component");
+        jToggleButtonComponent.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jToggleButton1ItemStateChanged(evt);
+            }
+        });
+        jToolBar1.add(jToggleButtonComponent);
 
         jToggleButtonRegistration.setText("Register Panda");
         jToggleButtonRegistration.addItemListener(new java.awt.event.ItemListener() {
@@ -162,14 +167,6 @@ public class MainPandaDevice extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(jToggleButtonPanda);
-
-        jToggleButtonComponent.setText("I4.0 Component");
-        jToggleButtonComponent.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jToggleButton1ItemStateChanged(evt);
-            }
-        });
-        jToolBar1.add(jToggleButtonComponent);
 
         // assign text to all labels
         jLabelRobotMode.setText("Robot Mode");

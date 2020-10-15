@@ -18,6 +18,7 @@ import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
 import org.srfg.IPSA.IPSADevice;
 import org.srfg.IPSA.IPSAListener;
 import org.srfg.properties.MyProperties;
+import org.srfg.requests.RequestManager;
 
 /**
  *
@@ -33,6 +34,7 @@ public class MainIPSADevice extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton jToggleButtonRegistration;
     private javax.swing.JToggleButton jToggleButtonComponent;
     private javax.swing.JToggleButton jToggleButtonIPSA;
     private javax.swing.JToolBar jToolBar1;
@@ -108,6 +110,7 @@ public class MainIPSADevice extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jToolBar1 = new javax.swing.JToolBar();
+        jToggleButtonRegistration = new javax.swing.JToggleButton();
         jToggleButtonIPSA = new javax.swing.JToggleButton();
         jToggleButtonComponent = new javax.swing.JToggleButton();
         jPanel1 = new javax.swing.JPanel();
@@ -126,12 +129,25 @@ public class MainIPSADevice extends javax.swing.JFrame {
         jTextFieldForceZ = new javax.swing.JTextField();
         jTextFieldGripperDistance = new javax.swing.JTextField();
 
-
         jScrollPane1.setViewportView(jTree1);
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         jToolBar1.setRollover(true);
+
+        jToggleButtonComponent.setText("I4.0 Component");
+        jToggleButtonComponent.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jToggleButton1ItemStateChanged(evt);
+            }
+        });
+        jToolBar1.add(jToggleButtonComponent);
+
+        jToggleButtonRegistration.setText("Register IPSA");
+        jToggleButtonRegistration.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jToggleButton0ItemStateChanged(evt);
+            }
+        });
+        jToolBar1.add(jToggleButtonRegistration);
 
         jToggleButtonIPSA.setText("Start IPSA");
         jToggleButtonIPSA.addItemListener(new java.awt.event.ItemListener() {
@@ -150,14 +166,6 @@ public class MainIPSADevice extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(jToggleButtonIPSA);
-
-        jToggleButtonComponent.setText("I4.0 Component");
-        jToggleButtonComponent.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jToggleButton1ItemStateChanged(evt);
-            }
-        });
-        jToolBar1.add(jToggleButtonComponent);
 
         // assign text to all labels
         jLabelRobotMode.setText("Robot Mode");
@@ -301,6 +309,21 @@ public class MainIPSADevice extends javax.swing.JFrame {
     private void jTextFieldPosZActionPerformed(java.awt.event.ActionEvent evt){}
     private void jTextFieldForceZActionPerformed(java.awt.event.ActionEvent evt){}
     private void jTextFieldGripperDistanceActionPerformed(java.awt.event.ActionEvent evt){}
+
+    /*********************************************************************************************************
+     * jToggleButton0ItemStateChanged
+     ********************************************************************************************************/
+    private void jToggleButton0ItemStateChanged(java.awt.event.ItemEvent evt) {
+
+        // TEST
+        RequestManager manager = new RequestManager();
+
+        // register AAS descriptor for lookup of others
+        manager.SendRegisterRequest(RequestManager.RegistryType.eDirectory, "POST", "/ipsa");
+
+        // register full AAS (TEST)
+        manager.SendRegisterRequest(RequestManager.RegistryType.eFullAAS, "POST", "{\"name\": \"ipsa\", \"job\": \"robot\"}");
+    }
 
     /*********************************************************************************************************
      * jToggleButton1ItemStateChanged

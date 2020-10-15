@@ -126,10 +126,16 @@ public class MainConveyorBelt extends javax.swing.JFrame {
         jTextField_BeltMoving = new javax.swing.JTextField();
 
         jScrollPane1.setViewportView(jTree1);
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         jToolBar1.setRollover(true);
+
+        jToggleButtonComponent.setText("I4.0 Component");
+        jToggleButtonComponent.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jToggleButton1ItemStateChanged(evt);
+            }
+        });
+        jToolBar1.add(jToggleButtonComponent);
 
         jToggleButtonRegistration.setText("Register Belt");
         jToggleButtonRegistration.addItemListener(new java.awt.event.ItemListener() {
@@ -156,14 +162,6 @@ public class MainConveyorBelt extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(jToggleButtonBelt);
-
-        jToggleButtonComponent.setText("I4.0 Component");
-        jToggleButtonComponent.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jToggleButton1ItemStateChanged(evt);
-            }
-        });
-        jToolBar1.add(jToggleButtonComponent);
 
         // assign text to all labels
         jLabel_MoveBelt.setText("MoveBelt");
