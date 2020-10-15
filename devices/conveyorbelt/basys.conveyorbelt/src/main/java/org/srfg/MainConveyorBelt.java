@@ -18,6 +18,7 @@ import org.eclipse.basyx.vab.protocol.http.server.BaSyxContext;
 import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
 import org.srfg.conveyorbelt.BeltListener;
 import org.srfg.conveyorbelt.ConveyorBelt;
+import org.srfg.properties.MyProperties;
 import org.srfg.requests.RequestManager;
 
 /**
@@ -26,8 +27,10 @@ import org.srfg.requests.RequestManager;
  */
 public class MainConveyorBelt extends javax.swing.JFrame {
 
-    ConveyorBelt belt;// = new PandaDevice("belt01");
-    AASHTTPServer server = null;
+    private final String registryDir = "/lab/belt/belt01";
+    private MyProperties properties = new MyProperties();
+    private ConveyorBelt belt;
+    private AASHTTPServer server = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
 
@@ -252,31 +255,14 @@ public class MainConveyorBelt extends javax.swing.JFrame {
     /*********************************************************************************************************
      * ActionPerformed - Functions
      ********************************************************************************************************/
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here
-
-    }
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt){
-        // TODO add your handling code here
-    }
-    private void jTextFieldRobotModeActionPerformed(java.awt.event.ActionEvent evt){
-        // TODO add your handling code here
-    }
-    private void jTextFieldPosXActionPerformed(java.awt.event.ActionEvent evt){
-        // TODO add your handling code here
-    }
-    private void jTextFieldPosYActionPerformed(java.awt.event.ActionEvent evt){
-        // TODO add your handling code here
-    }
-    private void jTextFieldPosZActionPerformed(java.awt.event.ActionEvent evt){
-        // TODO add your handling code here
-    }
-    private void jTextFieldForceZActionPerformed(java.awt.event.ActionEvent evt){
-        // TODO add your handling code here
-    }
-    private void jTextFieldGripperDistanceActionPerformed(java.awt.event.ActionEvent evt){
-        // TODO add your handling code here
-    }
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {}
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldRobotModeActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldPosXActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldPosYActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldPosZActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldForceZActionPerformed(java.awt.event.ActionEvent evt){ }
+    private void jTextFieldGripperDistanceActionPerformed(java.awt.event.ActionEvent evt){}
 
     /*********************************************************************************************************
      * jToggleButton0ItemStateChanged
@@ -298,16 +284,12 @@ public class MainConveyorBelt extends javax.swing.JFrame {
      ********************************************************************************************************/
     private void jToggleButton1ItemStateChanged(java.awt.event.ItemEvent evt) {
 
-        // TODO add your handling code here
-
         switch (evt.getStateChange()) {
             case 1:
                 Map<String, Object> beltMap = ConveyorBelt.createModel(belt);
                 IModelProvider beltAAS = ConveyorBelt.createAAS(belt);
                 IModelProvider modelProvider = new VABLambdaProvider(beltMap);
-
                 HttpServlet aasServlet = new VABHTTPInterface<IModelProvider>(beltAAS);
-                // Up to this point, everything is known from the previous HandsOn
 
                 // Now, the model provider is given to a HTTP servlet that gives access to the model in the next steps
                 // => The model will be published using an HTTP-REST interface
@@ -315,20 +297,22 @@ public class MainConveyorBelt extends javax.swing.JFrame {
                 IVABDirectoryService directory = new InMemoryDirectory();
 
                 // Register the VAB model at the directory (locally in this case)
-                directory.addMapping("belt01", "http://localhost:5000/iasset/lab/belt/belt01");
-//					logger.info("ConveyorBelt model registered!");
+                String fullAddress = "http://" + properties.getPropertyAddress() + ":" + properties.getPropertyPort() + "/iasset" + registryDir;
+                directory.addMapping("belt01", fullAddress);
+                // logger.info("ConveyorBelt model registered!");
 
                 IModelProvider directoryProvider = new DirectoryModelProvider(directory);
                 HttpServlet directoryServlet = new VABHTTPInterface<IModelProvider>(directoryProvider);
 
 
                 // asset exposes its functionality with localhost & port 5000
-                BaSyxContext context = new BaSyxContext("/iasset", "", "localhost", 5000);
+                BaSyxContext context = new BaSyxContext("/iasset", "",
+                                                        properties.getPropertyAddress(),
+                                                        Integer.parseInt(properties.getPropertyPort()));
                 context.addServletMapping("/directory/*", directoryServlet);
-
-                // => Every servlet contained in this context is available at http://localhost:4001/handson/
-                context.addServletMapping("/lab/belt/belt01/*", modelServlet);
+                context.addServletMapping(registryDir + "/*", modelServlet);
                 context.addServletMapping("/belt/*", aasServlet);
+
                 // Now, define a context to which multiple servlets can be added
                 // The model will be available at http://localhost:4001/handson/oven/
                 // The directory will be available at http://localhost:4001/handson/directory/
@@ -342,25 +326,13 @@ public class MainConveyorBelt extends javax.swing.JFrame {
                 }
                 break;
         }
-
     }
 
     /*********************************************************************************************************
-     * jToggleButton1ItemStateChanged
+     * Button2 Operations
      ********************************************************************************************************/
-    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-
-    /*********************************************************************************************************
-     * jToggleButton1ItemStateChanged
-     ********************************************************************************************************/
-    private void jToggleButton2StateChanged(javax.swing.event.ChangeEvent evt) {
-    }
-
-    /*********************************************************************************************************
-     * jToggleButton1ItemStateChanged
-     ********************************************************************************************************/
+    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {}
+    private void jToggleButton2StateChanged(javax.swing.event.ChangeEvent evt) {}
     private void jToggleButton2ItemStateChanged(java.awt.event.ItemEvent evt) {
 
         switch (evt.getStateChange()) {

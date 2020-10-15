@@ -18,11 +18,32 @@
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
 	<!--<testSourceDirectory>src/test/java</testSourceDirectory> -->
+	
+	<plugins>
+	    <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>2.4</version>
+            <configuration>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
+                <archive>
+                    <manifest>
+                        <addClasspath>true</addClasspath>
+                        <classpathPrefix>lib/</classpathPrefix>
+                        <mainClass>org.srfg.properties.MyProperties</mainClass>
+                    </manifest>
+                    <manifestEntries>
+                        <Class-Path>.</Class-Path>
+                    </manifestEntries>
+                </archive>
+            </configuration>
+        </plugin>
+    </plugins>
   </build>
   
   <dependencies>	
-				
-		
-
+	<!--TODO-->
   </dependencies>
 </project>

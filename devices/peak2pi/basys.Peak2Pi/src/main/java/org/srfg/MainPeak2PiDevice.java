@@ -17,6 +17,7 @@ import org.eclipse.basyx.vab.protocol.http.server.BaSyxContext;
 import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
 import org.srfg.Peak2Pi.Peak2PiDevice;
 import org.srfg.Peak2Pi.Peak2PiListener;
+import org.srfg.properties.MyProperties;
 
 /**
  *
@@ -24,8 +25,10 @@ import org.srfg.Peak2Pi.Peak2PiListener;
  */
 public class MainPeak2PiDevice extends javax.swing.JFrame {
 
-    Peak2PiDevice peak2pi;// = new Peak2PiDevice("peak2pi_01");
-    AASHTTPServer server = null;
+    private final String registryDir = "/lab/peak2pi/peak2pi_01";
+    private MyProperties properties = new MyProperties();
+    private Peak2PiDevice peak2pi;// = new Peak2PiDevice("peak2pi_01");
+    private AASHTTPServer server = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
@@ -291,38 +294,19 @@ public class MainPeak2PiDevice extends javax.swing.JFrame {
     /*********************************************************************************************************
      * ActionPerformed - Functions
      ********************************************************************************************************/
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here
-
-    }
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt){
-        // TODO add your handling code here
-    }
-    private void jTextFieldRobotModeActionPerformed(java.awt.event.ActionEvent evt){
-        // TODO add your handling code here
-    }
-    private void jTextFieldPosXActionPerformed(java.awt.event.ActionEvent evt){
-        // TODO add your handling code here
-    }
-    private void jTextFieldPosYActionPerformed(java.awt.event.ActionEvent evt){
-        // TODO add your handling code here
-    }
-    private void jTextFieldPosZActionPerformed(java.awt.event.ActionEvent evt){
-        // TODO add your handling code here
-    }
-    private void jTextFieldForceZActionPerformed(java.awt.event.ActionEvent evt){
-        // TODO add your handling code here
-    }
-    private void jTextFieldGripperDistanceActionPerformed(java.awt.event.ActionEvent evt){
-        // TODO add your handling code here
-    }
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {}
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldRobotModeActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldPosXActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldPosYActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldPosZActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldForceZActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldGripperDistanceActionPerformed(java.awt.event.ActionEvent evt){}
 
     /*********************************************************************************************************
      * jToggleButton1ItemStateChanged
      ********************************************************************************************************/
     private void jToggleButton1ItemStateChanged(java.awt.event.ItemEvent evt) {
-
-        // TODO add your handling code here
 
         switch (evt.getStateChange()) {
             case 1:
@@ -339,20 +323,22 @@ public class MainPeak2PiDevice extends javax.swing.JFrame {
                 IVABDirectoryService directory = new InMemoryDirectory();
 
                 // Register the VAB model at the directory (locally in this case)
-                directory.addMapping("peak2pi_01", "http://localhost:5000/iasset/lab/peak2pi/peak2pi_01");
-//					logger.info("ConveyorBelt model registered!");
+                String fullAddress = "http://" + properties.getPropertyAddress() + ":" + properties.getPropertyPort() + "/iasset" + registryDir;
+                directory.addMapping("belt01", fullAddress);
+                // logger.info("ConveyorBelt model registered!");
 
                 IModelProvider directoryProvider = new DirectoryModelProvider(directory);
                 HttpServlet directoryServlet = new VABHTTPInterface<IModelProvider>(directoryProvider);
 
 
                 // asset exposes its functionality with localhost & port 5000
-                BaSyxContext context = new BaSyxContext("/iasset", "", "localhost", 5000);
+                BaSyxContext context = new BaSyxContext("/iasset", "",
+                                                        properties.getPropertyAddress(),
+                                                        Integer.parseInt(properties.getPropertyPort()));
                 context.addServletMapping("/directory/*", directoryServlet);
-
-                // => Every servlet contained in this context is available at http://localhost:4001/handson/
-                context.addServletMapping("/lab/peak2pi/peak2pi_01/*", modelServlet);
+                context.addServletMapping(registryDir + "/*", modelServlet);
                 context.addServletMapping("/peak2pi/*", aasServlet);
+
                 // Now, define a context to which multiple servlets can be added
                 // The model will be available at http://localhost:4001/handson/oven/
                 // The directory will be available at http://localhost:4001/handson/directory/
@@ -366,25 +352,13 @@ public class MainPeak2PiDevice extends javax.swing.JFrame {
                 }
                 break;
         }
-
     }
 
     /*********************************************************************************************************
-     * jToggleButton1ItemStateChanged
+     * Button2 Operations
      ********************************************************************************************************/
-    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-
-    /*********************************************************************************************************
-     * jToggleButton1ItemStateChanged
-     ********************************************************************************************************/
-    private void jToggleButton2StateChanged(javax.swing.event.ChangeEvent evt) {
-    }
-
-    /*********************************************************************************************************
-     * jToggleButton1ItemStateChanged
-     ********************************************************************************************************/
+    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {}
+    private void jToggleButton2StateChanged(javax.swing.event.ChangeEvent evt) {}
     private void jToggleButton2ItemStateChanged(java.awt.event.ItemEvent evt) {
 
         switch (evt.getStateChange()) {
