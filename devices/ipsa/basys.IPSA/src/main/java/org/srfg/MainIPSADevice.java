@@ -345,7 +345,7 @@ public class MainIPSADevice extends javax.swing.JFrame {
                 IVABDirectoryService directory = new InMemoryDirectory();
 
                 // Register the VAB model at the directory (locally in this case)
-                String fullAddress = "http://" + properties.getPropertyAddress() + ":" + properties.getPropertyPort() + "/iasset" + registryDir;
+                String fullAddress = "http://" + properties.getDeviceAddress() + ":" + properties.getDevicePort() + "/iasset" + registryDir;
                 directory.addMapping("ipsa01", fullAddress);
                 // logger.info("ConveyorBelt model registered!");
 
@@ -355,8 +355,8 @@ public class MainIPSADevice extends javax.swing.JFrame {
 
                 // asset exposes its functionality with localhost & port 5000
                 BaSyxContext context = new BaSyxContext("/iasset", "",
-                                                        properties.getPropertyAddress(),
-                                                        Integer.parseInt(properties.getPropertyPort()));
+                                                        properties.getDeviceAddress(),
+                                                        Integer.parseInt(properties.getDevicePort()));
                 context.addServletMapping("/directory/*", directoryServlet);
                 context.addServletMapping(registryDir + "/*", modelServlet);
                 context.addServletMapping("/ipsa/*", aasServlet);

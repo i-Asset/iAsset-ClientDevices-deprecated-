@@ -1,5 +1,7 @@
 package org.srfg.requests;
 
+import org.srfg.properties.MyProperties;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
@@ -10,7 +12,6 @@ import java.net.URL;
  ********************************************************************************************************/
 public class RequestManager {
 
-    private String strURL_BASE = "https://iasset.salzburgresearch.at/registry-service";
     private String strURL_DIR = "/directory/aas";
     private String strURL_AAS = "/aas";
     private HttpURLConnection conDIR = null;
@@ -24,6 +25,8 @@ public class RequestManager {
      ********************************************************************************************************/
     public RequestManager()
     {
+        String strURL_BASE = new MyProperties().getServerAddress();
+
         try {
             conDIR = (HttpURLConnection)(new URL(strURL_BASE + strURL_DIR)).openConnection();
             conAAS = (HttpURLConnection)(new URL(strURL_BASE + strURL_AAS)).openConnection();

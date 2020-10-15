@@ -25,6 +25,7 @@ public class MyProperties {
     /*********************************************************************************************************
      * getProperties
      ********************************************************************************************************/
-    public String getPropertyAddress() { return myProperties.getProperty("prop.address"); }
-    public String getPropertyPort() { return myProperties.getProperty("prop.port"); }
+    public String getDeviceAddress() { return myProperties.getProperty("device.address"); }
+    public String getDevicePort() { return myProperties.getProperty("device.port"); }
+    public String getServerAddress() { return myProperties.getProperty("server.address"); }
 }
