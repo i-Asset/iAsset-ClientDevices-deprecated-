@@ -129,7 +129,7 @@ public class MainOtherDevice extends javax.swing.JFrame{
         VABConnectionManager connectionManager = new VABConnectionManager(directoryProxy, new HTTPConnectorProvider());
 
         // It is now one line of code to retrieve a model provider for any registered model in the network
-        IModelProvider connectedPeak2PiDevice = connectionManager.connectToVABElement("peak2pi_01");
+        IModelProvider connectedPeak2PiDevice = connectionManager.connectToVABElement("peak2pi01");
         return connectedPeak2PiDevice;
     }
 
