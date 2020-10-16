@@ -31,6 +31,7 @@ import org.eclipse.basyx.vab.modelprovider.lambda.VABLambdaProviderHelper;
 import org.eclipse.basyx.vab.protocol.http.server.AASHTTPServer;
 import org.eclipse.basyx.vab.protocol.http.server.BaSyxContext;
 import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
+import org.srfg.basedevice.BaseDevice;
 import org.srfg.properties.MyProperties;
 import org.srfg.requests.RequestManager;
 
@@ -42,7 +43,7 @@ import javax.servlet.http.HttpServlet;
  * 
  * @author mathias.schmoigl
  ********************************************************************************************************/
-public class IPSADevice {
+public class IPSADevice extends BaseDevice {
 
 	private final String registryDir = "/lab/ipsa/ipsa01";
 	private MyProperties properties = new MyProperties();
@@ -222,8 +223,8 @@ public class IPSADevice {
 	 ********************************************************************************************************/
 	public void hostComponent(AASHTTPServer server)
 	{
-		Map<String, Object> beltMap = IPSADevice.createModel(this);
-		IModelProvider beltAAS = IPSADevice.createAAS(this);
+		Map<String, Object> beltMap = this.createModel();
+		IModelProvider beltAAS = this.createAAS();
 		IModelProvider modelProvider = new VABLambdaProvider(beltMap);
 
 		HttpServlet aasServlet = new VABHTTPInterface<IModelProvider>(beltAAS);
@@ -277,17 +278,17 @@ public class IPSADevice {
 	/*********************************************************************************************************
 	 * createAAS
 	 ********************************************************************************************************/
-	public static IModelProvider createAAS(IPSADevice ipsa) {
+	protected IModelProvider createAAS() {
 
 		AssetAdministrationShell aas = new AssetAdministrationShell();
-		aas.setIdentification(IdentifierType.CUSTOM, ipsa.getId());
-		aas.setIdShort(ipsa.getId());
+		aas.setIdentification(IdentifierType.CUSTOM, this.getId());
+		aas.setIdShort(this.getId());
 
-		SubModel id = createIdentification(ipsa);
+		SubModel id = createIdentification();
 		SubmodelDescriptor idDesc = new SubmodelDescriptor(id);
 		aas.addSubModel(idDesc);
 
-		SubModel prop = createProperties(ipsa);
+		SubModel prop = createProperties();
 		SubmodelDescriptor propDesc = new SubmodelDescriptor(prop);
 		aas.addSubModel(propDesc);
 
@@ -302,7 +303,7 @@ public class IPSADevice {
 	/*********************************************************************************************************
 	 * createIdentification
 	 ********************************************************************************************************/
-	private static SubModel createIdentification(IPSADevice ipsa) {
+	protected SubModel createIdentification() {
 
 	    // TODO: change this to IPSA description
 
@@ -341,7 +342,7 @@ public class IPSADevice {
 	 * INFO: For lambda properties, the type has to be explicitly specified as it
 	 * can not be retrieved from supplier automatically
 	 ********************************************************************************************************/
-	private static SubModel createProperties(IPSADevice ipsa) {
+	protected SubModel createProperties() {
 
         // TODO: change this to IPSA description
 
@@ -409,41 +410,41 @@ public class IPSADevice {
 	/*********************************************************************************************************
 	 * createModel
 	 ********************************************************************************************************/
-	public static Map<String, Object> createModel(IPSADevice ipsa) {
+	protected Map<String, Object> createModel() {
 
         // TODO: change this to IPSA description
 
 		Map<String, Object> properties = new HashMap<>();
-		properties.put("id", ipsa.getId()); // Add the id of the Panda to the model
+		properties.put("id", this.getId()); // Add the id of the Panda to the model
 		properties.put("desc", "Model connected with the edge device");
 
 		// add robotmode property
-		Supplier<Object> lambdaFunction3 = () -> ipsa.getRobotMode();
+		Supplier<Object> lambdaFunction3 = () -> this.getRobotMode();
 		Map<String, Object> lambdaProperty3 = VABLambdaProviderHelper.createSimple(lambdaFunction3, null);
 		properties.put("robotmode", lambdaProperty3);
 
 		// add posX property
-		Supplier<Object> lambdaFunction4 = () -> ipsa.getPositionX();
+		Supplier<Object> lambdaFunction4 = () -> this.getPositionX();
 		Map<String, Object> lambdaProperty4 = VABLambdaProviderHelper.createSimple(lambdaFunction4, null);
 		properties.put("posX", lambdaProperty4);
 
 		// add posY property
-		Supplier<Object> lambdaFunction5 = () -> ipsa.getPositionY();
+		Supplier<Object> lambdaFunction5 = () -> this.getPositionY();
 		Map<String, Object> lambdaProperty5 = VABLambdaProviderHelper.createSimple(lambdaFunction5, null);
 		properties.put("posY", lambdaProperty5);
 
 		// add posZ property
-		Supplier<Object> lambdaFunction6 = () -> ipsa.getPositionZ();
+		Supplier<Object> lambdaFunction6 = () -> this.getPositionZ();
 		Map<String, Object> lambdaProperty6 = VABLambdaProviderHelper.createSimple(lambdaFunction6, null);
 		properties.put("posZ", lambdaProperty6);
 
 		// add forceZ property
-		Supplier<Object> lambdaFunction7 = () -> ipsa.getForceZ();
+		Supplier<Object> lambdaFunction7 = () -> this.getForceZ();
 		Map<String, Object> lambdaProperty7 = VABLambdaProviderHelper.createSimple(lambdaFunction7, null);
 		properties.put("forceZ", lambdaProperty7);
 
 		// add gripperDistance property
-		Supplier<Object> lambdaFunction8 = () -> ipsa.getGripperDistance();
+		Supplier<Object> lambdaFunction8 = () -> this.getGripperDistance();
 		Map<String, Object> lambdaProperty8 = VABLambdaProviderHelper.createSimple(lambdaFunction8, null);
 		properties.put("gripperDistance", lambdaProperty8);
 
@@ -451,14 +452,14 @@ public class IPSADevice {
 		// Create an empty container for custom operations
 		Map<String, Object> operations = new HashMap<>();
 		Function<Object, Object> activateFunction = (args) -> {
-			ipsa.setActive(true);
+			this.setActive(true);
 			return null;
 		};
 		operations.put("start", activateFunction);
 
 		// Add a function that deactivates the oven and implements a functional interface
 		Function<Object, Object> deactivateFunction = (args) -> {
-			ipsa.setActive(false);
+			this.setActive(false);
 			return null;
 		};
 		operations.put("stop", deactivateFunction);

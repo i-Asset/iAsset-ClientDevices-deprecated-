@@ -31,6 +31,7 @@ import org.eclipse.basyx.vab.modelprovider.lambda.VABLambdaProviderHelper;
 import org.eclipse.basyx.vab.protocol.http.server.AASHTTPServer;
 import org.eclipse.basyx.vab.protocol.http.server.BaSyxContext;
 import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
+import org.srfg.basedevice.BaseDevice;
 import org.srfg.conveyorbelt.opcua.OPCUAManager;
 import org.srfg.properties.MyProperties;
 import org.srfg.requests.RequestManager;
@@ -43,7 +44,7 @@ import javax.servlet.http.HttpServlet;
  * 
  * @author mathias.schmoigl
  ********************************************************************************************************/
-public class ConveyorBelt {
+public class ConveyorBelt extends BaseDevice {
 
 	private final String registryDir = "/lab/belt/belt01";
 	private MyProperties properties = new MyProperties();
@@ -233,8 +234,8 @@ public class ConveyorBelt {
 	 ********************************************************************************************************/
 	public void hostComponent(AASHTTPServer server)
 	{
-		Map<String, Object> beltMap = ConveyorBelt.createModel(this);
-		IModelProvider beltAAS = ConveyorBelt.createAAS(this);
+		Map<String, Object> beltMap = this.createModel();
+		IModelProvider beltAAS = this.createAAS();
 		IModelProvider modelProvider = new VABLambdaProvider(beltMap);
 		HttpServlet aasServlet = new VABHTTPInterface<IModelProvider>(beltAAS);
 
@@ -285,17 +286,17 @@ public class ConveyorBelt {
 	/*********************************************************************************************************
 	 * createAAS
 	 ********************************************************************************************************/
-	public static IModelProvider createAAS(ConveyorBelt belt) {
+	protected IModelProvider createAAS() {
 
 		AssetAdministrationShell aas = new AssetAdministrationShell();
-		aas.setIdentification(IdentifierType.CUSTOM, belt.getId());
-		aas.setIdShort(belt.getId());
+		aas.setIdentification(IdentifierType.CUSTOM, this.getId());
+		aas.setIdShort(this.getId());
 
-		SubModel id = createIdentification(belt);
+		SubModel id = createIdentification();
 		SubmodelDescriptor idDesc = new SubmodelDescriptor(id);
 		aas.addSubModel(idDesc);
 
-		SubModel prop = createProperties(belt);
+		SubModel prop = createProperties();
 		SubmodelDescriptor propDesc = new SubmodelDescriptor(prop);
 		aas.addSubModel(propDesc);
 
@@ -310,7 +311,7 @@ public class ConveyorBelt {
 	/*********************************************************************************************************
 	 * createIdentification
 	 ********************************************************************************************************/
-	private static SubModel createIdentification(ConveyorBelt belt) {
+	protected SubModel createIdentification() {
 
 		// create the sub model
 		SubModel info = new SubModel();
@@ -347,7 +348,7 @@ public class ConveyorBelt {
 	 * INFO: For lambda properties, the type has to be explicitly specified as it
 	 * can not be retrieved from supplier automatically
 	 ********************************************************************************************************/
-	private static SubModel createProperties(ConveyorBelt belt) {
+	protected SubModel createProperties() {
 
 		SubModel info = new SubModel();
 		info.setIdShort("properties");
@@ -362,13 +363,13 @@ public class ConveyorBelt {
 				// Supplier Function (Getter)
 				() -> {
 					// ROS abfrage
-					return belt.getMoveBelt();
+					return this.getMoveBelt();
 				},
 				// Consumer Function (Setter)
 				(args) -> {
 					Object[] params = (Object[]) args;
 					if (params.length == 1) {
-						belt.setMoveBelt(((Double) params[0]).floatValue());
+						this.setMoveBelt(((Double) params[0]).floatValue());
 					}
 				})
 		);
@@ -383,13 +384,13 @@ public class ConveyorBelt {
 				// Supplier Function (Getter)
 				() -> {
 					// ROS abfrage
-					return belt.getSwitchBusyLight();
+					return this.getSwitchBusyLight();
 				},
 				// Consumer Function (Setter)
 				(args) -> {
 					Object[] params = (Object[]) args;
 					if (params.length == 1) {
-						belt.setSwitchBusyLight(((boolean) params[0]));
+						this.setSwitchBusyLight(((boolean) params[0]));
 					}
 				})
 		);
@@ -401,21 +402,21 @@ public class ConveyorBelt {
 		Property beltState = new Property();
 		beltState.setIdShort("beltstate");
 		beltState.setDescription(new LangStrings("de", "BeltState"));
-		beltState.set(VABLambdaProviderHelper.createSimple(belt::getBeltState,null));
+		beltState.set(VABLambdaProviderHelper.createSimple(this::getBeltState,null));
 		beltState.setValueType(PropertyValueTypeDef.Float);
 		info.addSubModelElement(beltState);
 
 		Property beltDist = new Property();
 		beltDist.setIdShort("beltdist");
 		beltDist.setDescription(new LangStrings("de", "BeltDist"));
-		beltDist.set(VABLambdaProviderHelper.createSimple(belt::getBeltDist,null));
+		beltDist.set(VABLambdaProviderHelper.createSimple(this::getBeltDist,null));
 		beltDist.setValueType(PropertyValueTypeDef.Float);
 		info.addSubModelElement(beltDist);
 
 		Property beltMoving = new Property();
 		beltMoving.setIdShort("beltmoving");
 		beltMoving.setDescription(new LangStrings("de", "BeltMoving"));
-		beltMoving.set(VABLambdaProviderHelper.createSimple(belt::getBeltDist,null));
+		beltMoving.set(VABLambdaProviderHelper.createSimple(this::getBeltDist,null));
 		beltMoving.setValueType(PropertyValueTypeDef.Boolean);
 		info.addSubModelElement(beltMoving);
 
@@ -425,34 +426,34 @@ public class ConveyorBelt {
 	/*********************************************************************************************************
 	 * createModel
 	 ********************************************************************************************************/
-	public static Map<String, Object> createModel(ConveyorBelt belt) {
+	protected Map<String, Object> createModel() {
 
 		Map<String, Object> properties = new HashMap<>();
-		properties.put("id", belt.getId()); // Add the id of the Belt to the model
+		properties.put("id", this.getId()); // Add the id of the Belt to the model
 		properties.put("desc", "Model connected with the edge device");
 
 		// add movebelt property
-		Supplier<Object> lambdaFunction = () -> belt.getMoveBelt();
+		Supplier<Object> lambdaFunction = () -> this.getMoveBelt();
 		Map<String, Object> lambdaProperty = VABLambdaProviderHelper.createSimple(lambdaFunction, null);
 		properties.put("movebelt", lambdaProperty);
 
 		// add switchbusylight property
-		Supplier<Object> lambdaFunction1 = () -> belt.getSwitchBusyLight();
+		Supplier<Object> lambdaFunction1 = () -> this.getSwitchBusyLight();
 		Map<String, Object> lambdaProperty1 = VABLambdaProviderHelper.createSimple(lambdaFunction1, null);
 		properties.put("switchbusylight", lambdaProperty1);
 
 		// add beltstate property
-		Supplier<Object> lambdaFunction3 = () -> belt.getBeltState();
+		Supplier<Object> lambdaFunction3 = () -> this.getBeltState();
 		Map<String, Object> lambdaProperty3 = VABLambdaProviderHelper.createSimple(lambdaFunction3, null);
 		properties.put("beltstate", lambdaProperty3);
 
 		// add beltdist property
-		Supplier<Object> lambdaFunction4 = () -> belt.getBeltDist();
+		Supplier<Object> lambdaFunction4 = () -> this.getBeltDist();
 		Map<String, Object> lambdaProperty4 = VABLambdaProviderHelper.createSimple(lambdaFunction4, null);
 		properties.put("beltdist", lambdaProperty4);
 
 		// add beltmoving property
-		Supplier<Object> lambdaFunction5 = () -> belt.getBeltMoving();
+		Supplier<Object> lambdaFunction5 = () -> this.getBeltMoving();
 		Map<String, Object> lambdaProperty5 = VABLambdaProviderHelper.createSimple(lambdaFunction5, null);
 		properties.put("beltmoving", lambdaProperty5);
 
@@ -460,14 +461,14 @@ public class ConveyorBelt {
 		// Create an empty container for custom operations
 		Map<String, Object> operations = new HashMap<>();
 		Function<Object, Object> activateFunction = (args) -> {
-			belt.setActive(true);
+			this.setActive(true);
 			return null;
 		};
 		operations.put("start", activateFunction);
 
 		// Add a function that deactivates the oven and implements a functional interface
 		Function<Object, Object> deactivateFunction = (args) -> {
-			belt.setActive(false);
+			this.setActive(false);
 			return null;
 		};
 		operations.put("stop", deactivateFunction);
@@ -476,7 +477,7 @@ public class ConveyorBelt {
 		Function<Object, Object> setSpeedFunction = (args) -> {
 			Object[] params = (Object[]) args;
 			if (params.length == 1) {
-				belt.setMoveBelt(((Double) params[0]).floatValue());
+				this.setMoveBelt(((Double) params[0]).floatValue());
 			}
 			return null;
 		};
@@ -485,7 +486,7 @@ public class ConveyorBelt {
 		Function<Object, Object> setLightFunction = (args) -> {
 			Object[] params = (Object[]) args;
 			if (params.length == 1) {
-				belt.setSwitchBusyLight(((boolean) params[0]));
+				this.setSwitchBusyLight(((boolean) params[0]));
 			}
 			return null;
 		};

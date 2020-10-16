@@ -31,6 +31,7 @@ import org.eclipse.basyx.vab.modelprovider.lambda.VABLambdaProviderHelper;
 import org.eclipse.basyx.vab.protocol.http.server.AASHTTPServer;
 import org.eclipse.basyx.vab.protocol.http.server.BaSyxContext;
 import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
+import org.srfg.basedevice.BaseDevice;
 import org.srfg.properties.MyProperties;
 import org.srfg.requests.RequestManager;
 
@@ -42,7 +43,7 @@ import javax.servlet.http.HttpServlet;
  * 
  * @author mathias.schmoigl
  ********************************************************************************************************/
-public class Peak2PiDevice {
+public class Peak2PiDevice extends BaseDevice {
 
 	private final String registryDir = "/lab/peak2pi/peak2pi_01";
 	private MyProperties properties = new MyProperties();
@@ -222,8 +223,8 @@ public class Peak2PiDevice {
 	 ********************************************************************************************************/
 	public void hostComponent(AASHTTPServer server)
 	{
-		Map<String, Object> beltMap = Peak2PiDevice.createModel(this);
-		IModelProvider beltAAS = Peak2PiDevice.createAAS(this);
+		Map<String, Object> beltMap = this.createModel();
+		IModelProvider beltAAS = this.createAAS();
 		IModelProvider modelProvider = new VABLambdaProvider(beltMap);
 
 		HttpServlet aasServlet = new VABHTTPInterface<IModelProvider>(beltAAS);
@@ -277,17 +278,17 @@ public class Peak2PiDevice {
 	/*********************************************************************************************************
 	 * createAAS
 	 ********************************************************************************************************/
-	public static IModelProvider createAAS(Peak2PiDevice peak2pi) {
+	protected IModelProvider createAAS() {
 
 		AssetAdministrationShell aas = new AssetAdministrationShell();
-		aas.setIdentification(IdentifierType.CUSTOM, peak2pi.getId());
-		aas.setIdShort(peak2pi.getId());
+		aas.setIdentification(IdentifierType.CUSTOM, this.getId());
+		aas.setIdShort(this.getId());
 
-		SubModel id = createIdentification(peak2pi);
+		SubModel id = createIdentification();
 		SubmodelDescriptor idDesc = new SubmodelDescriptor(id);
 		aas.addSubModel(idDesc);
 
-		SubModel prop = createProperties(peak2pi);
+		SubModel prop = createProperties();
 		SubmodelDescriptor propDesc = new SubmodelDescriptor(prop);
 		aas.addSubModel(propDesc);
 
@@ -302,7 +303,7 @@ public class Peak2PiDevice {
 	/*********************************************************************************************************
 	 * createIdentification
 	 ********************************************************************************************************/
-	private static SubModel createIdentification(Peak2PiDevice peak2pi) {
+	protected SubModel createIdentification() {
 
 	    // TODO: change this to Peak2Pi description
 
@@ -341,7 +342,7 @@ public class Peak2PiDevice {
 	 * INFO: For lambda properties, the type has to be explicitly specified as it
 	 * can not be retrieved from supplier automatically
 	 ********************************************************************************************************/
-	private static SubModel createProperties(Peak2PiDevice peak2pi) {
+	protected SubModel createProperties() {
 
         // TODO: change this to Peak2Pi description
 
@@ -409,41 +410,41 @@ public class Peak2PiDevice {
 	/*********************************************************************************************************
 	 * createModel
 	 ********************************************************************************************************/
-	public static Map<String, Object> createModel(Peak2PiDevice peak2pi) {
+	protected Map<String, Object> createModel() {
 
         // TODO: change this to Peak2Pi description
 
 		Map<String, Object> properties = new HashMap<>();
-		properties.put("id", peak2pi.getId()); // Add the id of the Panda to the model
+		properties.put("id", this.getId()); // Add the id of the Panda to the model
 		properties.put("desc", "Model connected with the edge device");
 
 		// add robotmode property
-		Supplier<Object> lambdaFunction3 = () -> peak2pi.getRobotMode();
+		Supplier<Object> lambdaFunction3 = () -> this.getRobotMode();
 		Map<String, Object> lambdaProperty3 = VABLambdaProviderHelper.createSimple(lambdaFunction3, null);
 		properties.put("robotmode", lambdaProperty3);
 
 		// add posX property
-		Supplier<Object> lambdaFunction4 = () -> peak2pi.getPositionX();
+		Supplier<Object> lambdaFunction4 = () -> this.getPositionX();
 		Map<String, Object> lambdaProperty4 = VABLambdaProviderHelper.createSimple(lambdaFunction4, null);
 		properties.put("posX", lambdaProperty4);
 
 		// add posY property
-		Supplier<Object> lambdaFunction5 = () -> peak2pi.getPositionY();
+		Supplier<Object> lambdaFunction5 = () -> this.getPositionY();
 		Map<String, Object> lambdaProperty5 = VABLambdaProviderHelper.createSimple(lambdaFunction5, null);
 		properties.put("posY", lambdaProperty5);
 
 		// add posZ property
-		Supplier<Object> lambdaFunction6 = () -> peak2pi.getPositionZ();
+		Supplier<Object> lambdaFunction6 = () -> this.getPositionZ();
 		Map<String, Object> lambdaProperty6 = VABLambdaProviderHelper.createSimple(lambdaFunction6, null);
 		properties.put("posZ", lambdaProperty6);
 
 		// add forceZ property
-		Supplier<Object> lambdaFunction7 = () -> peak2pi.getForceZ();
+		Supplier<Object> lambdaFunction7 = () -> this.getForceZ();
 		Map<String, Object> lambdaProperty7 = VABLambdaProviderHelper.createSimple(lambdaFunction7, null);
 		properties.put("forceZ", lambdaProperty7);
 
 		// add gripperDistance property
-		Supplier<Object> lambdaFunction8 = () -> peak2pi.getGripperDistance();
+		Supplier<Object> lambdaFunction8 = () -> this.getGripperDistance();
 		Map<String, Object> lambdaProperty8 = VABLambdaProviderHelper.createSimple(lambdaFunction8, null);
 		properties.put("gripperDistance", lambdaProperty8);
 
@@ -451,14 +452,14 @@ public class Peak2PiDevice {
 		// Create an empty container for custom operations
 		Map<String, Object> operations = new HashMap<>();
 		Function<Object, Object> activateFunction = (args) -> {
-			peak2pi.setActive(true);
+			this.setActive(true);
 			return null;
 		};
 		operations.put("start", activateFunction);
 
 		// Add a function that deactivates the oven and implements a functional interface
 		Function<Object, Object> deactivateFunction = (args) -> {
-			peak2pi.setActive(false);
+			this.setActive(false);
 			return null;
 		};
 		operations.put("stop", deactivateFunction);
