@@ -46,7 +46,7 @@ public class MainConveyorBelt extends javax.swing.JFrame {
      ********************************************************************************************************/
     public MainConveyorBelt() {
         initComponents();
-        belt = new ConveyorBelt("belt01");
+        belt = new ConveyorBelt();
         BeltListener listener = new BeltListener() {
 
             // writable
@@ -312,7 +312,7 @@ public class MainConveyorBelt extends javax.swing.JFrame {
 
         if(args.length == 1 && (args[0] == "noGUI")) // launch application without a GUI
         {
-            ConveyorBelt belt = new ConveyorBelt("belt01");
+            ConveyorBelt belt = new ConveyorBelt();
             AASHTTPServer server = null;
 
             System.out.println("Started application without GUI!\n Trying to host I4.0 Component:");

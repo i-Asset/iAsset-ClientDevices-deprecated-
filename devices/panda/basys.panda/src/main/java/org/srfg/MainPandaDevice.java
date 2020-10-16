@@ -47,7 +47,7 @@ public class MainPandaDevice extends javax.swing.JFrame {
      ********************************************************************************************************/
     public MainPandaDevice() {
         initComponents();
-        panda = new PandaDevice("panda01");
+        panda = new PandaDevice();
         PandaListener listener = new PandaListener() {
 
             @Override
@@ -362,7 +362,7 @@ public class MainPandaDevice extends javax.swing.JFrame {
 
         if(args.length == 1 && (args[0] == "noGUI")) // launch application without a GUI
         {
-            PandaDevice panda = new PandaDevice("panda01");
+            PandaDevice panda = new PandaDevice();
             AASHTTPServer server = null;
 
             System.out.println("Started application without GUI!\n Trying to host I4.0 Component:");

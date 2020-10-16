@@ -47,7 +47,7 @@ public class MainPeak2PiDevice extends javax.swing.JFrame {
      ********************************************************************************************************/
     public MainPeak2PiDevice() {
         initComponents();
-        peak2pi = new Peak2PiDevice("peak2pi_01");
+        peak2pi = new Peak2PiDevice();
         Peak2PiListener listener = new Peak2PiListener() {
 
             @Override
@@ -362,7 +362,7 @@ public class MainPeak2PiDevice extends javax.swing.JFrame {
 
         if(args.length == 1 && (args[0] == "noGUI")) // launch application without a GUI
         {
-            Peak2PiDevice peak2pi = new Peak2PiDevice("peak2pi_01");
+            Peak2PiDevice peak2pi = new Peak2PiDevice();
             AASHTTPServer server = null;
 
             System.out.println("Started application without GUI!\n Trying to host I4.0 Component:");

@@ -35,8 +35,6 @@ import org.srfg.basedevice.BaseDevice;
 public class IPSADevice extends BaseDevice {
 
 	private IPSAListener listener;
-
-	private final String id;
 	private boolean active;
 
 	private byte robotMode;
@@ -49,13 +47,7 @@ public class IPSADevice extends BaseDevice {
 	/*********************************************************************************************************
 	 * CTOR
 	 ********************************************************************************************************/
-	public IPSADevice(String id) {
-		this.id = id;
-	}
-
-	public String getId() {
-		return this.id;
-	}
+	public IPSADevice() {}
 
 	@Override
 	public String getName() {return "ipsa";}
@@ -216,8 +208,8 @@ public class IPSADevice extends BaseDevice {
 	protected IModelProvider createAAS() {
 
 		AssetAdministrationShell aas = new AssetAdministrationShell();
-		aas.setIdentification(IdentifierType.CUSTOM, this.getId());
-		aas.setIdShort(this.getId());
+		aas.setIdentification(IdentifierType.CUSTOM, this.getName() + "01");
+		aas.setIdShort(this.getName() + "01");
 
 		SubModel id = createIdentification();
 		SubmodelDescriptor idDesc = new SubmodelDescriptor(id);
@@ -350,7 +342,7 @@ public class IPSADevice extends BaseDevice {
         // TODO: change this to IPSA description
 
 		Map<String, Object> properties = new HashMap<>();
-		properties.put("id", this.getId()); // Add the id of the Panda to the model
+		properties.put("id", this.getName() + "01");
 		properties.put("desc", "Model connected with the edge device");
 
 		// add robotmode property

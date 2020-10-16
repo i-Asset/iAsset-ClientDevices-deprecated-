@@ -37,9 +37,7 @@ import org.srfg.conveyorbelt.opcua.OPCUAManager;
 public class ConveyorBelt extends BaseDevice {
 
 	private OPCUAManager opcuaManager;
-
 	private BeltListener listener;
-	private final String id;
 	private boolean active;
 
 	// writable
@@ -54,10 +52,7 @@ public class ConveyorBelt extends BaseDevice {
 	/*********************************************************************************************************
 	 * CTOR
 	 ********************************************************************************************************/
-	public ConveyorBelt(String id) {
-		this.id = id;
-		this.opcuaManager = new OPCUAManager(this);
-	}
+	public ConveyorBelt() { this.opcuaManager = new OPCUAManager(this); }
 
 	@Override
 	public String getName() {return "belt";}
@@ -217,10 +212,6 @@ public class ConveyorBelt extends BaseDevice {
 		// no effect
 		this.active = active;
 	}
-	public String getId() {
-		return this.id;
-
-	}
 
 	/*********************************************************************************************************
 	 * createAAS
@@ -228,8 +219,8 @@ public class ConveyorBelt extends BaseDevice {
 	protected IModelProvider createAAS() {
 
 		AssetAdministrationShell aas = new AssetAdministrationShell();
-		aas.setIdentification(IdentifierType.CUSTOM, this.getId());
-		aas.setIdShort(this.getId());
+		aas.setIdentification(IdentifierType.CUSTOM, this.getName() + "01");
+		aas.setIdShort(this.getName() + "01");
 
 		SubModel id = createIdentification();
 		SubmodelDescriptor idDesc = new SubmodelDescriptor(id);
@@ -368,7 +359,7 @@ public class ConveyorBelt extends BaseDevice {
 	protected Map<String, Object> createModel() {
 
 		Map<String, Object> properties = new HashMap<>();
-		properties.put("id", this.getId()); // Add the id of the Belt to the model
+		properties.put("id", this.getName() + "01");
 		properties.put("desc", "Model connected with the edge device");
 
 		// add movebelt property

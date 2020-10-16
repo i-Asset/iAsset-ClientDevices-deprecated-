@@ -37,9 +37,7 @@ public class PandaDevice extends BaseDevice {
 
 	// needed for ROS communication
 	private ROSNodeManager nodeManager;
-
 	private PandaListener listener;
-	private final String id;
 	private boolean active;
 
 	private double speed;
@@ -56,14 +54,7 @@ public class PandaDevice extends BaseDevice {
 	/*********************************************************************************************************
 	 * CTOR
 	 ********************************************************************************************************/
-	public PandaDevice(String id) {
-		this.id = id;
-		this.nodeManager = new ROSNodeManager(this);
-	}
-
-	public String getId() {
-		return this.id;
-	}
+	public PandaDevice() { this.nodeManager = new ROSNodeManager(this); }
 
 	@Override
 	public String getName() {return "panda";}
@@ -91,7 +82,7 @@ public class PandaDevice extends BaseDevice {
 		if (!isActive()) {
 
 			nodeManager.startROSNodes();
-			System.out.println(String.format("Starting panda %s with speed (%s)", id, Double.toString(speed)));
+			System.out.println(String.format("Starting panda %s with speed (%s)", this.getName() + "01", Double.toString(speed)));
 			active = true;
 
 			new Thread(new PandaRunner()).start();
@@ -105,7 +96,7 @@ public class PandaDevice extends BaseDevice {
 		if (isActive()) {
 
 			nodeManager.shutdownROSNodes();
-			System.out.println(String.format("Stopping panda %s, current speed setting (%s)", id, Double.toString(speed)));
+			System.out.println(String.format("Stopping panda %s, current speed setting (%s)", this.getName() + "01", Double.toString(speed)));
 			active = false;
 		}
 	}
@@ -222,8 +213,8 @@ public class PandaDevice extends BaseDevice {
 	protected IModelProvider createAAS() {
 
 		AssetAdministrationShell aas = new AssetAdministrationShell();
-		aas.setIdentification(IdentifierType.CUSTOM, this.getId());
-		aas.setIdShort(this.getId());
+		aas.setIdentification(IdentifierType.CUSTOM, this.getName() + "01");
+		aas.setIdShort(this.getName() + "01");
 
 		SubModel id = createIdentification();
 		SubmodelDescriptor idDesc = new SubmodelDescriptor(id);
@@ -350,7 +341,7 @@ public class PandaDevice extends BaseDevice {
 	protected Map<String, Object> createModel() {
 
 		Map<String, Object> properties = new HashMap<>();
-		properties.put("id", this.getId()); // Add the id of the Panda to the model
+		properties.put("id", this.getName() + "01");
 		properties.put("desc", "Model connected with the edge device");
 
 		// add robotmode property

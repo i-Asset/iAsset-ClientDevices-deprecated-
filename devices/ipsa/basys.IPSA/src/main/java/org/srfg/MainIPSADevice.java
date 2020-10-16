@@ -47,7 +47,7 @@ public class MainIPSADevice extends javax.swing.JFrame {
      ********************************************************************************************************/
     public MainIPSADevice() {
         initComponents();
-        ipsa = new IPSADevice("ipsa01");
+        ipsa = new IPSADevice();
         IPSAListener listener = new IPSAListener() {
 
             @Override
@@ -361,7 +361,7 @@ public class MainIPSADevice extends javax.swing.JFrame {
 
         if(args.length == 1 && (args[0] == "noGUI")) // launch application without a GUI
         {
-            IPSADevice ipsa = new IPSADevice("ipsa01");
+            IPSADevice ipsa = new IPSADevice();
             AASHTTPServer server = null;
 
             System.out.println("Started application without GUI!\n Trying to host I4.0 Component:");
