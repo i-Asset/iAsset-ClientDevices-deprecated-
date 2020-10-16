@@ -5,20 +5,9 @@
  */
 package org.srfg;
 
-import java.util.Map;
-import javax.servlet.http.HttpServlet;
-import org.eclipse.basyx.vab.directory.api.IVABDirectoryService;
-import org.eclipse.basyx.vab.directory.memory.InMemoryDirectory;
-import org.eclipse.basyx.vab.directory.restapi.DirectoryModelProvider;
-import org.eclipse.basyx.vab.modelprovider.api.IModelProvider;
-import org.eclipse.basyx.vab.modelprovider.lambda.VABLambdaProvider;
 import org.eclipse.basyx.vab.protocol.http.server.AASHTTPServer;
-import org.eclipse.basyx.vab.protocol.http.server.BaSyxContext;
-import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
 import org.srfg.panda.PandaDevice;
 import org.srfg.panda.PandaListener;
-import org.srfg.properties.MyProperties;
-import org.srfg.requests.RequestManager;
 
 /**
  *
@@ -26,8 +15,6 @@ import org.srfg.requests.RequestManager;
  */
 public class MainPandaDevice extends javax.swing.JFrame {
 
-    private final String registryDir = "/lab/panda/panda01";
-    private MyProperties properties = new MyProperties();
     private PandaDevice panda;
     private AASHTTPServer server = null;
 
@@ -316,14 +303,17 @@ public class MainPandaDevice extends javax.swing.JFrame {
      ********************************************************************************************************/
     private void jToggleButton0ItemStateChanged(java.awt.event.ItemEvent evt) {
 
-        // TEST
-        RequestManager manager = new RequestManager();
-
-        // register AAS descriptor for lookup of others
-        manager.SendRegisterRequest(RequestManager.RegistryType.eDirectory, "POST", "/panda");
-
-        // register full AAS (TEST)
-        manager.SendRegisterRequest(RequestManager.RegistryType.eFullAAS, "POST", "{\"name\": \"Panda\", \"job\": \"robot\"}");
+        switch (evt.getStateChange()) {
+            case 1:
+                panda.register();
+                break;
+            case 2:
+                if (server != null) {
+                    server.shutdown();
+                    server = null;
+                }
+                break;
+        }
     }
 
     /*********************************************************************************************************
@@ -333,38 +323,7 @@ public class MainPandaDevice extends javax.swing.JFrame {
 
         switch (evt.getStateChange()) {
             case 1:
-                Map<String, Object> beltMap = PandaDevice.createModel(panda);
-                IModelProvider beltAAS = PandaDevice.createAAS(panda);
-                IModelProvider modelProvider = new VABLambdaProvider(beltMap);
-                HttpServlet aasServlet = new VABHTTPInterface<IModelProvider>(beltAAS);
-
-                // Now, the model provider is given to a HTTP servlet that gives access to the model in the next steps
-                // => The model will be published using an HTTP-REST interface
-                HttpServlet modelServlet = new VABHTTPInterface<IModelProvider>(modelProvider);
-                IVABDirectoryService directory = new InMemoryDirectory();
-
-                // Register the VAB model at the directory (locally in this case)
-                String fullAddress = "http://" + properties.getDeviceAddress() + ":" + properties.getDevicePort() + "/iasset" + registryDir;
-                directory.addMapping("panda01", fullAddress);
-                // logger.info("ConveyorBelt model registered!");
-
-                IModelProvider directoryProvider = new DirectoryModelProvider(directory);
-                HttpServlet directoryServlet = new VABHTTPInterface<IModelProvider>(directoryProvider);
-
-
-                // asset exposes its functionality with localhost & port 5000
-                BaSyxContext context = new BaSyxContext("/iasset", "",
-                                                        properties.getDeviceAddress(),
-                                                        Integer.parseInt(properties.getDevicePort()));
-                context.addServletMapping("/directory/*", directoryServlet);
-                context.addServletMapping(registryDir + "/*", modelServlet);
-                context.addServletMapping("/panda/*", aasServlet);
-
-                // Now, define a context to which multiple servlets can be added
-                // The model will be available at http://localhost:4001/handson/oven/
-                // The directory will be available at http://localhost:4001/handson/directory/
-                server = new AASHTTPServer(context);
-                server.start();
+                panda.hostComponent(server);
                 break;
             case 2:
                 if (server != null) {
@@ -403,14 +362,17 @@ public class MainPandaDevice extends javax.swing.JFrame {
 
         if(args.length == 1 && (args[0] == "noGUI")) // launch application without a GUI
         {
+            PandaDevice panda = new PandaDevice("panda01");
+            AASHTTPServer server = null;
+
             System.out.println("Started application without GUI!\n Trying to host I4.0 Component:");
-            // TODO
+            panda.hostComponent(server);
 
             System.out.println("\n Trying to register Panda:");
-            // TODO
+            panda.register();
 
             System.out.println("\n Trying to start Panda communication:");
-            // TODO
+            panda.start();
         }
         else // launch application with a GUI
         {

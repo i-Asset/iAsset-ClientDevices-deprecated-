@@ -5,21 +5,9 @@
  */
 package org.srfg;
 
-import java.util.Map;
-import javax.servlet.http.HttpServlet;
-
-import org.eclipse.basyx.vab.directory.api.IVABDirectoryService;
-import org.eclipse.basyx.vab.directory.memory.InMemoryDirectory;
-import org.eclipse.basyx.vab.directory.restapi.DirectoryModelProvider;
-import org.eclipse.basyx.vab.modelprovider.api.IModelProvider;
-import org.eclipse.basyx.vab.modelprovider.lambda.VABLambdaProvider;
 import org.eclipse.basyx.vab.protocol.http.server.AASHTTPServer;
-import org.eclipse.basyx.vab.protocol.http.server.BaSyxContext;
-import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
 import org.srfg.conveyorbelt.BeltListener;
 import org.srfg.conveyorbelt.ConveyorBelt;
-import org.srfg.properties.MyProperties;
-import org.srfg.requests.RequestManager;
 
 /**
  *
@@ -27,13 +15,11 @@ import org.srfg.requests.RequestManager;
  */
 public class MainConveyorBelt extends javax.swing.JFrame {
 
-    private final String registryDir = "/lab/belt/belt01";
-    private MyProperties properties = new MyProperties();
+
     private ConveyorBelt belt;
     private AASHTTPServer server = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToggleButton jToggleButtonRegistration;
@@ -53,7 +39,6 @@ public class MainConveyorBelt extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_BeltState;
     private javax.swing.JTextField jTextField_BeltDist;
     private javax.swing.JTextField jTextField_BeltMoving;
-
     // End of variables declaration//GEN-END:variables
 
     /*********************************************************************************************************
@@ -267,14 +252,17 @@ public class MainConveyorBelt extends javax.swing.JFrame {
      ********************************************************************************************************/
     private void jToggleButton0ItemStateChanged(java.awt.event.ItemEvent evt) {
 
-        // TEST
-        RequestManager manager = new RequestManager();
-
-        // register AAS descriptor for lookup of others
-        manager.SendRegisterRequest(RequestManager.RegistryType.eDirectory, "POST", "/belt");
-
-        // register full AAS (TEST)
-        manager.SendRegisterRequest(RequestManager.RegistryType.eFullAAS, "POST", "{\"name\": \"Belt\", \"job\": \"robot\"}");
+        switch (evt.getStateChange()) {
+            case 1:
+                belt.register();
+                break;
+            case 2:
+                if (server != null) {
+                    server.shutdown();
+                    server = null;
+                }
+                break;
+        }
     }
 
     /*********************************************************************************************************
@@ -284,38 +272,7 @@ public class MainConveyorBelt extends javax.swing.JFrame {
 
         switch (evt.getStateChange()) {
             case 1:
-                Map<String, Object> beltMap = ConveyorBelt.createModel(belt);
-                IModelProvider beltAAS = ConveyorBelt.createAAS(belt);
-                IModelProvider modelProvider = new VABLambdaProvider(beltMap);
-                HttpServlet aasServlet = new VABHTTPInterface<IModelProvider>(beltAAS);
-
-                // Now, the model provider is given to a HTTP servlet that gives access to the model in the next steps
-                // => The model will be published using an HTTP-REST interface
-                HttpServlet modelServlet = new VABHTTPInterface<IModelProvider>(modelProvider);
-                IVABDirectoryService directory = new InMemoryDirectory();
-
-                // Register the VAB model at the directory (locally in this case)
-                String fullAddress = "http://" + properties.getDeviceAddress() + ":" + properties.getDevicePort() + "/iasset" + registryDir;
-                directory.addMapping("belt01", fullAddress);
-                // logger.info("ConveyorBelt model registered!");
-
-                IModelProvider directoryProvider = new DirectoryModelProvider(directory);
-                HttpServlet directoryServlet = new VABHTTPInterface<IModelProvider>(directoryProvider);
-
-
-                // asset exposes its functionality with localhost & port 5000
-                BaSyxContext context = new BaSyxContext("/iasset", "",
-                                                        properties.getDeviceAddress(),
-                                                        Integer.parseInt(properties.getDevicePort()));
-                context.addServletMapping("/directory/*", directoryServlet);
-                context.addServletMapping(registryDir + "/*", modelServlet);
-                context.addServletMapping("/belt/*", aasServlet);
-
-                // Now, define a context to which multiple servlets can be added
-                // The model will be available at http://localhost:4001/handson/oven/
-                // The directory will be available at http://localhost:4001/handson/directory/
-                server = new AASHTTPServer(context);
-                server.start();
+                belt.hostComponent(server);
                 break;
             case 2:
                 if (server != null) {
@@ -355,14 +312,17 @@ public class MainConveyorBelt extends javax.swing.JFrame {
 
         if(args.length == 1 && (args[0] == "noGUI")) // launch application without a GUI
         {
+            ConveyorBelt belt = new ConveyorBelt("belt01");
+            AASHTTPServer server = null;
+
             System.out.println("Started application without GUI!\n Trying to host I4.0 Component:");
-            // TODO
+            belt.hostComponent(server);
 
             System.out.println("\n Trying to register Belt:");
-            // TODO
+            belt.register();
 
             System.out.println("\n Trying to start Belt communication:");
-            // TODO
+            belt.start();
         }
         else // launch application with a GUI
         {

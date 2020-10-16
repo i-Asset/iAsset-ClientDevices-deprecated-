@@ -19,11 +19,22 @@ import org.eclipse.basyx.submodel.metamodel.map.reference.Reference;
 import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
 import org.eclipse.basyx.submodel.restapi.SubModelProvider;
 import org.eclipse.basyx.submodel.metamodel.map.qualifier.LangStrings;
+import org.eclipse.basyx.vab.directory.api.IVABDirectoryService;
+import org.eclipse.basyx.vab.directory.memory.InMemoryDirectory;
+import org.eclipse.basyx.vab.directory.restapi.DirectoryModelProvider;
 import org.eclipse.basyx.vab.modelprovider.api.IModelProvider;
 import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;
 import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyType;
 import org.eclipse.basyx.submodel.metamodel.map.reference.Key;
+import org.eclipse.basyx.vab.modelprovider.lambda.VABLambdaProvider;
 import org.eclipse.basyx.vab.modelprovider.lambda.VABLambdaProviderHelper;
+import org.eclipse.basyx.vab.protocol.http.server.AASHTTPServer;
+import org.eclipse.basyx.vab.protocol.http.server.BaSyxContext;
+import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
+import org.srfg.properties.MyProperties;
+import org.srfg.requests.RequestManager;
+
+import javax.servlet.http.HttpServlet;
 
 
 /********************************************************************************************************
@@ -34,6 +45,8 @@ import org.eclipse.basyx.vab.modelprovider.lambda.VABLambdaProviderHelper;
 public class IPSADevice {
 
 	//public Map<String, ModelUrn> getAllModelURNShortcuts() {return objectIDs;}
+	private final String registryDir = "/lab/ipsa/ipsa01";
+	private MyProperties properties = new MyProperties();
 
 	private IPSAListener listener;
 
@@ -201,6 +214,61 @@ public class IPSADevice {
 		}
 	}
 
+	/*********************************************************************************************************
+	 * hostComponent
+	 ********************************************************************************************************/
+	public void hostComponent(AASHTTPServer server)
+	{
+		Map<String, Object> beltMap = IPSADevice.createModel(this);
+		IModelProvider beltAAS = IPSADevice.createAAS(this);
+		IModelProvider modelProvider = new VABLambdaProvider(beltMap);
+
+		HttpServlet aasServlet = new VABHTTPInterface<IModelProvider>(beltAAS);
+		// Up to this point, everything is known from the previous HandsOn
+
+		// Now, the model provider is given to a HTTP servlet that gives access to the model in the next steps
+		// => The model will be published using an HTTP-REST interface
+		HttpServlet modelServlet = new VABHTTPInterface<IModelProvider>(modelProvider);
+		IVABDirectoryService directory = new InMemoryDirectory();
+
+		// Register the VAB model at the directory (locally in this case)
+		String fullAddress = "http://" + properties.getDeviceAddress() + ":" + properties.getDevicePort() + "/iasset" + registryDir;
+		directory.addMapping("ipsa01", fullAddress);
+		// logger.info("ConveyorBelt model registered!");
+
+		IModelProvider directoryProvider = new DirectoryModelProvider(directory);
+		HttpServlet directoryServlet = new VABHTTPInterface<IModelProvider>(directoryProvider);
+
+
+		// asset exposes its functionality with localhost & port 5000
+		BaSyxContext context = new BaSyxContext("/iasset", "",
+				properties.getDeviceAddress(),
+				Integer.parseInt(properties.getDevicePort()));
+		context.addServletMapping("/directory/*", directoryServlet);
+		context.addServletMapping(registryDir + "/*", modelServlet);
+		context.addServletMapping("/ipsa/*", aasServlet);
+
+		// Now, define a context to which multiple servlets can be added
+		// The model will be available at http://localhost:4001/handson/oven/
+		// The directory will be available at http://localhost:4001/handson/directory/
+		server = new AASHTTPServer(context);
+		server.start();
+	}
+
+	/*********************************************************************************************************
+	 * register
+	 ********************************************************************************************************/
+	public void register()
+	{
+		// TEST
+		RequestManager manager = new RequestManager();
+
+		// register AAS descriptor for lookup of others
+		manager.SendRegisterRequest(RequestManager.RegistryType.eDirectory, "POST", "/ipsa");
+
+		// register full AAS (TEST)
+		manager.SendRegisterRequest(RequestManager.RegistryType.eFullAAS, "POST", "{\"name\": \"ipsa\", \"job\": \"robot\"}");
+	}
 
 
 	/*********************************************************************************************************
