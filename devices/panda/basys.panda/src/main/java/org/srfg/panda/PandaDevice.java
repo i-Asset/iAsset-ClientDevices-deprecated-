@@ -45,7 +45,6 @@ import javax.servlet.http.HttpServlet;
  ********************************************************************************************************/
 public class PandaDevice {
 
-	//public Map<String, ModelUrn> getAllModelURNShortcuts() {return objectIDs;}
 	private final String registryDir = "/lab/panda/panda01";
 	private MyProperties properties = new MyProperties();
 
@@ -67,6 +66,9 @@ public class PandaDevice {
 	private double gripperDistance;
 
 
+	/*********************************************************************************************************
+	 * CTOR
+	 ********************************************************************************************************/
 	public PandaDevice(String id) {
 		this.id = id;
 		this.nodeManager = new ROSNodeManager(this);
@@ -74,7 +76,6 @@ public class PandaDevice {
 
 	public String getId() {
 		return this.id;
-
 	}
 
 	/*********************************************************************************************************
@@ -117,15 +118,11 @@ public class PandaDevice {
 	}
 
 	/*********************************************************************************************************
-	 * PandaListener
+	 * Active
 	 ********************************************************************************************************/
 	public boolean isActive() {
 		return active;
 	}
-
-	/*********************************************************************************************************
-	 * PandaListener
-	 ********************************************************************************************************/
 	public void setActive(boolean active) {
 		if (active != this.active) {
 			if (active) {
@@ -136,6 +133,16 @@ public class PandaDevice {
 		}
 		// no effect
 		this.active = active;
+	}
+
+	/*********************************************************************************************************
+	 * Listener
+	 ********************************************************************************************************/
+	public PandaListener getListener() {
+		return listener;
+	}
+	public void setListener(PandaListener listener) {
+		this.listener = listener;
 	}
 
 	/*********************************************************************************************************
@@ -460,19 +467,4 @@ public class PandaDevice {
 		myModel.put("properties", properties);
 		return myModel;
 	}
-
-	/*********************************************************************************************************
-	 * PandaListener
-	 ********************************************************************************************************/
-	public PandaListener getListener() {
-		return listener;
-	}
-
-	/*********************************************************************************************************
-	 * PandaListener
-	 ********************************************************************************************************/
-	public void setListener(PandaListener listener) {
-		this.listener = listener;
-	}
-
 }

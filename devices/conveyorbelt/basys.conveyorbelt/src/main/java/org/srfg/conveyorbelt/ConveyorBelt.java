@@ -45,7 +45,6 @@ import javax.servlet.http.HttpServlet;
  ********************************************************************************************************/
 public class ConveyorBelt {
 
-	//public Map<String, ModelUrn> getAllModelURNShortcuts() {return objectIDs;}
 	private final String registryDir = "/lab/belt/belt01";
 	private MyProperties properties = new MyProperties();
 
@@ -64,10 +63,22 @@ public class ConveyorBelt {
 	private String beltdist = "";
 	private boolean beltmoving;
 
-
+	/*********************************************************************************************************
+	 * CTOR
+	 ********************************************************************************************************/
 	public ConveyorBelt(String id) {
 		this.id = id;
 		this.opcuaManager = new OPCUAManager(this);
+	}
+
+	/*********************************************************************************************************
+	 * Listener
+	 ********************************************************************************************************/
+	public BeltListener getListener() {
+		return listener;
+	}
+	public void setListener(BeltListener listener) {
+		this.listener = listener;
 	}
 
 	/*********************************************************************************************************
@@ -196,7 +207,7 @@ public class ConveyorBelt {
 	}
 
 	/*********************************************************************************************************
-	 * active and ID
+	 * Active
 	 ********************************************************************************************************/
 	public boolean isActive() {
 		return active;
@@ -485,15 +496,4 @@ public class ConveyorBelt {
 		myModel.put("properties", properties);
 		return myModel;
 	}
-
-	/*********************************************************************************************************
-	 * Listener
-	 ********************************************************************************************************/
-	public BeltListener getListener() {
-		return listener;
-	}
-	public void setListener(BeltListener listener) {
-		this.listener = listener;
-	}
-
 }

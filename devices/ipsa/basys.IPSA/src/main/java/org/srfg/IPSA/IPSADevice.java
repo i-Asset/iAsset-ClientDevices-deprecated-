@@ -44,7 +44,6 @@ import javax.servlet.http.HttpServlet;
  ********************************************************************************************************/
 public class IPSADevice {
 
-	//public Map<String, ModelUrn> getAllModelURNShortcuts() {return objectIDs;}
 	private final String registryDir = "/lab/ipsa/ipsa01";
 	private MyProperties properties = new MyProperties();
 
@@ -53,9 +52,6 @@ public class IPSADevice {
 	private final String id;
 	private boolean active;
 
-	private double speed;
-	private double distanceRun;
-
 	private byte robotMode;
 	private double positonX;
 	private double positonY;
@@ -63,14 +59,15 @@ public class IPSADevice {
 	private double forceZ;
 	private double gripperDistance;
 
-
+	/*********************************************************************************************************
+	 * CTOR
+	 ********************************************************************************************************/
 	public IPSADevice(String id) {
 		this.id = id;
 	}
 
 	public String getId() {
 		return this.id;
-
 	}
 
 	/*********************************************************************************************************
@@ -115,15 +112,11 @@ public class IPSADevice {
 	}
 
 	/*********************************************************************************************************
-	 * isActive
+	 * Active
 	 ********************************************************************************************************/
 	public boolean isActive() {
 		return active;
 	}
-
-	/*********************************************************************************************************
-	 * setActive
-	 ********************************************************************************************************/
 	public void setActive(boolean active) {
 		if (active != this.active) {
 			if (active) {
@@ -134,6 +127,16 @@ public class IPSADevice {
 		}
 		// no effect
 		this.active = active;
+	}
+
+	/*********************************************************************************************************
+	 * Listener
+	 ********************************************************************************************************/
+	public IPSAListener getListener() {
+		return listener;
+	}
+	public void setListener(IPSAListener listener) {
+		this.listener = listener;
 	}
 
 	/*********************************************************************************************************
@@ -465,19 +468,4 @@ public class IPSADevice {
 		myModel.put("properties", properties);
 		return myModel;
 	}
-
-	/*********************************************************************************************************
-	 * getListener
-	 ********************************************************************************************************/
-	public IPSAListener getListener() {
-		return listener;
-	}
-
-	/*********************************************************************************************************
-	 * setListener
-	 ********************************************************************************************************/
-	public void setListener(IPSAListener listener) {
-		this.listener = listener;
-	}
-
 }
