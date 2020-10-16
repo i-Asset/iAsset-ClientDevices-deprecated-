@@ -71,6 +71,7 @@ public class IPSADevice extends BaseDevice {
 	/*********************************************************************************************************
 	 * start
 	 ********************************************************************************************************/
+	@Override
 	public void start() {
 		if (!isActive()) {
 
@@ -86,6 +87,7 @@ public class IPSADevice extends BaseDevice {
 	/*********************************************************************************************************
 	 * stop
 	 ********************************************************************************************************/
+	@Override
 	public void stop() {
 		if (isActive()) {
 
@@ -205,6 +207,7 @@ public class IPSADevice extends BaseDevice {
 	/*********************************************************************************************************
 	 * createAAS
 	 ********************************************************************************************************/
+	@Override
 	protected IModelProvider createAAS() {
 
 		AssetAdministrationShell aas = new AssetAdministrationShell();
@@ -230,6 +233,7 @@ public class IPSADevice extends BaseDevice {
 	/*********************************************************************************************************
 	 * createIdentification
 	 ********************************************************************************************************/
+	@Override
 	protected SubModel createIdentification() {
 
 	    // TODO: change this to IPSA description
@@ -269,6 +273,7 @@ public class IPSADevice extends BaseDevice {
 	 * INFO: For lambda properties, the type has to be explicitly specified as it
 	 * can not be retrieved from supplier automatically
 	 ********************************************************************************************************/
+	@Override
 	protected SubModel createProperties() {
 
         // TODO: change this to IPSA description
@@ -337,6 +342,7 @@ public class IPSADevice extends BaseDevice {
 	/*********************************************************************************************************
 	 * createModel
 	 ********************************************************************************************************/
+	@Override
 	protected Map<String, Object> createModel() {
 
         // TODO: change this to IPSA description

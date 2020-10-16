@@ -170,6 +170,7 @@ public class ConveyorBelt extends BaseDevice {
 	/*********************************************************************************************************
 	 * start
 	 ********************************************************************************************************/
+	@Override
 	public void start() {
 		if (!isActive()) {
 
@@ -188,6 +189,7 @@ public class ConveyorBelt extends BaseDevice {
 	/*********************************************************************************************************
 	 * stop
 	 ********************************************************************************************************/
+	@Override
 	public void stop() {
 		if (isActive()) {
 			this.opcuaManager.StopReadThread();
@@ -216,6 +218,7 @@ public class ConveyorBelt extends BaseDevice {
 	/*********************************************************************************************************
 	 * createAAS
 	 ********************************************************************************************************/
+	@Override
 	protected IModelProvider createAAS() {
 
 		AssetAdministrationShell aas = new AssetAdministrationShell();
@@ -241,6 +244,7 @@ public class ConveyorBelt extends BaseDevice {
 	/*********************************************************************************************************
 	 * createIdentification
 	 ********************************************************************************************************/
+	@Override
 	protected SubModel createIdentification() {
 
 		// create the sub model
@@ -278,6 +282,7 @@ public class ConveyorBelt extends BaseDevice {
 	 * INFO: For lambda properties, the type has to be explicitly specified as it
 	 * can not be retrieved from supplier automatically
 	 ********************************************************************************************************/
+	@Override
 	protected SubModel createProperties() {
 
 		SubModel info = new SubModel();
@@ -356,6 +361,7 @@ public class ConveyorBelt extends BaseDevice {
 	/*********************************************************************************************************
 	 * createModel
 	 ********************************************************************************************************/
+	@Override
 	protected Map<String, Object> createModel() {
 
 		Map<String, Object> properties = new HashMap<>();

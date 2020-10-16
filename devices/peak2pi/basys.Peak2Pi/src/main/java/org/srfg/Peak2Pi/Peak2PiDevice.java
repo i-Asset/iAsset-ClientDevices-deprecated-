@@ -71,6 +71,7 @@ public class Peak2PiDevice extends BaseDevice {
 	/*********************************************************************************************************
 	 * start
 	 ********************************************************************************************************/
+	@Override
 	public void start() {
 		if (!isActive()) {
 
@@ -86,6 +87,7 @@ public class Peak2PiDevice extends BaseDevice {
 	/*********************************************************************************************************
 	 * stop
 	 ********************************************************************************************************/
+	@Override
 	public void stop() {
 		if (isActive()) {
 
@@ -205,6 +207,7 @@ public class Peak2PiDevice extends BaseDevice {
 	/*********************************************************************************************************
 	 * createAAS
 	 ********************************************************************************************************/
+	@Override
 	protected IModelProvider createAAS() {
 
 		AssetAdministrationShell aas = new AssetAdministrationShell();
@@ -230,6 +233,7 @@ public class Peak2PiDevice extends BaseDevice {
 	/*********************************************************************************************************
 	 * createIdentification
 	 ********************************************************************************************************/
+	@Override
 	protected SubModel createIdentification() {
 
 	    // TODO: change this to Peak2Pi description
@@ -269,6 +273,7 @@ public class Peak2PiDevice extends BaseDevice {
 	 * INFO: For lambda properties, the type has to be explicitly specified as it
 	 * can not be retrieved from supplier automatically
 	 ********************************************************************************************************/
+	@Override
 	protected SubModel createProperties() {
 
         // TODO: change this to Peak2Pi description
@@ -337,6 +342,7 @@ public class Peak2PiDevice extends BaseDevice {
 	/*********************************************************************************************************
 	 * createModel
 	 ********************************************************************************************************/
+	@Override
 	protected Map<String, Object> createModel() {
 
         // TODO: change this to Peak2Pi description
