@@ -33,11 +33,11 @@ The complete runnable jars can be found in the corresponding target-directory of
 Hint: The base project dependencies with all the properties can be found in the sub-direcotry: "dependency-jars".
 
 Examples to build and run:
--> Run to build all: "./build/build_all.sh"
--> Run to build one (e.g. Belt): "./build/build_belt.sh"
--> Run to build base: "./build/build_base.sh"
--> To execute go to target dir of e.g. ConveyorBelt and start JAR with: "java -jar target/basyx.belt-0.0.1-SNAPSHOT.jar"
--> If you dont want a GUI, but instead automatic run from shell: "java -jar target/basyx.belt-0.0.1-SNAPSHOT.jar noGUI"
++ Run to build all: "./build/build_all.sh"
++ Run to build one (e.g. Belt): "./build/build_belt.sh"
++ Run to build base: "./build/build_base.sh"
++ To execute go to target dir of e.g. ConveyorBelt and start JAR with: "java -jar target/basyx.belt-0.0.1-SNAPSHOT.jar"
++ If you dont want a GUI, but instead automatic run from shell: "java -jar target/basyx.belt-0.0.1-SNAPSHOT.jar noGUI"
 
 
 
