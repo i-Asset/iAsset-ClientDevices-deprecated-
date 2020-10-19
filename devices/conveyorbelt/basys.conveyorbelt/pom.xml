@@ -18,6 +18,71 @@
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
 	<!--<testSourceDirectory>src/test/java</testSourceDirectory> -->
+
+	  <plugins>
+
+		  <!-- CREATE an executable JAR file -->
+		  <plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-jar-plugin</artifactId>
+			  <version>2.4</version>
+			  <configuration>
+				  <archive>
+					  <manifest>
+						  <addClasspath>true</addClasspath>
+						  <classpathPrefix>dependency-jars/</classpathPrefix>
+						  <mainClass>org.srfg.MainConveyorBelt</mainClass>
+					  </manifest>
+				  </archive>
+			  </configuration>
+		  </plugin>
+
+		  <!-- CREATE JAR dependencies to base project -->
+		  <plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-dependency-plugin</artifactId>
+			  <version>2.5.1</version>
+			  <executions>
+				  <execution>
+					  <id>copy-dependencies</id>
+					  <phase>package</phase>
+					  <goals>
+						  <goal>copy-dependencies</goal>
+					  </goals>
+					  <configuration>
+						  <outputDirectory>
+							  ${project.build.directory}/dependency-jars/
+						  </outputDirectory>
+					  </configuration>
+				  </execution>
+			  </executions>
+		  </plugin>
+
+		  <!-- COPY PASTE resources of base project to target -->
+		  <plugin>
+			  <artifactId>maven-resources-plugin</artifactId>
+			  <version>3.2.0</version>
+			  <executions>
+				  <execution>
+					  <id>copy-resources</id>
+					  <phase>validate</phase>
+					  <goals>
+						  <goal>copy-resources</goal>
+					  </goals>
+					  <configuration>
+						  <outputDirectory>${basedir}/target/dependency-jars/</outputDirectory>
+						  <resources>
+							  <resource>
+								  <directory>../../BASE/basys.basedevice/src/main/resources/</directory>
+								  <filtering>true</filtering>
+							  </resource>
+						  </resources>
+					  </configuration>
+				  </execution>
+			  </executions>
+		  </plugin>
+
+	  </plugins>
   </build>
   
   <dependencies>
