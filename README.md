@@ -25,3 +25,20 @@ Instead you may also go to the root build directory and run ./build_java.sh
 
 + All client device implementation projects need basyx.sdk and basyx.components The basyx.components needs basyx.sdk..
 + All client device implementation projects require the basedevice-project. This project contains all reusable classes, helpers, etc..
+
+## Build and Execute
+
+In the build-directory there are scripts building and packaging all projects with their dependencies. 
+The complete runnable jars can be found in the corresponding target-directory of the concrete device implementation (e.g. iAsset-ClientDevices\devices\conveyorbelt\basys.conveyorbelt\target\).
+Hint: The base project dependencies with all the properties can be found in the sub-direcotry: "dependency-jars".
+
+Examples to build and run:
++ Run to build all: "./build/build_all.sh"
++ Run to build one (e.g. Belt): "./build/build_belt.sh"
++ Run to build base: "./build/build_base.sh"
++ To execute go to target dir of e.g. ConveyorBelt and start JAR with: "java -jar target/basyx.belt-0.0.1-SNAPSHOT.jar"
++ If you dont want a GUI, but instead automatic run from shell: "java -jar target/basyx.belt-0.0.1-SNAPSHOT.jar noGUI"
+
+
+
+
