@@ -74,15 +74,14 @@ public abstract class BaseDevice {
     /*********************************************************************************************************
      * register
      ********************************************************************************************************/
-    public void register()
+    public void register() // TODO: finish as soon as new Backend is done
     {
-        // TEST
         RequestManager manager = new RequestManager();
 
         // register AAS descriptor for lookup of others
-        manager.SendRegisterRequest(RequestManager.RegistryType.eDirectory, "POST", "/" + getName());
+        //manager.SendRegisterRequest(RequestManager.RegistryType.eDirectory, "POST", "/" + getName());
 
-        // register full AAS (TEST)
-        manager.SendRegisterRequest(RequestManager.RegistryType.eFullAAS, "POST", "{\"name\": \"sample\", \"job\": \"robot\"}");
+        // register full AAS
+        //manager.SendRegisterRequest(RequestManager.RegistryType.eFullAAS, "POST", "{\"name\": \"sample\", \"job\": \"robot\"}");
     }
 }
