@@ -42,17 +42,6 @@ public class MainOtherDevice extends BaseOtherDevice {
     @Override
     protected void initComponents() {
 
-        jToggleButton = new javax.swing.JToggleButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox = new javax.swing.JComboBox<>();
-        jCheckBox = new javax.swing.JCheckBox();
-
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         jToggleButton.setText("Verbinde zu Device");
         jToggleButton.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -134,9 +123,7 @@ public class MainOtherDevice extends BaseOtherDevice {
     /*********************************************************************************************************
      * jComboBox1ActionPerformed
      ********************************************************************************************************/
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here
-    }
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {}
 
     /*********************************************************************************************************
      * jToggleButton1ItemStateChanged
@@ -159,7 +146,6 @@ public class MainOtherDevice extends BaseOtherDevice {
                 }
                 break;
         }
-        // TODO add your handling code here
     }
 
     /*********************************************************************************************************

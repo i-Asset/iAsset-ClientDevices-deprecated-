@@ -36,12 +36,6 @@ public class MainOtherDevice extends BaseOtherDevice {
     @Override
     protected void initComponents() {
 
-        jToggleButton = new javax.swing.JToggleButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         jToggleButton.setText("Verbinde zu Device");
         jToggleButton.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -102,7 +96,6 @@ public class MainOtherDevice extends BaseOtherDevice {
                 }
                 break;
         }
-        // TODO add your handling code here
     }
 
     /*********************************************************************************************************
