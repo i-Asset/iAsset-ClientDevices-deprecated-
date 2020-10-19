@@ -25,6 +25,7 @@ Instead you may also go to the root build directory and run ./build_java.sh
 
 + All client device implementation projects need basyx.sdk and basyx.components The basyx.components needs basyx.sdk..
 + All client device implementation projects require the basedevice-project. This project contains all reusable classes, helpers, etc..
++ All client device implementation projects and the basedevice re-use the outter pom-file for shared dependencies.
 
 ## Build and Execute
 
