@@ -30,6 +30,7 @@ Instead you may also go to the root build directory and run ./build_java.sh
 
 In the build-directory there are scripts building and packaging all projects with their dependencies. 
 The complete runnable jars can be found in the corresponding target-directory of the concrete device implementation (e.g. iAsset-ClientDevices\devices\conveyorbelt\basys.conveyorbelt\target\).
+
 Hint: The base project dependencies with all the properties can be found in the sub-direcotry: "dependency-jars".
 
 Examples to build and run:
