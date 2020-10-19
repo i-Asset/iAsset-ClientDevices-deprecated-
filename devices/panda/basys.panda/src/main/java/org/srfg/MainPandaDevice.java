@@ -360,7 +360,7 @@ public class MainPandaDevice extends javax.swing.JFrame {
      ********************************************************************************************************/
     public static void main(String args[]) {
 
-        if(args.length == 1 && (args[0] == "noGUI")) // launch application without a GUI
+        if(args.length == 1 && (args[0].equals("noGUI"))) // launch application without a GUI
         {
             PandaDevice panda = new PandaDevice();
             AASHTTPServer server = null;
