@@ -1,6 +1,9 @@
 package org.srfg.properties;
 
+import org.apache.commons.io.IOUtils;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Base64;
 import java.util.Properties;
 
 /*********************************************************************************************************
@@ -32,4 +35,17 @@ public class MyProperties {
     public String getServerRegistryType() { return myProperties.getProperty("server.registry.type"); }
     public String getServerRegistryInstance() { return myProperties.getProperty("server.registry.instance"); }
     public String getServerCredentials() { return myProperties.getProperty("server.credentials"); }
+
+    public String getImageStringBase64()
+    {
+        byte[] fileContent = new byte[0];
+        try
+        {
+            InputStream is = getClass().getResourceAsStream("/myAssetImage.png");
+            fileContent = IOUtils.toByteArray(is);
+        }
+        catch (IOException e) {e.printStackTrace();}
+        String encodedString = Base64.getEncoder().encodeToString(fileContent);
+        return encodedString;
+    }
 }

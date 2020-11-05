@@ -76,6 +76,7 @@ public abstract class BaseDevice {
      ********************************************************************************************************/
     public void register() // TODO: refactor as soon as new Backend is done
     {
+        // make request manager
         RequestManager manager = new RequestManager();
 
         // register AAS descriptor for lookup of others
@@ -191,13 +192,13 @@ public abstract class BaseDevice {
                 "{\n" +
                         "  \"assetImages\": [\n" +
                         "    {\n" +
-                        "      \"fileName\": \"string\",\n" +
+                        "      \"fileName\": \"SRFGLabImage\",\n" +
                         "      \"id\": 0,\n" +
-                        "      \"languageID\": \"string\",\n" +
-                        "      \"mimeCode\": \"string\",\n" +
-                        "      \"objectMetadata\": \"string\",\n" +
-                        "      \"uri\": \"string\",\n" +
-                        "      \"value\": \"string\"\n" +
+                        "      \"languageID\": \"\",\n" +
+                        "      \"mimeCode\": \"image/png\",\n" +
+                        "      \"objectMetadata\": \"\",\n" +
+                        "      \"uri\": \"\",\n" +
+                        "      \"value\": \"" + properties.getImageStringBase64() + "\"\n" +
                         "    }\n" +
                         "  ],\n" +
                         "  \"assetType\": \"" + properties.getServerRegistryType() + "\",\n" +
