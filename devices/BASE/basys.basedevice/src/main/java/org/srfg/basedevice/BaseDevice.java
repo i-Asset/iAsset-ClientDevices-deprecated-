@@ -74,14 +74,153 @@ public abstract class BaseDevice {
     /*********************************************************************************************************
      * register
      ********************************************************************************************************/
-    public void register() // TODO: finish as soon as new Backend is done
+    public void register() // TODO: refactor as soon as new Backend is done
     {
         RequestManager manager = new RequestManager();
 
         // register AAS descriptor for lookup of others
-        //manager.SendRegisterRequest(RequestManager.RegistryType.eDirectory, "POST", "/" + getName());
+        manager.SendRegisterRequest(RequestManager.RegistryType.eAssetType, "POST",
+                "{\n" +
+                        "  \"certificate\": \"none\",\n" +
+                        "  \"description\": \"automatically generated default SRFG lab demonstrator\",\n" +
+                        "  \"id\": 0,\n" +
+                        "  \"name\": \"" + properties.getServerRegistryType() + "\",\n" +
+                        "  \"properties\": [\n" +
+                        "    {\n" +
+                        "      \"category\": \"string\",\n" +
+                        "      \"children\": [\n" +
+                        "        {\n" +
+                        "          \"category\": \"string\",\n" +
+                        "          \"children\": [\n" +
+                        "            null\n" +
+                        "          ],\n" +
+                        "          \"description\": [\n" +
+                        "            {\n" +
+                        "              \"description\": \"string\",\n" +
+                        "              \"language\": \"string\"\n" +
+                        "            }\n" +
+                        "          ],\n" +
+                        "          \"idShort\": \"string\",\n" +
+                        "          \"modelType\": \"GlobalReference\",\n" +
+                        "          \"parent\": {\n" +
+                        "            \"category\": \"string\",\n" +
+                        "            \"children\": [\n" +
+                        "              null\n" +
+                        "            ],\n" +
+                        "            \"description\": [\n" +
+                        "              {\n" +
+                        "                \"description\": \"string\",\n" +
+                        "                \"language\": \"string\"\n" +
+                        "              }\n" +
+                        "            ],\n" +
+                        "            \"first\": {\n" +
+                        "              \"id\": \"string\",\n" +
+                        "              \"idType\": \"IRI\"\n" +
+                        "            },\n" +
+                        "            \"idShort\": \"string\",\n" +
+                        "            \"keys\": [\n" +
+                        "              {\n" +
+                        "                \"idType\": \"IRI\",\n" +
+                        "                \"local\": true,\n" +
+                        "                \"type\": \"GlobalReference\",\n" +
+                        "                \"value\": \"string\"\n" +
+                        "              }\n" +
+                        "            ],\n" +
+                        "            \"modelType\": \"GlobalReference\",\n" +
+                        "            \"pathIterator\": {}\n" +
+                        "          }\n" +
+                        "        }\n" +
+                        "      ],\n" +
+                        "      \"description\": \"string\",\n" +
+                        "      \"idShort\": \"string\",\n" +
+                        "      \"modelType\": \"GlobalReference\",\n" +
+                        "      \"parent\": {\n" +
+                        "        \"category\": \"string\",\n" +
+                        "        \"children\": [\n" +
+                        "          null\n" +
+                        "        ],\n" +
+                        "        \"description\": [\n" +
+                        "          {\n" +
+                        "            \"description\": \"string\",\n" +
+                        "            \"language\": \"string\"\n" +
+                        "          }\n" +
+                        "        ],\n" +
+                        "        \"idShort\": \"string\",\n" +
+                        "        \"modelType\": \"GlobalReference\",\n" +
+                        "        \"parent\": {\n" +
+                        "          \"category\": \"string\",\n" +
+                        "          \"children\": [\n" +
+                        "            null\n" +
+                        "          ],\n" +
+                        "          \"description\": [\n" +
+                        "            {\n" +
+                        "              \"description\": \"string\",\n" +
+                        "              \"language\": \"string\"\n" +
+                        "            }\n" +
+                        "          ],\n" +
+                        "          \"first\": {\n" +
+                        "            \"id\": \"string\",\n" +
+                        "            \"idType\": \"IRI\"\n" +
+                        "          },\n" +
+                        "          \"idShort\": \"string\",\n" +
+                        "          \"keys\": [\n" +
+                        "            {\n" +
+                        "              \"idType\": \"IRI\",\n" +
+                        "              \"local\": true,\n" +
+                        "              \"type\": \"GlobalReference\",\n" +
+                        "              \"value\": \"string\"\n" +
+                        "            }\n" +
+                        "          ],\n" +
+                        "          \"modelType\": \"GlobalReference\",\n" +
+                        "          \"pathIterator\": {}\n" +
+                        "        }\n" +
+                        "      },\n" +
+                        "      \"dataSpecification\": \"string\",\n" +
+                        "      \"id\": 0,\n" +
+                        "      \"name\": \"string\",\n" +
+                        "      \"semanticID\": \"string\",\n" +
+                        "      \"shortID\": \"string\"\n" +
+                        "    }\n" +
+                        "  ],\n" +
+                        "  \"semanticID\": \"1234\",\n" +
+                        "  \"shortID\": \"1234\"\n" +
+                        "}");
 
         // register full AAS
-        //manager.SendRegisterRequest(RequestManager.RegistryType.eFullAAS, "POST", "{\"name\": \"sample\", \"job\": \"robot\"}");
+        manager.SendRegisterRequest(RequestManager.RegistryType.eAssetInstance, "POST",
+                "{\n" +
+                        "  \"assetImages\": [\n" +
+                        "    {\n" +
+                        "      \"fileName\": \"string\",\n" +
+                        "      \"id\": 0,\n" +
+                        "      \"languageID\": \"string\",\n" +
+                        "      \"mimeCode\": \"string\",\n" +
+                        "      \"objectMetadata\": \"string\",\n" +
+                        "      \"uri\": \"string\",\n" +
+                        "      \"value\": \"string\"\n" +
+                        "    }\n" +
+                        "  ],\n" +
+                        "  \"assetType\": \"" + properties.getServerRegistryType() + "\",\n" +
+                        "  \"currentLocation\": \"SRFG Lab Salzburg\",\n" +
+                        "  \"id\": 0,\n" +
+                        "  \"listAvailableProperties\": \"none\",\n" +
+                        "  \"listMaintenance\": [\n" +
+                        "    {\n" +
+                        "      \"additionalText\": \"string\",\n" +
+                        "      \"descriptionPyhsicalChanges\": \"string\",\n" +
+                        "      \"descriptionSoftwareChanges\": \"string\",\n" +
+                        "      \"id\": 0,\n" +
+                        "      \"listOfInvolvedSuppliers\": \"string\",\n" +
+                        "      \"maintenanceCostPlan\": \"string\",\n" +
+                        "      \"maintenanceDate\": \"string\",\n" +
+                        "      \"maintenanceDuration\": \"string\",\n" +
+                        "      \"maintenanceReason\": \"string\"\n" +
+                        "    }\n" +
+                        "  ],\n" +
+                        "  \"name\": \"" + properties.getServerRegistryInstance() + "\",\n" +
+                        "  \"originalLocation\": \"see vendor info\",\n" +
+                        "  \"ownerProperty\": \"Salzburg Research\",\n" +
+                        "  \"serialNumber\": \"1234\"\n" +
+                        "}");
     }
 }

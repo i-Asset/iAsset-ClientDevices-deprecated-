@@ -6,44 +6,35 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.Base64;
 
 /*********************************************************************************************************
  * RequestManager Class
  ********************************************************************************************************/
 public class RequestManager {
 
-    private String strURL_DIR = "/directory/aas";
-    private String strURL_AAS = "/aas";
-    private HttpURLConnection conDIR = null;
-    private HttpURLConnection conAAS = null;
+    private MyProperties props = new MyProperties();
+    private HttpURLConnection conType = null;
+    private HttpURLConnection conInstance = null;
     private boolean isInit = false;
 
-    public enum RegistryType {eDirectory, eFullAAS}
+    public enum RegistryType {eAssetType, eAssetInstance}
 
     /*********************************************************************************************************
      * CTOR (can only do POST requests atm)
      ********************************************************************************************************/
     public RequestManager()
     {
-        String strURL_BASE = new MyProperties().getServerAddress();
+        String strURL_BASE = props.getServerAddress() + "/registry/" + props.getServerRegistryID();
 
         try {
-            conDIR = (HttpURLConnection)(new URL(strURL_BASE + strURL_DIR)).openConnection();
-            conAAS = (HttpURLConnection)(new URL(strURL_BASE + strURL_AAS)).openConnection();
+            conType = (HttpURLConnection)(new URL(strURL_BASE + "/type")).openConnection();
+            conInstance = (HttpURLConnection)(new URL(strURL_BASE + "/instance")).openConnection();
         }
         catch (IOException e) {
             e.printStackTrace();
             return;
         }
-
-        conDIR.setRequestProperty("Content-Type", "application/json; utf-8"); // set request header
-        conDIR.setRequestProperty("Accept", "application/json"); // set response read type
-        conDIR.setDoOutput(true); // to enable writing content to output stream
-
-        conAAS.setRequestProperty("Content-Type", "application/json; utf-8"); // set request header
-        conAAS.setRequestProperty("Accept", "application/json"); // set response read type
-        conAAS.setDoOutput(true); // to enable writing content to output stream
-
         isInit = true;
     }
 
@@ -55,7 +46,23 @@ public class RequestManager {
     {
         if(!isInit) return false;
 
-        HttpURLConnection localConnection = (type == RegistryType.eDirectory) ? conDIR : conAAS;
+        HttpURLConnection localConnection = (type == RegistryType.eAssetType) ? conType : conInstance;
+        String basicAuth = "Basic " + new String(Base64.getEncoder().encode(props.getServerCredentials().getBytes()));
+
+        try {
+            localConnection.setRequestMethod("POST");
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        }
+
+        localConnection.setRequestProperty ("Authorization", basicAuth);
+        localConnection.setRequestProperty("Content-Type", "application/json; utf-8");  // application/json; utf-8 / application/x-www-form-urlencoded
+        localConnection.setRequestProperty("Accept", "application/json"); // set response read type
+        localConnection.setRequestProperty("Content-Length", "" + parameter.getBytes().length);
+        localConnection.setRequestProperty("Content-Language", "en-US");
+        localConnection.setUseCaches(false);
+        localConnection.setDoInput(true);
+        localConnection.setDoOutput(true);
 
         try {
             localConnection.setRequestMethod(method);
