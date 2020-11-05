@@ -16,21 +16,28 @@ Every implementation has its own main function with a corresponding "OtherDevice
 1) Import -> Existing Maven Project
 2) Select all Projects listed
 3) Select a JDK (min V8) in every projects Java Build Path
-3) mvn install
-4) clean compile
+3) go to the root build directory and run the build files
 
-Instead you may also go to the root build directory and run ./build_java.sh
+## Steps to make this project work in your IntelliJ IDE:
+
+1) On the welcome screen with no projects open: "Import Project"
+2) Select "Maven" and click next
+3) Select the root directory, check "Search for projects recursively" and "Import Maven Projects automatically" and click next
+4) Check all imported settings and Import
+5) go to the root build directory and run the build files
 
 ## Dependencies
 
 + All client device implementation projects need basyx.sdk and basyx.components The basyx.components needs basyx.sdk..
 + All client device implementation projects require the basedevice-project. This project contains all reusable classes, helpers, etc..
++ All client device implementation projects and the basedevice re-use the outter pom-file for shared dependencies.
 
 ## Build and Execute
 
 In the build-directory there are scripts building and packaging all projects with their dependencies. 
-The complete runnable jars can be found in the corresponding target-directory of the concrete device implementation (e.g. iAsset-ClientDevices\devices\conveyorbelt\basys.conveyorbelt\target\).
-Hint: The base project dependencies with all the properties can be found in the sub-direcotry: "dependency-jars".
+The complete runnable jars can be found in the corresponding target-directory of the concrete device implementation (e.g.: .\devices\conveyorbelt\basys.conveyorbelt\target\).
+
+Hint: The base project dependencies with all the properties can be found in the sub-directory: "dependency-jars".
 
 Examples to build and run:
 + Run to build all: "./build/build_all.sh"
