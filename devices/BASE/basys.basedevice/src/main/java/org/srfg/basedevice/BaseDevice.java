@@ -1,5 +1,6 @@
 package org.srfg.basedevice;
 
+import org.apache.commons.io.IOUtils;
 import org.eclipse.basyx.submodel.metamodel.map.SubModel;
 import org.eclipse.basyx.vab.directory.api.IVABDirectoryService;
 import org.eclipse.basyx.vab.directory.memory.InMemoryDirectory;
@@ -9,10 +10,14 @@ import org.eclipse.basyx.vab.modelprovider.lambda.VABLambdaProvider;
 import org.eclipse.basyx.vab.protocol.http.server.AASHTTPServer;
 import org.eclipse.basyx.vab.protocol.http.server.BaSyxContext;
 import org.eclipse.basyx.vab.protocol.http.server.VABHTTPInterface;
+import org.json.JSONObject;
 import org.srfg.properties.MyProperties;
 import org.srfg.requests.RequestManager;
 
 import javax.servlet.http.HttpServlet;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public abstract class BaseDevice {
@@ -76,116 +81,24 @@ public abstract class BaseDevice {
      ********************************************************************************************************/
     public void register() // TODO: refactor as soon as new Backend is done
     {
+        String jsonParameterType = "";
+        String strAssetTypeName = "";
+        try {
+            InputStream isType = getClass().getResourceAsStream("/myAssetType.json");
+            jsonParameterType = IOUtils.toString(isType, StandardCharsets.UTF_8.name());
+
+            JSONObject jsonObject = new JSONObject(jsonParameterType);
+            strAssetTypeName = jsonObject.getString("name");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         // make request manager
         RequestManager manager = new RequestManager();
 
         // register AAS descriptor for lookup of others
-        manager.SendRegisterRequest(RequestManager.RegistryType.eAssetType, "POST",
-                "{\n" +
-                        "  \"certificate\": \"none\",\n" +
-                        "  \"description\": \"automatically generated default SRFG lab demonstrator\",\n" +
-                        "  \"id\": 0,\n" +
-                        "  \"name\": \"" + properties.getServerRegistryType() + "\",\n" +
-                        "  \"properties\": [\n" +
-                        "    {\n" +
-                        "      \"category\": \"string\",\n" +
-                        "      \"children\": [\n" +
-                        "        {\n" +
-                        "          \"category\": \"string\",\n" +
-                        "          \"children\": [\n" +
-                        "            null\n" +
-                        "          ],\n" +
-                        "          \"description\": [\n" +
-                        "            {\n" +
-                        "              \"description\": \"string\",\n" +
-                        "              \"language\": \"string\"\n" +
-                        "            }\n" +
-                        "          ],\n" +
-                        "          \"idShort\": \"string\",\n" +
-                        "          \"modelType\": \"GlobalReference\",\n" +
-                        "          \"parent\": {\n" +
-                        "            \"category\": \"string\",\n" +
-                        "            \"children\": [\n" +
-                        "              null\n" +
-                        "            ],\n" +
-                        "            \"description\": [\n" +
-                        "              {\n" +
-                        "                \"description\": \"string\",\n" +
-                        "                \"language\": \"string\"\n" +
-                        "              }\n" +
-                        "            ],\n" +
-                        "            \"first\": {\n" +
-                        "              \"id\": \"string\",\n" +
-                        "              \"idType\": \"IRI\"\n" +
-                        "            },\n" +
-                        "            \"idShort\": \"string\",\n" +
-                        "            \"keys\": [\n" +
-                        "              {\n" +
-                        "                \"idType\": \"IRI\",\n" +
-                        "                \"local\": true,\n" +
-                        "                \"type\": \"GlobalReference\",\n" +
-                        "                \"value\": \"string\"\n" +
-                        "              }\n" +
-                        "            ],\n" +
-                        "            \"modelType\": \"GlobalReference\",\n" +
-                        "            \"pathIterator\": {}\n" +
-                        "          }\n" +
-                        "        }\n" +
-                        "      ],\n" +
-                        "      \"description\": \"string\",\n" +
-                        "      \"idShort\": \"string\",\n" +
-                        "      \"modelType\": \"GlobalReference\",\n" +
-                        "      \"parent\": {\n" +
-                        "        \"category\": \"string\",\n" +
-                        "        \"children\": [\n" +
-                        "          null\n" +
-                        "        ],\n" +
-                        "        \"description\": [\n" +
-                        "          {\n" +
-                        "            \"description\": \"string\",\n" +
-                        "            \"language\": \"string\"\n" +
-                        "          }\n" +
-                        "        ],\n" +
-                        "        \"idShort\": \"string\",\n" +
-                        "        \"modelType\": \"GlobalReference\",\n" +
-                        "        \"parent\": {\n" +
-                        "          \"category\": \"string\",\n" +
-                        "          \"children\": [\n" +
-                        "            null\n" +
-                        "          ],\n" +
-                        "          \"description\": [\n" +
-                        "            {\n" +
-                        "              \"description\": \"string\",\n" +
-                        "              \"language\": \"string\"\n" +
-                        "            }\n" +
-                        "          ],\n" +
-                        "          \"first\": {\n" +
-                        "            \"id\": \"string\",\n" +
-                        "            \"idType\": \"IRI\"\n" +
-                        "          },\n" +
-                        "          \"idShort\": \"string\",\n" +
-                        "          \"keys\": [\n" +
-                        "            {\n" +
-                        "              \"idType\": \"IRI\",\n" +
-                        "              \"local\": true,\n" +
-                        "              \"type\": \"GlobalReference\",\n" +
-                        "              \"value\": \"string\"\n" +
-                        "            }\n" +
-                        "          ],\n" +
-                        "          \"modelType\": \"GlobalReference\",\n" +
-                        "          \"pathIterator\": {}\n" +
-                        "        }\n" +
-                        "      },\n" +
-                        "      \"dataSpecification\": \"string\",\n" +
-                        "      \"id\": 0,\n" +
-                        "      \"name\": \"string\",\n" +
-                        "      \"semanticID\": \"string\",\n" +
-                        "      \"shortID\": \"string\"\n" +
-                        "    }\n" +
-                        "  ],\n" +
-                        "  \"semanticID\": \"1234\",\n" +
-                        "  \"shortID\": \"1234\"\n" +
-                        "}");
+        manager.SendRegisterRequest(RequestManager.RegistryType.eAssetType, "POST", jsonParameterType);
 
         // register full AAS
         manager.SendRegisterRequest(RequestManager.RegistryType.eAssetInstance, "POST",
@@ -201,7 +114,7 @@ public abstract class BaseDevice {
                         "      \"value\": \"" + properties.getImageStringBase64() + "\"\n" +
                         "    }\n" +
                         "  ],\n" +
-                        "  \"assetType\": \"" + properties.getServerRegistryType() + "\",\n" +
+                        "  \"assetType\": \"" + strAssetTypeName + "\",\n" +
                         "  \"currentLocation\": \"SRFG Lab Salzburg\",\n" +
                         "  \"id\": 0,\n" +
                         "  \"listAvailableProperties\": \"none\",\n" +
@@ -218,7 +131,7 @@ public abstract class BaseDevice {
                         "      \"maintenanceReason\": \"string\"\n" +
                         "    }\n" +
                         "  ],\n" +
-                        "  \"name\": \"" + properties.getServerRegistryInstance() + "\",\n" +
+                        "  \"name\": \"" + properties.getAssetInstanceName() + "\",\n" +
                         "  \"originalLocation\": \"see vendor info\",\n" +
                         "  \"ownerProperty\": \"Salzburg Research\",\n" +
                         "  \"serialNumber\": \"1234\"\n" +

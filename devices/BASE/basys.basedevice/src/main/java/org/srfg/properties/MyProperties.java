@@ -32,9 +32,8 @@ public class MyProperties {
     public String getDevicePort() { return myProperties.getProperty("device.port"); }
     public String getServerAddress() { return myProperties.getProperty("server.address"); }
     public String getServerRegistryID() { return myProperties.getProperty("server.registry.id"); }
-    public String getServerRegistryType() { return myProperties.getProperty("server.registry.type"); }
-    public String getServerRegistryInstance() { return myProperties.getProperty("server.registry.instance"); }
     public String getServerCredentials() { return myProperties.getProperty("server.credentials"); }
+    public String getAssetInstanceName() { return myProperties.getProperty("asset.instance.name"); }
 
     public String getImageStringBase64()
     {
