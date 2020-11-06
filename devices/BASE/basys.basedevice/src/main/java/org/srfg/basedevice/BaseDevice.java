@@ -115,26 +115,14 @@ public abstract class BaseDevice {
                         "    }\n" +
                         "  ],\n" +
                         "  \"assetType\": \"" + strAssetTypeName + "\",\n" +
-                        "  \"currentLocation\": \"SRFG Lab Salzburg\",\n" +
+                        "  \"currentLocation\": \"" + properties.getAssetInstanceCurrentLocation() + "\",\n" +
                         "  \"id\": 0,\n" +
-                        "  \"listAvailableProperties\": \"none\",\n" +
-                        "  \"listMaintenance\": [\n" +
-                        "    {\n" +
-                        "      \"additionalText\": \"string\",\n" +
-                        "      \"descriptionPyhsicalChanges\": \"string\",\n" +
-                        "      \"descriptionSoftwareChanges\": \"string\",\n" +
-                        "      \"id\": 0,\n" +
-                        "      \"listOfInvolvedSuppliers\": \"string\",\n" +
-                        "      \"maintenanceCostPlan\": \"string\",\n" +
-                        "      \"maintenanceDate\": \"string\",\n" +
-                        "      \"maintenanceDuration\": \"string\",\n" +
-                        "      \"maintenanceReason\": \"string\"\n" +
-                        "    }\n" +
-                        "  ],\n" +
+                        "  \"listAvailableProperties\": \"" + properties.getAssetInstanceAvailableProperties() + "\",\n" +
+                        "  \"listMaintenance\": [],\n" +
                         "  \"name\": \"" + properties.getAssetInstanceName() + "\",\n" +
-                        "  \"originalLocation\": \"see vendor info\",\n" +
-                        "  \"ownerProperty\": \"Salzburg Research\",\n" +
-                        "  \"serialNumber\": \"1234\"\n" +
+                        "  \"originalLocation\": \"" + properties.getAssetInstanceOriginalLocation() + "\",\n" +
+                        "  \"ownerProperty\": \"" + properties.getAssetInstanceOwner() + "\",\n" +
+                        "  \"serialNumber\": \"" + properties.getAssetInstanceSerialNumber() + "\"\n" +
                         "}");
     }
 }

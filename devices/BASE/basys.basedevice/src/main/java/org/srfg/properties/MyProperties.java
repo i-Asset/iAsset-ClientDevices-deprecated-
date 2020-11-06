@@ -28,12 +28,23 @@ public class MyProperties {
     /*********************************************************************************************************
      * getProperties
      ********************************************************************************************************/
+
+    // device
     public String getDeviceAddress() { return myProperties.getProperty("device.address"); }
     public String getDevicePort() { return myProperties.getProperty("device.port"); }
+
+    // server
     public String getServerAddress() { return myProperties.getProperty("server.address"); }
     public String getServerRegistryID() { return myProperties.getProperty("server.registry.id"); }
     public String getServerCredentials() { return myProperties.getProperty("server.credentials"); }
+
+    // instance registration details
     public String getAssetInstanceName() { return myProperties.getProperty("asset.instance.name"); }
+    public String getAssetInstanceCurrentLocation() { return myProperties.getProperty("asset.instance.currentLocation"); }
+    public String getAssetInstanceOriginalLocation() { return myProperties.getProperty("asset.instance.originalLocation"); }
+    public String getAssetInstanceAvailableProperties() { return myProperties.getProperty("asset.instance.availableProperties"); }
+    public String getAssetInstanceSerialNumber() { return myProperties.getProperty("asset.instance.serialNumber"); }
+    public String getAssetInstanceOwner() { return myProperties.getProperty("asset.instance.owner"); }
 
     public String getImageStringBase64()
     {
