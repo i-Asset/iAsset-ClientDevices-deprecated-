@@ -42,7 +42,7 @@ public class MyProperties {
     public String getAssetInstanceName() { return myProperties.getProperty("asset.instance.name"); }
     public String getAssetInstanceCurrentLocation() { return myProperties.getProperty("asset.instance.currentLocation"); }
     public String getAssetInstanceOriginalLocation() { return myProperties.getProperty("asset.instance.originalLocation"); }
-    public String getAssetInstanceAvailableProperties() { return myProperties.getProperty("asset.instance.availableProperties"); }
+    public String getAssetInstanceFullEndpoint() { return myProperties.getProperty("asset.instance.fullendpoint"); }
     public String getAssetInstanceSerialNumber() { return myProperties.getProperty("asset.instance.serialNumber"); }
     public String getAssetInstanceOwner() { return myProperties.getProperty("asset.instance.owner"); }
 

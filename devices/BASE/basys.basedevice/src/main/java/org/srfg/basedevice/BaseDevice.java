@@ -117,7 +117,7 @@ public abstract class BaseDevice {
                         "  \"assetType\": \"" + strAssetTypeName + "\",\n" +
                         "  \"currentLocation\": \"" + properties.getAssetInstanceCurrentLocation() + "\",\n" +
                         "  \"id\": 0,\n" +
-                        "  \"listAvailableProperties\": \"" + properties.getAssetInstanceAvailableProperties() + "\",\n" +
+                        "  \"dataEndpoint\": \"" + properties.getAssetInstanceFullEndpoint() + "\",\n" +
                         "  \"listMaintenance\": [],\n" +
                         "  \"name\": \"" + properties.getAssetInstanceName() + "\",\n" +
                         "  \"originalLocation\": \"" + properties.getAssetInstanceOriginalLocation() + "\",\n" +
