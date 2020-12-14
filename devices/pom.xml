@@ -5,7 +5,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>BaSyx SRFG Lab Demonstrator Client</name>
-  
+
   	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -265,6 +265,37 @@
 		    <artifactId>basyx.sdk</artifactId>
 		    <version>0.0.1-SNAPSHOT</version>
 	    </dependency>
+		
+		<!-- org.apache.commons.io -->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.4</version>
+		</dependency>
+
+		<!-- SRFG common project -->
+	   <dependency>
+		   <groupId>at.srfg.iot.common</groupId>
+		   <artifactId>asset-registry-connector</artifactId>
+		   <version>0.0.1-SNAPSHOT</version>
+	   </dependency>
+
+	  <!--data model (i-asset semantic-lookup) -->
+	  <dependency>
+		  <groupId>at.srfg.iot.common</groupId>
+		  <artifactId>semantic-lookup-data-model</artifactId>
+		  <version>0.0.1-SNAPSHOT</version>
+	  </dependency>
+	  <dependency>
+		  <groupId>at.srfg.iot.common</groupId>
+		  <artifactId>asset-data-model</artifactId>
+		  <version>0.0.1-SNAPSHOT</version>
+	  </dependency>
+	  <!--<dependency>
+		  <groupId>at.srfg.iot.common</groupId>
+		  <artifactId>common-root</artifactId>
+		  <version>0.0.1-SNAPSHOT</version>
+	  </dependency>-->
 
   </dependencies>
 </project>

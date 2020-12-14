@@ -18,7 +18,27 @@ import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.function.Function;
+
+//import at.srfg.iot.aas.basic.AssetAdministrationShell;
+//import at.srfg.iot.aas.basic.Identifier;
+//import at.srfg.iot.aas.basic.Submodel;
+//import at.srfg.iot.aas.common.Referable;
+//import at.srfg.iot.aas.common.referencing.Key;
+//import at.srfg.iot.aas.common.referencing.KeyElementsEnum;
+//import at.srfg.iot.aas.common.referencing.Kind;
+//import at.srfg.iot.aas.common.referencing.Reference;
+//import at.srfg.iot.aas.common.types.DataTypeEnum;
+//import at.srfg.iot.aas.common.types.DirectionEnum;
+//import at.srfg.iot.aas.modeling.submodelelement.Operation;
+//import at.srfg.iot.aas.modeling.submodelelement.OperationVariable;
+//import at.srfg.iot.aas.modeling.submodelelement.Property;
+//import at.srfg.iot.aas.modeling.submodelelement.SubmodelElementCollection;
+//import at.srfg.iot.provider.IAssetProvider;
+//import at.srfg.iot.provider.impl.AssetModel;
+
 
 public abstract class BaseDevice {
 
@@ -79,8 +99,7 @@ public abstract class BaseDevice {
     /*********************************************************************************************************
      * register
      ********************************************************************************************************/
-    public void register() // TODO: refactor as soon as new Backend is done
-    {
+    public void register() {
         String jsonParameterType = "";
         String strAssetTypeName = "";
         try {
@@ -94,13 +113,17 @@ public abstract class BaseDevice {
             e.printStackTrace();
         }
 
-        // make request manager
+        registerStyleFrontend(jsonParameterType, strAssetTypeName); // request for frontend compatible registration in Backend of Mathias
+        registerStyleBasyx(jsonParameterType, strAssetTypeName); //  request with new iAsset-SDK for registration in Backend of Dietmar
+    }
+
+    /*********************************************************************************************************
+     * registerStyleFrontend
+     ********************************************************************************************************/
+    public void registerStyleFrontend(String jsonParameterType, String strAssetTypeName) {
+
         RequestManager manager = new RequestManager();
-
-        // register AAS descriptor for lookup of others
         manager.SendRegisterRequest(RequestManager.RegistryType.eAssetType, "POST", jsonParameterType);
-
-        // register full AAS
         manager.SendRegisterRequest(RequestManager.RegistryType.eAssetInstance, "POST",
                 "{\n" +
                         "  \"assetImages\": [\n" +
@@ -124,5 +147,56 @@ public abstract class BaseDevice {
                         "  \"ownerProperty\": \"" + properties.getAssetInstanceOwner() + "\",\n" +
                         "  \"serialNumber\": \"" + properties.getAssetInstanceSerialNumber() + "\"\n" +
                         "}");
+    }
+
+    /*********************************************************************************************************
+     * registerStyleBasyx
+     ********************************************************************************************************/
+    public void registerStyleBasyx(String jsonParameterType, String strAssetTypeName) {
+
+   //    // component.registerWith(registry);
+   //    IAssetRegistry registry = IAssetRegistry.connectWithRegistry("http://localhost:8085");
+   //    // clone the AssetAdministrationShell from a given type
+   //    IAssetProvider beltProvider = registry.fromType(
+   //            new Identifier("http://iasset.labor/belt"),
+   //            new Identifier("http://iasset.salzburgresearch.at/labor/belt#aas"));
+   //    // use the idShort - possibly for an alias
+   //    beltProvider.getRoot().setIdShort("belt");
+   //    // directly access an operation element and set the function which is to execute on INVOKE
+   //    beltProvider.setFunction("operations/setSpeed", new Function<Map<String, Object>, Object>() {
+
+   //        @Override
+   //        public Object apply(Map<String, Object> t) {
+   //            if (!t.containsKey("speed")) {
+   //                throw new IllegalStateException("Missing parameter [message]");
+   //            }
+   //            return "Set speed to the new value: " + t.get("speed");
+   //        }
+   //    });
+   //    // add a consumer function to the property
+   //    beltProvider.setValueConsumer("properties/beltData/distance",
+   //            // setter function, simply show the new value at System.out
+   //            (String t) -> System.out.println("Distance value change: " + t));
+   //    // add a supplier function to the property
+   //    beltProvider.setValueSupplier("properties/beltData/distance",
+   //            // the getter function must return a string
+   //            () -> "Distance value read: " + LocalDateTime.now().toString());
+   //    // tell the registry to serve the model with the context path "alias"
+   //    registry.serve(beltProvider, "belt");
+   //    // serve the AAS
+   //    registry.serve(shell(), "xyz");
+   //    // serve the Submodel only
+   //    registry.serve(submodel(), "other");
+   //    // now start the service, e.g. provide the endpoint
+   //    registry.start();
+   //    // pseudo-code
+   //    // register the shell with the system
+   //    registry.register(beltProvider);
+
+   //    registry.delete(beltProvider.getRoot().getIdentification());
+   //    // iasset.register(aShellProvider);
+   //    // iasset.create()
+   //    // iasset.delete(aShellProvider.getRoot().getIdentification());
+   //    registry.stop();
     }
 }

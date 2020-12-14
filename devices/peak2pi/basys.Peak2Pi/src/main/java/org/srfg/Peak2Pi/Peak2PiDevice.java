@@ -215,12 +215,10 @@ public class Peak2PiDevice extends BaseDevice {
 		aas.setIdShort(this.getName() + "01");
 
 		SubModel id = createIdentification();
-		SubmodelDescriptor idDesc = new SubmodelDescriptor(id);
-		aas.addSubModel(idDesc);
+		aas.addSubModel(id);
 
 		SubModel prop = createProperties();
-		SubmodelDescriptor propDesc = new SubmodelDescriptor(prop);
-		aas.addSubModel(propDesc);
+		aas.addSubModel(prop);
 
 		AASModelProvider shellProvider = new AASModelProvider(aas);
 		VABMultiSubmodelProvider aasFull = new VABMultiSubmodelProvider(shellProvider);
