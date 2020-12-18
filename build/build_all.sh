@@ -19,24 +19,24 @@ cd "$CWD"
 
 # build panda project of iAsset
 cd ../devices/devices.panda
-mvn clean package
+mvn clean install
 mvn verify
 cd "$CWD"
 
 # build belt project of iAsset
 cd ../devices/devices.conveyorbelt
-mvn clean package
+mvn clean install
 mvn verify
 cd "$CWD"
 
 # build Peak2Pi project of iAsset
 cd ../devices/devices.Peak2Pi
-mvn clean package
+mvn clean install
 mvn verify
 cd "$CWD"
 
 # build IPSA project of iAsset
 cd ../devices/devices.IPSA
-mvn clean package
+mvn clean install
 mvn verify
 cd "$CWD"

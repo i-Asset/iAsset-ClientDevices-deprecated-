@@ -6,7 +6,7 @@ echo "CWD: $CWD"
 
 # build IPSA project of iAsset
 cd ../devices/devices.IPSA
-mvn clean package
+mvn clean install
 mvn verify
 cd "$CWD"
 
