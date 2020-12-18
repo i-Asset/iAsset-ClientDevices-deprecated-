@@ -5,7 +5,7 @@ CWD=$(pwd)
 echo "CWD: $CWD"
 
 # build belt project of iAsset
-cd ../devices/conveyorbelt/basys.conveyorbelt
+cd ../devices/devices.conveyorbelt
 mvn clean package
 mvn verify
 cd "$CWD"

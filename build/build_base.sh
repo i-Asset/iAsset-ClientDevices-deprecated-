@@ -12,7 +12,7 @@ mvn verify
 cd "$CWD"
 
 # build base device project of iAsset
-cd ../devices/BASE/basys.basedevice
+cd ../devices/devices.basedevice
 mvn clean install
 mvn verify
 cd "$CWD"

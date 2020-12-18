@@ -5,7 +5,7 @@ CWD=$(pwd)
 echo "CWD: $CWD"
 
 # build Peak2Pi project of iAsset
-cd ../devices/peak2pi/basys.Peak2Pi
+cd ../devices/devices.Peak2Pi
 mvn clean package
 mvn verify
 cd "$CWD"

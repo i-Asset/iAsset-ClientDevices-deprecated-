@@ -12,31 +12,31 @@ mvn verify
 cd "$CWD"
 
 # build base device project of iAsset
-cd ../devices/BASE/basys.basedevice
+cd ../devices/devices.basedevice
 mvn clean install
 mvn verify
 cd "$CWD"
 
 # build panda project of iAsset
-cd ../devices/panda/basys.panda
+cd ../devices/devices.panda
 mvn clean package
 mvn verify
 cd "$CWD"
 
 # build belt project of iAsset
-cd ../devices/conveyorbelt/basys.conveyorbelt
+cd ../devices/devices.conveyorbelt
 mvn clean package
 mvn verify
 cd "$CWD"
 
 # build Peak2Pi project of iAsset
-cd ../devices/peak2pi/basys.Peak2Pi
+cd ../devices/devices.Peak2Pi
 mvn clean package
 mvn verify
 cd "$CWD"
 
 # build IPSA project of iAsset
-cd ../devices/ipsa/basys.IPSA
+cd ../devices/devices.IPSA
 mvn clean package
 mvn verify
 cd "$CWD"
