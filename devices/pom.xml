@@ -79,7 +79,6 @@
       			<exclude>**/*Manager*</exclude>
       			<exclude>**/*Mockup*</exclude>
       			<exclude>**/*Task*</exclude>
-      			<exclude>**/*TailoredBaSyxSupplier*</exclude>
       			<exclude>**/*Context*</exclude>
       			<exclude>**/*Application*</exclude>
       			<exclude>**/*mockup*/**</exclude>

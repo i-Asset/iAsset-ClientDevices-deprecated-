@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /********************************************************************************************************
  * This class contains the main function implementation and
- * serves as the basyx belt client starting point
+ * serves as the belt client starting point
  *
  * @author mathias.schmoigl
  ********************************************************************************************************/
@@ -135,7 +135,7 @@ public class MainOtherDevice extends BaseOtherDevice {
             case 1:
                 jToggleButton.setText("Trenne von Device");
 
-                // start basyx communication
+                // start communication
                 model = connectToDevice();
                 runner = doIt(model);
                 runner.start();
