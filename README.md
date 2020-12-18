@@ -1,7 +1,6 @@
 # iAsset-ClientDevices
 
-This repository has iAsset-Basyx (master) as a submodule to build the required projects: basyx.sdk and basyx.components
-It contains the collected implementations for the following client devices:
+This repo contains the collected implementations for the following client devices:
 
 1) Franka Panda
 2) Conveyor Belt
