@@ -5,7 +5,6 @@
  */
 package org.srfg;
 
-import org.eclipse.basyx.vab.protocol.http.server.AASHTTPServer;
 import org.srfg.panda.PandaDevice;
 import org.srfg.panda.PandaListener;
 
@@ -16,7 +15,6 @@ import org.srfg.panda.PandaListener;
 public class MainPandaDevice extends javax.swing.JFrame {
 
     private PandaDevice panda;
-    private AASHTTPServer server = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
@@ -308,10 +306,6 @@ public class MainPandaDevice extends javax.swing.JFrame {
                 panda.register();
                 break;
             case 2:
-                if (server != null) {
-                    server.shutdown();
-                    server = null;
-                }
                 break;
         }
     }
@@ -323,13 +317,10 @@ public class MainPandaDevice extends javax.swing.JFrame {
 
         switch (evt.getStateChange()) {
             case 1:
-                panda.hostComponent(server);
+                panda.startHostComponent();
                 break;
             case 2:
-                if (server != null) {
-                    server.shutdown();
-                    server = null;
-                }
+                panda.stopHostComponent();
                 break;
         }
     }
@@ -363,10 +354,9 @@ public class MainPandaDevice extends javax.swing.JFrame {
         if(args.length == 1 && (args[0].equals("noGUI"))) // launch application without a GUI
         {
             PandaDevice panda = new PandaDevice();
-            AASHTTPServer server = null;
 
             System.out.println("Started application without GUI!\n Trying to host I4.0 Component:");
-            panda.hostComponent(server);
+            panda.startHostComponent();
 
             System.out.println("\n Trying to register Panda:");
             panda.register();

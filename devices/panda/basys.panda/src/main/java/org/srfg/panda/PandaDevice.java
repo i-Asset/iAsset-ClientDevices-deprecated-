@@ -1,29 +1,18 @@
 package org.srfg.panda;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
-import org.eclipse.basyx.aas.metamodel.map.descriptor.SubmodelDescriptor;
-import org.eclipse.basyx.aas.restapi.AASModelProvider;
-import org.eclipse.basyx.aas.restapi.VABMultiSubmodelProvider;
-import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
-import org.eclipse.basyx.submodel.metamodel.api.qualifier.haskind.ModelingKind;
-import org.eclipse.basyx.submodel.metamodel.api.reference.IReference;
-import org.eclipse.basyx.submodel.metamodel.map.SubModel;
-import org.eclipse.basyx.submodel.metamodel.map.reference.Reference;
-import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
-import org.eclipse.basyx.submodel.restapi.SubModelProvider;
-import org.eclipse.basyx.submodel.metamodel.map.qualifier.LangStrings;
-import org.eclipse.basyx.vab.modelprovider.api.IModelProvider;
-import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;
-import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyType;
-import org.eclipse.basyx.submodel.metamodel.map.reference.Key;
-import org.eclipse.basyx.vab.modelprovider.lambda.VABLambdaProviderHelper;
+import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.ReferableElement;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
+
 import org.srfg.basedevice.BaseDevice;
 import org.srfg.panda.nodes.ROSNodeManager;
 
@@ -213,58 +202,34 @@ public class PandaDevice extends BaseDevice {
 	 * PandaListener
 	 ********************************************************************************************************/
 	@Override
-	protected IModelProvider createAAS() {
-
-		AssetAdministrationShell aas = new AssetAdministrationShell();
-		aas.setIdentification(IdentifierType.CUSTOM, this.getName() + "01");
-		aas.setIdShort(this.getName() + "01");
-
-		SubModel id = createIdentification();
-		aas.addSubModel(id);
-
-		SubModel prop = createProperties();
-		aas.addSubModel(prop);
-
-		AASModelProvider shellProvider = new AASModelProvider(aas);
-		VABMultiSubmodelProvider aasFull = new VABMultiSubmodelProvider(shellProvider);
-		aasFull.addSubmodel("identification", new SubModelProvider(id));
-		aasFull.addSubmodel("properties", new SubModelProvider(prop));
-
-		return aasFull;
-	}
-
-	/*********************************************************************************************************
-	 * PandaListener
-	 ********************************************************************************************************/
-	@Override
-	protected SubModel createIdentification() {
+	protected Submodel createIdentification() {
 
 		// create the sub model
-		SubModel info = new SubModel();
+		Submodel info = new Submodel();
 		info.setIdShort("identification");
-		info.setSemanticId((IReference) new Reference().put("27380107", null)); // e-class-ID "Roboterarm"
-		info.setDescription(new LangStrings("de", "Herstellerinformationen"));
-		info.setModelingKind(ModelingKind.INSTANCE);
+		info.setSemanticId(new Reference("27380107", KeyElementsEnum.Submodel)); // e-class-ID "Roboterarm"
+		info.setDescription("de", "Herstellerinformationen");
+		info.setKind(Kind.Instance);
 		//info.setSemanticId(new Reference(new Key(KeyElements.SUBMODEL, false, "0173-1#02-AAV232#002", KeyType.IRDI)));
 
 		Property manufacturer = new Property();
 		manufacturer.setIdShort("manufacturer");
-		manufacturer.set("FRANKA EMIKA Gmbh");
-		manufacturer.setSemanticID(new Reference(new Key(KeyElements.PROPERTY, false, "0173-1#02-AAO677#002", KeyType.IRDI)));
-		info.addSubModelElement(manufacturer);
+		manufacturer.setValue("FRANKA EMIKA Gmbh");
+		manufacturer.setSemanticId(new Reference("0173-1#02-AAO677#002", KeyElementsEnum.Property));
+		info.addSubmodelElement(manufacturer);
 
 		Property gln = new Property();
 		gln.setIdShort("gln");
-		gln.set("GLN-Number Franka Panda");
-		gln.setSemanticID(new Reference(new Key(KeyElements.PROPERTY, false, "0173-1#02-AAY812#001", KeyType.IRDI)));
-		info.addSubModelElement(gln);
+		gln.setValue("GLN-Number Franka Panda");
+		gln.setSemanticId(new Reference("0173-1#02-AAY812#001", KeyElementsEnum.Property));
+		info.addSubmodelElement(gln);
 
 		Property productFamily = new Property();
 		productFamily.setIdShort("productFamily");
-		productFamily.set("research robot arm");
-		productFamily.setSemanticID(new Reference(new Key(KeyElements.PROPERTY, false, "0173-1#02-AAY812#001", KeyType.IRDI)));
+		productFamily.setValue("research robot arm");
+		productFamily.setSemanticId(new Reference("0173-1#02-AAY812#001", KeyElementsEnum.Property));
 
-		info.addSubModelElement(productFamily);
+		info.addSubmodelElement(productFamily);
 		return info;
 	}
 
@@ -275,65 +240,65 @@ public class PandaDevice extends BaseDevice {
 	 * can not be retrieved from supplier automatically
 	 ********************************************************************************************************/
 	@Override
-	protected SubModel createProperties() {
+	protected Submodel createProperties() {
 
-		SubModel info = new SubModel();
+		Submodel info = new Submodel();
 		info.setIdShort("properties");
-		info.setDescription(new LangStrings("de", "Statusinformationen"));
-		info.setModelingKind(ModelingKind.INSTANCE);
+		info.setDescription("de", "Statusinformationen");
+		info.setKind(Kind.Instance);
 
 		// Panda Properties (ReadAccess)
-		Collection<IReference> listSpecificationsPositions = new LinkedList<IReference>();
-		listSpecificationsPositions.add((IReference) new Reference().put("Centimeters", null));
-		listSpecificationsPositions.add((IReference) new Reference().put("Inches", null));
+		LinkedList<ReferableElement> listSpecificationsPositions = new LinkedList<ReferableElement>();
+		listSpecificationsPositions.add(new Reference("Centimeters", KeyElementsEnum.Property));
+		listSpecificationsPositions.add(new Reference("Inches", KeyElementsEnum.Property));
 
-		Collection<IReference> listSpecificationsForces = new LinkedList<IReference>();
-		listSpecificationsForces.add((IReference) new Reference().put("Newton", null));
+		LinkedList<ReferableElement> listSpecificationsForces = new LinkedList<ReferableElement>();
+		listSpecificationsForces.add(new Reference("Newton", KeyElementsEnum.Property));
 
 		// add property for robot mode
-		Property modeProp = new Property(0);
+		Property modeProp = new Property();
 		modeProp.setIdShort("robotMode");
-		modeProp.setSemanticID((IReference) new Reference().put("0173-1#02-AAK543#004", null)); // e-class-ID "anwenderrelevante Ausführung"
-		modeProp.setDescription(new LangStrings("en", "robot mode represents current state of franka panda robot"));
-		info.addSubModelElement(modeProp);
+		modeProp.setSemanticId(new Reference("0173-1#02-AAK543#004", KeyElementsEnum.Property)); // e-class-ID "anwenderrelevante Ausführung"
+		modeProp.setDescription("en", "robot mode represents current state of franka panda robot");
+		info.addSubmodelElement(modeProp);
 
 		// add properties for positions in 3D working env
-		Property positionXProp = new Property(0);
+		Property positionXProp = new Property();
 		positionXProp.setIdShort("posX");
-		positionXProp.setSemanticID((IReference) new Reference().put("0173-1#02-AAZ424#001", null)); // e-class-ID "Positionserkennung"
-		positionXProp.setDescription(new LangStrings("en", "franka panda robot end effector position X"));
-		positionXProp.setDataSpecificationReferences(listSpecificationsPositions);
-		info.addSubModelElement(positionXProp);
+		positionXProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
+		positionXProp.setDescription("en", "franka panda robot end effector position X");
+		positionXProp.setDataSpecification(listSpecificationsPositions);
+		info.addSubmodelElement(positionXProp);
 
-		Property positionYProp = new Property(0);
+		Property positionYProp = new Property();
 		positionYProp.setIdShort("posY");
-		positionYProp.setSemanticID((IReference) new Reference().put("0173-1#02-AAZ424#001", null)); // e-class-ID "Positionserkennung"
-		positionYProp.setDescription(new LangStrings("en", "franka panda robot end effector position Y"));
-		positionYProp.setDataSpecificationReferences(listSpecificationsPositions);
-		info.addSubModelElement(positionYProp);
+		positionYProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
+		positionYProp.setDescription("en", "franka panda robot end effector position Y");
+		positionYProp.setDataSpecification(listSpecificationsPositions);
+		info.addSubmodelElement(positionYProp);
 
-		Property positionZProp = new Property(0);
+		Property positionZProp = new Property();
 		positionZProp.setIdShort("posZ");
-		positionZProp.setSemanticID((IReference) new Reference().put("0173-1#02-AAZ424#001", null)); // e-class-ID "Positionserkennung"
-		positionZProp.setDescription(new LangStrings("en", "franka panda robot end effector position Z"));
-		positionZProp.setDataSpecificationReferences(listSpecificationsPositions);
-		info.addSubModelElement(positionZProp);
+		positionZProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
+		positionZProp.setDescription("en", "franka panda robot end effector position Z");
+		positionZProp.setDataSpecification(listSpecificationsPositions);
+		info.addSubmodelElement(positionZProp);
 
 		// add property for panda force
-		Property forceProp = new Property(0);
+		Property forceProp = new Property();
 		forceProp.setIdShort("z-force");
-		forceProp.setSemanticID((IReference) new Reference().put("0173-1#02-AAI621#002", null)); // e-class-ID "Hebekraft"
-		forceProp.setDescription(new LangStrings("en", "franka panda robot force for z-axis"));
-		forceProp.setDataSpecificationReferences(listSpecificationsForces);
-		info.addSubModelElement(forceProp);
+		forceProp.setSemanticId(new Reference("0173-1#02-AAI621#002", KeyElementsEnum.Property)); // e-class-ID "Hebekraft"
+		forceProp.setDescription("en", "franka panda robot force for z-axis");
+		forceProp.setDataSpecification(listSpecificationsForces);
+		info.addSubmodelElement(forceProp);
 
 		// add property for gripper states
-		Property gripperProp = new Property(0);
+		Property gripperProp = new Property();
 		gripperProp.setIdShort("gripper distance");
-		gripperProp.setSemanticID((IReference) new Reference().put("0173-1#02-AAZ424#001", null)); // e-class-ID "Positionserkennung"
-		gripperProp.setDescription(new LangStrings("en", "distance of gripper parts to each other"));
-		gripperProp.setDataSpecificationReferences(listSpecificationsPositions);
-		info.addSubModelElement(gripperProp);
+		gripperProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
+		gripperProp.setDescription("en", "distance of gripper parts to each other");
+		gripperProp.setDataSpecification(listSpecificationsPositions);
+		info.addSubmodelElement(gripperProp);
 
 		return info;
 	}
@@ -350,33 +315,27 @@ public class PandaDevice extends BaseDevice {
 
 		// add robotmode property
 		Supplier<Object> lambdaFunction3 = () -> this.getRobotMode();
-		Map<String, Object> lambdaProperty3 = VABLambdaProviderHelper.createSimple(lambdaFunction3, null);
-		properties.put("robotmode", lambdaProperty3);
+		properties.put("robotmode", lambdaFunction3);
 
 		// add posX property
 		Supplier<Object> lambdaFunction4 = () -> this.getPositionX();
-		Map<String, Object> lambdaProperty4 = VABLambdaProviderHelper.createSimple(lambdaFunction4, null);
-		properties.put("posX", lambdaProperty4);
+		properties.put("posX", lambdaFunction4);
 
 		// add posY property
 		Supplier<Object> lambdaFunction5 = () -> this.getPositionY();
-		Map<String, Object> lambdaProperty5 = VABLambdaProviderHelper.createSimple(lambdaFunction5, null);
-		properties.put("posY", lambdaProperty5);
+		properties.put("posY", lambdaFunction5);
 
 		// add posZ property
 		Supplier<Object> lambdaFunction6 = () -> this.getPositionZ();
-		Map<String, Object> lambdaProperty6 = VABLambdaProviderHelper.createSimple(lambdaFunction6, null);
-		properties.put("posZ", lambdaProperty6);
+		properties.put("posZ", lambdaFunction6);
 
 		// add forceZ property
 		Supplier<Object> lambdaFunction7 = () -> this.getForceZ();
-		Map<String, Object> lambdaProperty7 = VABLambdaProviderHelper.createSimple(lambdaFunction7, null);
-		properties.put("forceZ", lambdaProperty7);
+		properties.put("forceZ", lambdaFunction7);
 
 		// add gripperDistance property
 		Supplier<Object> lambdaFunction8 = () -> this.getGripperDistance();
-		Map<String, Object> lambdaProperty8 = VABLambdaProviderHelper.createSimple(lambdaFunction8, null);
-		properties.put("gripperDistance", lambdaProperty8);
+		properties.put("gripperDistance", lambdaFunction8);
 
 
 		// Create an empty container for custom operations

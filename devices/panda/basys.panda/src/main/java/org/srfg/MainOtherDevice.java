@@ -1,9 +1,7 @@
 package org.srfg;
 
-import org.eclipse.basyx.vab.directory.proxy.VABDirectoryProxy;
-import org.eclipse.basyx.vab.manager.VABConnectionManager;
-import org.eclipse.basyx.vab.modelprovider.api.IModelProvider;
-import org.eclipse.basyx.vab.protocol.http.connector.HTTPConnectorProvider;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
+import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 import org.srfg.basedevice.BaseOtherDevice;
 
 import java.util.logging.Level;
@@ -108,7 +106,7 @@ public class MainOtherDevice extends BaseOtherDevice {
      * doIt
      ********************************************************************************************************/
     @Override
-    protected Thread doIt(final IModelProvider model) {
+    protected Thread doIt(final IAssetProvider model) {
         Runnable runnable = new Runnable() {
 
             @Override
@@ -118,12 +116,12 @@ public class MainOtherDevice extends BaseOtherDevice {
                         Thread.sleep(500);
 
 
-                        byte robotmode = (byte)((int) model.getModelPropertyValue("/properties/robotmode"));
-                        double posX = (double) model.getModelPropertyValue("/properties/posX");
-                        double posY = (double) model.getModelPropertyValue("/properties/posY");
-                        double posZ = (double) model.getModelPropertyValue("/properties/posZ");
-                        double forceZ = (double) model.getModelPropertyValue("/properties/forceZ");
-                        double gripperDistance = (double) model.getModelPropertyValue("/properties/gripperDistance");
+                        byte robotmode = (byte)((int) model.getElementValue(new Reference("/properties/robotmode")));
+                        double posX = (double) model.getElementValue(new Reference("/properties/posX"));
+                        double posY = (double) model.getElementValue(new Reference("/properties/posY"));
+                        double posZ = (double) model.getElementValue(new Reference("/properties/posZ"));
+                        double forceZ = (double) model.getElementValue(new Reference("/properties/forceZ"));
+                        double gripperDistance = (double) model.getElementValue(new Reference("/properties/gripperDistance"));
 
                         jTextArea1.setText( "Robot Mode: " + robotmode + "\n" +
                                             "Position X: " + posX + "\n" +

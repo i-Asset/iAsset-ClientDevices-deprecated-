@@ -5,7 +5,6 @@
  */
 package org.srfg;
 
-import org.eclipse.basyx.vab.protocol.http.server.AASHTTPServer;
 import org.srfg.conveyorbelt.BeltListener;
 import org.srfg.conveyorbelt.ConveyorBelt;
 
@@ -17,7 +16,6 @@ public class MainConveyorBelt extends javax.swing.JFrame {
 
 
     private ConveyorBelt belt;
-    private AASHTTPServer server = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
@@ -257,10 +255,6 @@ public class MainConveyorBelt extends javax.swing.JFrame {
                 belt.register();
                 break;
             case 2:
-                if (server != null) {
-                    server.shutdown();
-                    server = null;
-                }
                 break;
         }
     }
@@ -272,13 +266,10 @@ public class MainConveyorBelt extends javax.swing.JFrame {
 
         switch (evt.getStateChange()) {
             case 1:
-                belt.hostComponent(server);
+                belt.startHostComponent();
                 break;
             case 2:
-                if (server != null) {
-                    server.shutdown();
-                    server = null;
-                }
+                belt.stopHostComponent();
                 break;
         }
     }
@@ -313,10 +304,9 @@ public class MainConveyorBelt extends javax.swing.JFrame {
         if(args.length == 1 && (args[0].equals("noGUI"))) // launch application without a GUI
         {
             ConveyorBelt belt = new ConveyorBelt();
-            AASHTTPServer server = null;
 
             System.out.println("Started application without GUI!\n Trying to host I4.0 Component:");
-            belt.hostComponent(server);
+            belt.startHostComponent();
 
             System.out.println("\n Trying to register Belt:");
             belt.register();

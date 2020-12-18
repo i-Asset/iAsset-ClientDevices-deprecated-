@@ -5,7 +5,6 @@
  */
 package org.srfg;
 
-import org.eclipse.basyx.vab.protocol.http.server.AASHTTPServer;
 import org.srfg.Peak2Pi.Peak2PiDevice;
 import org.srfg.Peak2Pi.Peak2PiListener;
 
@@ -16,7 +15,6 @@ import org.srfg.Peak2Pi.Peak2PiListener;
 public class MainPeak2PiDevice extends javax.swing.JFrame {
 
     private Peak2PiDevice peak2pi;
-    private AASHTTPServer server = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
@@ -308,10 +306,6 @@ public class MainPeak2PiDevice extends javax.swing.JFrame {
                 peak2pi.register();
                 break;
             case 2:
-                if (server != null) {
-                    server.shutdown();
-                    server = null;
-                }
                 break;
         }
     }
@@ -323,13 +317,10 @@ public class MainPeak2PiDevice extends javax.swing.JFrame {
 
         switch (evt.getStateChange()) {
             case 1:
-                peak2pi.hostComponent(server);
+                peak2pi.startHostComponent();
                 break;
             case 2:
-                if (server != null) {
-                    server.shutdown();
-                    server = null;
-                }
+                peak2pi.stopHostComponent();
                 break;
         }
     }
@@ -363,10 +354,9 @@ public class MainPeak2PiDevice extends javax.swing.JFrame {
         if(args.length == 1 && (args[0].equals("noGUI"))) // launch application without a GUI
         {
             Peak2PiDevice peak2pi = new Peak2PiDevice();
-            AASHTTPServer server = null;
 
             System.out.println("Started application without GUI!\n Trying to host I4.0 Component:");
-            peak2pi.hostComponent(server);
+            peak2pi.startHostComponent();
 
             System.out.println("\n Trying to register Peak2Pi:");
             peak2pi.register();

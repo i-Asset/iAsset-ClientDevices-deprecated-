@@ -5,7 +5,6 @@
  */
 package org.srfg;
 
-import org.eclipse.basyx.vab.protocol.http.server.AASHTTPServer;
 import org.srfg.IPSA.IPSADevice;
 import org.srfg.IPSA.IPSAListener;
 
@@ -16,7 +15,6 @@ import org.srfg.IPSA.IPSAListener;
 public class MainIPSADevice extends javax.swing.JFrame {
 
     private IPSADevice ipsa;
-    private AASHTTPServer server = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
@@ -307,10 +305,6 @@ public class MainIPSADevice extends javax.swing.JFrame {
                 ipsa.register();
                 break;
             case 2:
-                if (server != null) {
-                    server.shutdown();
-                    server = null;
-                }
                 break;
         }
     }
@@ -322,13 +316,10 @@ public class MainIPSADevice extends javax.swing.JFrame {
 
         switch (evt.getStateChange()) {
             case 1:
-                ipsa.hostComponent(server);
+                ipsa.startHostComponent();
                 break;
             case 2:
-                if (server != null) {
-                    server.shutdown();
-                    server = null;
-                }
+                ipsa.stopHostComponent();
                 break;
         }
     }
@@ -362,10 +353,9 @@ public class MainIPSADevice extends javax.swing.JFrame {
         if(args.length == 1 && (args[0].equals("noGUI"))) // launch application without a GUI
         {
             IPSADevice ipsa = new IPSADevice();
-            AASHTTPServer server = null;
 
             System.out.println("Started application without GUI!\n Trying to host I4.0 Component:");
-            ipsa.hostComponent(server);
+            ipsa.startHostComponent();
 
             System.out.println("\n Trying to register IPSAAdapter:");
             ipsa.register();

@@ -252,20 +252,6 @@
 			<version>2.8.5</version>
 		</dependency>
 		
-		<!-- Add BaSys components from local repository.
-		     Maven build of SDK must generate a jar and place it into the repository to update -->
-		<dependency>
-			<groupId>org.eclipse.basyx</groupId>
-			<artifactId>basyx.components</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-
-	    <dependency>
-		    <groupId>org.eclipse.basyx</groupId>
-		    <artifactId>basyx.sdk</artifactId>
-		    <version>0.0.1-SNAPSHOT</version>
-	    </dependency>
-		
 		<!-- org.apache.commons.io -->
 		<dependency>
 		    <groupId>commons-io</groupId>
@@ -281,7 +267,7 @@
 	   </dependency>
 
 	  <!--data model (i-asset semantic-lookup) -->
-	  <dependency>
+	  <!--<dependency>
 		  <groupId>at.srfg.iot.common</groupId>
 		  <artifactId>semantic-lookup-data-model</artifactId>
 		  <version>0.0.1-SNAPSHOT</version>
@@ -291,7 +277,7 @@
 		  <artifactId>asset-data-model</artifactId>
 		  <version>0.0.1-SNAPSHOT</version>
 	  </dependency>
-	  <!--<dependency>
+	  <dependency>
 		  <groupId>at.srfg.iot.common</groupId>
 		  <artifactId>common-root</artifactId>
 		  <version>0.0.1-SNAPSHOT</version>

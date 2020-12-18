@@ -5,25 +5,14 @@ import java.util.HashMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
+import at.srfg.iot.common.datamodel.asset.aas.common.types.DataTypeEnum;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
+
 import com.digitalpetri.opcua.stack.core.types.builtin.Variant;
-import org.eclipse.basyx.aas.metamodel.map.AssetAdministrationShell;
-import org.eclipse.basyx.aas.metamodel.map.descriptor.SubmodelDescriptor;
-import org.eclipse.basyx.aas.restapi.AASModelProvider;
-import org.eclipse.basyx.aas.restapi.VABMultiSubmodelProvider;
-import org.eclipse.basyx.submodel.metamodel.api.identifier.IdentifierType;
-import org.eclipse.basyx.submodel.metamodel.api.qualifier.haskind.ModelingKind;
-import org.eclipse.basyx.submodel.metamodel.api.reference.IReference;
-import org.eclipse.basyx.submodel.metamodel.map.SubModel;
-import org.eclipse.basyx.submodel.metamodel.map.reference.Reference;
-import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.Property;
-import org.eclipse.basyx.submodel.restapi.SubModelProvider;
-import org.eclipse.basyx.submodel.metamodel.map.qualifier.LangStrings;
-import org.eclipse.basyx.vab.modelprovider.api.IModelProvider;
-import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyElements;
-import org.eclipse.basyx.submodel.metamodel.api.reference.enums.KeyType;
-import org.eclipse.basyx.submodel.metamodel.map.reference.Key;
-import org.eclipse.basyx.submodel.metamodel.map.submodelelement.dataelement.property.valuetypedef.PropertyValueTypeDef;
-import org.eclipse.basyx.vab.modelprovider.lambda.VABLambdaProviderHelper;
 import org.srfg.basedevice.BaseDevice;
 import org.srfg.conveyorbelt.opcua.OPCUAManager;
 
@@ -216,61 +205,37 @@ public class ConveyorBelt extends BaseDevice {
 	}
 
 	/*********************************************************************************************************
-	 * createAAS
-	 ********************************************************************************************************/
-	@Override
-	protected IModelProvider createAAS() {
-
-		AssetAdministrationShell aas = new AssetAdministrationShell();
-		aas.setIdentification(IdentifierType.CUSTOM, this.getName() + "01");
-		aas.setIdShort(this.getName() + "01");
-
-		SubModel id = createIdentification();
-		aas.addSubModel(id);
-
-		SubModel prop = createProperties();
-		aas.addSubModel(prop);
-
-		AASModelProvider shellProvider = new AASModelProvider(aas);
-		VABMultiSubmodelProvider aasFull = new VABMultiSubmodelProvider(shellProvider);
-		aasFull.addSubmodel("identification", new SubModelProvider(id));
-		aasFull.addSubmodel("properties", new SubModelProvider(prop));
-
-		return aasFull;
-	}
-
-	/*********************************************************************************************************
 	 * createIdentification
 	 ********************************************************************************************************/
 	@Override
-	protected SubModel createIdentification() {
+	protected Submodel createIdentification() {
 
 		// create the sub model
-		SubModel info = new SubModel();
+		Submodel info = new Submodel();
 		info.setIdShort("identification");
-		info.setSemanticId((IReference) new Reference().put("27380107", null)); // e-class-ID "Roboterarm"
-		info.setDescription(new LangStrings("de", "Herstellerinformationen"));
-		info.setModelingKind(ModelingKind.INSTANCE);
+		info.setSemanticId(new Reference("27380107", KeyElementsEnum.Submodel)); // e-class-ID "Roboterarm"
+		info.setDescription("de", "Herstellerinformationen");
+		info.setKind(Kind.Instance);
 		//info.setSemanticId(new Reference(new Key(KeyElements.SUBMODEL, false, "0173-1#02-AAV232#002", KeyType.IRDI)));
 
 		Property manufacturer = new Property();
 		manufacturer.setIdShort("manufacturer");
-		manufacturer.set("FRANKA EMIKA Gmbh");
-		manufacturer.setSemanticID(new Reference(new Key(KeyElements.PROPERTY, false, "0173-1#02-AAO677#002", KeyType.IRDI)));
-		info.addSubModelElement(manufacturer);
+		manufacturer.setValue("FRANKA EMIKA Gmbh");
+		manufacturer.setSemanticId(new Reference("0173-1#02-AAO677#002", KeyElementsEnum.Property));
+		info.addSubmodelElement(manufacturer);
 
 		Property gln = new Property();
 		gln.setIdShort("gln");
-		gln.set("GLN-Number Coneyor Belt");
-		gln.setSemanticID(new Reference(new Key(KeyElements.PROPERTY, false, "0173-1#02-AAY812#001", KeyType.IRDI)));
-		info.addSubModelElement(gln);
+		gln.setValue("GLN-Number Coneyor Belt");
+		gln.setSemanticId(new Reference("0173-1#02-AAY812#001", KeyElementsEnum.Property));
+		info.addSubmodelElement(gln);
 
 		Property productFamily = new Property();
 		productFamily.setIdShort("productFamily");
-		productFamily.set("research robot arm");
-		productFamily.setSemanticID(new Reference(new Key(KeyElements.PROPERTY, false, "0173-1#02-AAY812#001", KeyType.IRDI)));
+		productFamily.setValue("research robot arm");
+		productFamily.setSemanticId(new Reference("0173-1#02-AAY812#001", KeyElementsEnum.Property));
 
-		info.addSubModelElement(productFamily);
+		info.addSubmodelElement(productFamily);
 		return info;
 	}
 
@@ -281,77 +246,61 @@ public class ConveyorBelt extends BaseDevice {
 	 * can not be retrieved from supplier automatically
 	 ********************************************************************************************************/
 	@Override
-	protected SubModel createProperties() {
+	protected Submodel createProperties() {
 
-		SubModel info = new SubModel();
+		Submodel info = new Submodel();
 		info.setIdShort("properties");
-		info.setDescription(new LangStrings("de", "Statusinformationen"));
-		info.setModelingKind(ModelingKind.INSTANCE);
+		info.setDescription("de", "Statusinformationen");
+		info.setKind(Kind.Instance);
 
 		// (ReadWriteAccess)
 		Property movebelt = new Property();
 		movebelt.setIdShort("movebelt");
-		movebelt.setDescription(new LangStrings("de", "Förderband bewegen"));
-		movebelt.set(VABLambdaProviderHelper.createSimple(	// create the read function for this object
-				// Supplier Function (Getter)
-				() -> {
-					// ROS abfrage
-					return this.getMoveBelt();
-				},
-				// Consumer Function (Setter)
-				(args) -> {
-					Object[] params = (Object[]) args;
-					if (params.length == 1) {
-						this.setMoveBelt(((Double) params[0]).floatValue());
-					}
-				})
-		);
-		movebelt.setValueType(PropertyValueTypeDef.Double);
-		info.addSubModelElement(movebelt);
+		movebelt.setDescription("de", "Förderband bewegen");
+		movebelt.setGetter(() -> { // Supplier Function (Getter)
+			return String.valueOf(this.getMoveBelt());
+		});
+		movebelt.setSetter((args) -> { // Consumer Function (Setter)
+			this.setMoveBelt(Float.parseFloat(args));
+		});
+		movebelt.setValueQualifier(DataTypeEnum.DECIMAL); // DOUBLE
+		info.addSubmodelElement(movebelt);
 
 
 		Property switchbusylight = new Property();
 		switchbusylight.setIdShort("switchbusylight");
-		switchbusylight.setDescription(new LangStrings("de", "Warnlampenstatus ändern"));
-		switchbusylight.set(VABLambdaProviderHelper.createSimple(	// create the read function for this object
-				// Supplier Function (Getter)
-				() -> {
-					// ROS abfrage
-					return this.getSwitchBusyLight();
-				},
-				// Consumer Function (Setter)
-				(args) -> {
-					Object[] params = (Object[]) args;
-					if (params.length == 1) {
-						this.setSwitchBusyLight(((boolean) params[0]));
-					}
-				})
-		);
-		switchbusylight.setValueType(PropertyValueTypeDef.Double);
-		info.addSubModelElement(switchbusylight);
+		switchbusylight.setDescription("de", "Warnlampenstatus ändern");
+		switchbusylight.setGetter(() -> { // Supplier Function (Getter)
+			return String.valueOf(this.getSwitchBusyLight());
+		});
+		switchbusylight.setSetter((args) -> { // Consumer Function (Setter)
+			this.setSwitchBusyLight(Boolean.parseBoolean(args));
+		});
+		switchbusylight.setValueQualifier(DataTypeEnum.DECIMAL); // DOUBLE
+		info.addSubmodelElement(switchbusylight);
 
 
 		// (ReadOnlyAccess)
 		Property beltState = new Property();
 		beltState.setIdShort("beltstate");
-		beltState.setDescription(new LangStrings("de", "BeltState"));
-		beltState.set(VABLambdaProviderHelper.createSimple(this::getBeltState,null));
-		beltState.setValueType(PropertyValueTypeDef.Float);
-		info.addSubModelElement(beltState);
+		beltState.setDescription("de", "BeltState");
+		beltState.setGetter(this::getBeltState);
+		beltState.setValueQualifier(DataTypeEnum.DECIMAL); // FLOAT
+		info.addSubmodelElement(beltState);
 
 		Property beltDist = new Property();
 		beltDist.setIdShort("beltdist");
-		beltDist.setDescription(new LangStrings("de", "BeltDist"));
-		beltDist.set(VABLambdaProviderHelper.createSimple(this::getBeltDist,null));
-		beltDist.setValueType(PropertyValueTypeDef.Float);
-		info.addSubModelElement(beltDist);
+		beltDist.setDescription("de", "BeltDist");
+		beltDist.setGetter(this::getBeltDist);
+		beltDist.setValueQualifier(DataTypeEnum.DECIMAL); // FLOAT
+		info.addSubmodelElement(beltDist);
 
 		Property beltMoving = new Property();
 		beltMoving.setIdShort("beltmoving");
-		beltMoving.setDescription(new LangStrings("de", "BeltMoving"));
-		beltMoving.set(VABLambdaProviderHelper.createSimple(this::getBeltDist,null));
-		beltMoving.setValueType(PropertyValueTypeDef.Boolean);
-		info.addSubModelElement(beltMoving);
+		beltMoving.setDescription("de", "BeltMoving");
+		beltMoving.setGetter(this::getBeltDist);
+		beltMoving.setValueQualifier(DataTypeEnum.BOOLEAN);
+		info.addSubmodelElement(beltMoving);
 
 		return info;
 	}
@@ -368,28 +317,23 @@ public class ConveyorBelt extends BaseDevice {
 
 		// add movebelt property
 		Supplier<Object> lambdaFunction = () -> this.getMoveBelt();
-		Map<String, Object> lambdaProperty = VABLambdaProviderHelper.createSimple(lambdaFunction, null);
-		properties.put("movebelt", lambdaProperty);
+		properties.put("movebelt", lambdaFunction);
 
 		// add switchbusylight property
 		Supplier<Object> lambdaFunction1 = () -> this.getSwitchBusyLight();
-		Map<String, Object> lambdaProperty1 = VABLambdaProviderHelper.createSimple(lambdaFunction1, null);
-		properties.put("switchbusylight", lambdaProperty1);
+		properties.put("switchbusylight", lambdaFunction1);
 
 		// add beltstate property
 		Supplier<Object> lambdaFunction3 = () -> this.getBeltState();
-		Map<String, Object> lambdaProperty3 = VABLambdaProviderHelper.createSimple(lambdaFunction3, null);
-		properties.put("beltstate", lambdaProperty3);
+		properties.put("beltstate", lambdaFunction3);
 
 		// add beltdist property
 		Supplier<Object> lambdaFunction4 = () -> this.getBeltDist();
-		Map<String, Object> lambdaProperty4 = VABLambdaProviderHelper.createSimple(lambdaFunction4, null);
-		properties.put("beltdist", lambdaProperty4);
+		properties.put("beltdist", lambdaFunction4);
 
 		// add beltmoving property
 		Supplier<Object> lambdaFunction5 = () -> this.getBeltMoving();
-		Map<String, Object> lambdaProperty5 = VABLambdaProviderHelper.createSimple(lambdaFunction5, null);
-		properties.put("beltmoving", lambdaProperty5);
+		properties.put("beltmoving", lambdaFunction5);
 
 
 		// Create an empty container for custom operations

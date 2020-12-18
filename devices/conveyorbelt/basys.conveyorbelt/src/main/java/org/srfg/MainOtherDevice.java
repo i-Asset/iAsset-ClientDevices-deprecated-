@@ -1,12 +1,11 @@
 package org.srfg;
 
-import org.eclipse.basyx.vab.directory.proxy.VABDirectoryProxy;
-import org.eclipse.basyx.vab.manager.VABConnectionManager;
-import org.eclipse.basyx.vab.modelprovider.api.IModelProvider;
-import org.eclipse.basyx.vab.protocol.http.connector.HTTPConnectorProvider;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
+import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 import org.srfg.basedevice.BaseOtherDevice;
 
 import javax.swing.*;
+import java.awt.event.ItemEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -155,34 +154,34 @@ public class MainOtherDevice extends BaseOtherDevice {
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {
 
         AbstractButton abstractButton = (AbstractButton) evt.getSource();
-        model.invokeOperation("operations/setLight", abstractButton.getModel().isSelected());
+        //model.invokeOperation("operations/setLight", abstractButton.getModel().isSelected()); // TODO
     }
 
 
     /*********************************************************************************************************
      * jComboBox1ItemStateChanged
      ********************************************************************************************************/
-    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {
+    private void jComboBox1ItemStateChanged(ItemEvent evt) {
 
         switch(evt.getItem().toString()) {
             case "Geringe Distanz":
                 if ( model != null ) {
-                    model.invokeOperation("operations/setSpeed", 0.1);
+                     //model.invokeOperation("operations/setSpeed", 0.1); // TODO
                 }
                 break;
             case "Mittlere Distanz":
                 if ( model != null ) {
-                    model.invokeOperation("operations/setSpeed", 1.0);
+                    //model.invokeOperation("operations/setSpeed", 1.0); // TODO
                 }
                 break;
             case "Weite Distanz":
                 if ( model != null ) {
-                    model.invokeOperation("operations/setSpeed", 1.5);
+                    //model.invokeOperation("operations/setSpeed", 1.5); // TODO
                 }
                 break;
             case "Sehr weite Distanz":
                 if ( model != null ) {
-                    model.invokeOperation("operations/setSpeed", 5.5);
+                    //model.invokeOperation("operations/setSpeed", 5.5); // TODO
                 }
                 break;
         }
@@ -192,7 +191,7 @@ public class MainOtherDevice extends BaseOtherDevice {
      * doIt
      ********************************************************************************************************/
     @Override
-    protected Thread doIt(final IModelProvider model) {
+    protected Thread doIt(final IAssetProvider model) {
         Runnable runnable = new Runnable() {
 
             @Override
@@ -202,9 +201,9 @@ public class MainOtherDevice extends BaseOtherDevice {
                         Thread.sleep(500);
 
                         // Retrieve the current temperature from the model provider
-                        jTextArea1.setText( "Belt State: " + model.getModelPropertyValue("/properties/beltstate") + "\n" +
-                                            "Belt Distance: " + model.getModelPropertyValue("/properties/beltdist") + "\n" +
-                                            "Belt Moving: " + model.getModelPropertyValue("/properties/beltmoving") );
+                        jTextArea1.setText( "Belt State: " + model.getElementValue(new Reference("/properties/beltstate")) + "\n" +
+                                            "Belt Distance: " + model.getElementValue(new Reference("/properties/beltdist")) + "\n" +
+                                            "Belt Moving: " + model.getElementValue(new Reference("/properties/beltmoving")) );
                     }
                 } catch (InterruptedException ex) {
                     // stop the thread now
