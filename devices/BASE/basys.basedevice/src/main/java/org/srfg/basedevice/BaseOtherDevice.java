@@ -12,6 +12,8 @@ public abstract class BaseOtherDevice extends javax.swing.JFrame {
     // needed for model thread
     protected Thread runner;
     protected IAssetProvider model;
+    protected IAssetRegistry registry;
+    protected IAssetProvider connectedDevice;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JToggleButton jToggleButton;
@@ -57,8 +59,8 @@ public abstract class BaseOtherDevice extends javax.swing.JFrame {
     protected IAssetProvider connectToDevice()
     {
         String fullAddress = "http://" + properties.getDeviceAddress() + ":" + properties.getDevicePort() + "/iasset/directory/";
-        IAssetRegistry registry = IAssetRegistry.connectWithRegistry(fullAddress);
-        IAssetProvider connectedDevice = registry.connect(new Identifier(getName() + "01"));
+        registry = IAssetRegistry.componentWithRegistry(fullAddress);
+        connectedDevice = registry.connect(new Identifier(getName() + "01"));
         return connectedDevice;
     }
 }

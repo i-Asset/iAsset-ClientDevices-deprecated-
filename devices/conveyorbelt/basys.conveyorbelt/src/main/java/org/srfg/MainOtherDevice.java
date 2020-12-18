@@ -6,6 +6,8 @@ import org.srfg.basedevice.BaseOtherDevice;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -154,7 +156,10 @@ public class MainOtherDevice extends BaseOtherDevice {
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {
 
         AbstractButton abstractButton = (AbstractButton) evt.getSource();
-        //model.invokeOperation("operations/setLight", abstractButton.getModel().isSelected()); // TODO
+
+        Map<String,Object> params = new HashMap<String, Object>();
+        params.put("light", abstractButton.getModel().isSelected());
+        registry.invokeOperation(connectedDevice.getRoot().getIdentification(), "operations/setLight", params);
     }
 
 
@@ -163,27 +168,19 @@ public class MainOtherDevice extends BaseOtherDevice {
      ********************************************************************************************************/
     private void jComboBox1ItemStateChanged(ItemEvent evt) {
 
+        double speed = 0.0;
         switch(evt.getItem().toString()) {
-            case "Geringe Distanz":
-                if ( model != null ) {
-                     //model.invokeOperation("operations/setSpeed", 0.1); // TODO
-                }
-                break;
-            case "Mittlere Distanz":
-                if ( model != null ) {
-                    //model.invokeOperation("operations/setSpeed", 1.0); // TODO
-                }
-                break;
-            case "Weite Distanz":
-                if ( model != null ) {
-                    //model.invokeOperation("operations/setSpeed", 1.5); // TODO
-                }
-                break;
-            case "Sehr weite Distanz":
-                if ( model != null ) {
-                    //model.invokeOperation("operations/setSpeed", 5.5); // TODO
-                }
-                break;
+            case "Geringe Distanz": speed = 0.1; break;
+            case "Mittlere Distanz": speed = 1.0; break;
+            case "Weite Distanz": speed = 1.5; break;
+            case "Sehr weite Distanz": speed = 5.5; break;
+            default: speed = 0.0; break;
+        }
+
+        if ( registry != null ) {
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("speed", 5.5);
+            registry.invokeOperation(connectedDevice.getRoot().getIdentification(), "operations/setSpeed", params);
         }
     }
 

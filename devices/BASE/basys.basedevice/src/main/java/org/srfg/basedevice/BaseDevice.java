@@ -20,7 +20,7 @@ public abstract class BaseDevice {
     {
         // create class members
         properties = new MyProperties();
-        registry = IAssetRegistry.connectWithRegistry(properties.getServerAddress());
+        registry = IAssetRegistry.componentWithRegistry(properties.getServerAddress());
         instance = registry.fromType(
                 new Identifier("http://iasset.labor/" + this.getName()),
                 new Identifier("http://iasset.salzburgresearch.at/labor/" + this.getName() +"#aas"));

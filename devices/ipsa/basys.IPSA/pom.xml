@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.eclipse.basyx</groupId>
-  <artifactId>basyx.IPSA</artifactId>
+  <groupId>at.srfg.iot.clientdevices</groupId>
+  <artifactId>devices.IPSA</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>BaSyx SRFG Lab Demonstrator Client</name>
+  <name>SRFG Lab Demonstrator Client</name>
   
   <!--The identifier of the parent POM-->
   <parent>
-      <groupId>org.eclipse.basyx</groupId>
-      <artifactId>basyx.base</artifactId>
+      <groupId>at.srfg.iot.clientdevices</groupId>
+      <artifactId>devices.base</artifactId>
       <version>0.0.1-SNAPSHOT</version>
 	  <relativePath>../../pom.xml</relativePath>
   </parent> 
@@ -88,8 +88,8 @@
   <dependencies>
   
     <dependency>
-       <groupId>org.eclipse.basyx</groupId>
-       <artifactId>basyx.basedevice</artifactId>
+       <groupId>at.srfg.iot.clientdevices</groupId>
+       <artifactId>devices.basedevice</artifactId>
        <version>0.0.1-SNAPSHOT</version>
     </dependency>
   
