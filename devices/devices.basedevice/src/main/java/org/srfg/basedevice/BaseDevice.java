@@ -20,15 +20,15 @@ public abstract class BaseDevice {
     {
         // create class members
         properties = new MyProperties();
-        registry = IAssetRegistry.componentWithRegistry(properties.getServerAddress());
-        instance = registry.fromType(
-                new Identifier("http://iasset.labor/" + this.getName()),
-                new Identifier("http://iasset.salzburgresearch.at/labor/" + this.getName() +"#aas"));
-        instance.getRoot().setIdShort(this.getName()); // use the idShort - possibly for an alias
+        registry = IAssetRegistry.componentWithRegistry(properties.getServerAddress())
+                                 .componentAtPort(5000); // device address will be assigned automatically
 
+        // create AAS (the instance root) and instance
+        //instance = registry.fromType(
+        //        new Identifier("http://iasset.labor/" + this.getName()),
+        //        new Identifier("http://iasset.salzburgresearch.at/labor/" + this.getName() +"#aas"));
 
-        // TODO register the AAS is still missing
-        IAssetProvider AAS = this.createAAS(); // ????? Whats next???
+        this.createInstance();
     }
 
 
@@ -54,7 +54,7 @@ public abstract class BaseDevice {
     /*********************************************************************************************************
      * create a basic Asset Administration Shell
      ********************************************************************************************************/
-    protected IAssetProvider createAAS() {
+    protected void createInstance() {
 
         AssetAdministrationShell aas = new AssetAdministrationShell();
         aas.setIdentification(new Identifier(this.getName() + "01"));
@@ -66,8 +66,7 @@ public abstract class BaseDevice {
         Submodel prop = createProperties();
         aas.addSubmodel(prop);
 
-        IAssetProvider shellProvider = new AssetModel(aas);
-        return shellProvider;
+        instance = new AssetModel(aas);
     }
 
     /*********************************************************************************************************
