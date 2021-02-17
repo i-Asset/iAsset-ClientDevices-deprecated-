@@ -207,14 +207,14 @@ public class ChasiDevice extends BaseDevice {
 		// create the sub model
 		Submodel info = new Submodel();
 		info.setIdShort("identification");
-		info.setSemanticId(new Reference("27380107", KeyElementsEnum.Submodel)); // e-class-ID "Roboterarm"
+		info.setSemanticId(new Reference("27380100", KeyElementsEnum.Submodel)); // e-class-ID "Roboter"
 		info.setDescription("de", "Herstellerinformationen");
 		info.setKind(Kind.Instance);
 		//info.setSemanticId(new Reference(new Key(KeyElements.SUBMODEL, false, "0173-1#02-AAV232#002", KeyType.IRDI)));
 
 		Property manufacturer = new Property();
 		manufacturer.setIdShort("manufacturer");
-		manufacturer.setValue("FRANKA EMIKA Gmbh");
+		manufacturer.setValue("ARTI - Autonomous Robot Technology GmbH");
 		manufacturer.setSemanticId(new Reference("0173-1#02-AAO677#002", KeyElementsEnum.Property));
 		info.addSubmodelElement(manufacturer);
 
@@ -226,7 +226,7 @@ public class ChasiDevice extends BaseDevice {
 
 		Property productFamily = new Property();
 		productFamily.setIdShort("productFamily");
-		productFamily.setValue("research robot arm");
+		productFamily.setValue("research mobile robot");
 		productFamily.setSemanticId(new Reference("0173-1#02-AAY812#001", KeyElementsEnum.Property));
 
 		info.addSubmodelElement(productFamily);

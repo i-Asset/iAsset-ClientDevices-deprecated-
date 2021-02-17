@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 /********************************************************************************************************
  * This class contains the main function implementation and
- * serves as the panda client starting point
+ * serves as the chasi client starting point
  *
  * @author mathias.schmoigl
  ********************************************************************************************************/
@@ -23,10 +23,10 @@ public class MainOtherDevice extends BaseOtherDevice {
     }
 
     @Override
-    public String getName() {return "panda";}
+    public String getName() {return "chasi";}
 
     @Override
-    public String getDirectory() {return "/lab/panda/panda01";}
+    public String getDirectory() {return "/lab/chasi/chasi01";}
 
 
     /*********************************************************************************************************
@@ -80,7 +80,7 @@ public class MainOtherDevice extends BaseOtherDevice {
     }
 
     /*********************************************************************************************************
-     * Start panda device
+     * Start chasi device
      ********************************************************************************************************/
     private void jToggleButton1ItemStateChanged(java.awt.event.ItemEvent evt) {
         switch (evt.getStateChange()) {

@@ -58,9 +58,15 @@ public abstract class BaseOtherDevice extends javax.swing.JFrame {
      ********************************************************************************************************/
     protected IAssetProvider connectToDevice()
     {
-        String fullAddress = "http://" + properties.getDeviceAddress() + ":" + properties.getDevicePort() + "/iasset/directory/";
-        registry = IAssetRegistry.componentWithRegistry(fullAddress);
-        connectedDevice = registry.connect(new Identifier(getName() + "01"));
+        String fullAddress = properties.getDeviceAddress() + ":" + properties.getDevicePort() + "/" + this.getName();
+        registry = IAssetRegistry.componentWithRegistry(properties.getServerAddress())
+                                 .componentAtPort(5000); // device address will be assigned automatically
+
+        //IAssetProvider instance = registry.fromType(
+        //        new Identifier(this.getName()),
+        //        new Identifier(this.getName() +"#aas"));
+
+        connectedDevice = registry.connect(new Identifier("properties"));
         return connectedDevice;
     }
 }

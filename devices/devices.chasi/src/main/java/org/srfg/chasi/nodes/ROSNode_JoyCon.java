@@ -7,7 +7,6 @@ import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.Node;
-import org.ros.node.NodeMain;
 import org.ros.node.topic.Subscriber;
 import org.srfg.chasi.ChasiDevice;
 
@@ -18,15 +17,16 @@ import org.srfg.chasi.ChasiDevice;
  * tutorials:
  * http://rosjava.github.io/rosjava_core/latest/getting_started.html
  * https://answers.ros.org/question/313257/rosjava-how-to-start-to-use-rosjava_core-with-maven/
+ * http://docs.ros.org/kinetic/api/franka_msgs/html/msg/FrankaState.html
  * 
  * @author mathias.schmoigl
  ********************************************************************************************************/
-public class ROSNode_JointStates extends AbstractNodeMain {
+public class ROSNode_JoyCon extends AbstractNodeMain {
 
-	private static String ROS_TOPIC_JOINT_STATES = "/joint_states";
+	private static String ROS_TOPIC_FRANKA_STATES = "/franka_state_controller/franka_states";
 	private ChasiDevice m_device;
 
-	public ROSNode_JointStates(ChasiDevice device)
+	public ROSNode_JoyCon(ChasiDevice device)
 	{
 		m_device = device;
 	}
@@ -36,7 +36,7 @@ public class ROSNode_JointStates extends AbstractNodeMain {
 	 ********************************************************************************************************/
 	@Override
 	public GraphName getDefaultNodeName() {
-		 return GraphName.of(ROS_TOPIC_JOINT_STATES);
+		 return GraphName.of(ROS_TOPIC_FRANKA_STATES);
 	}
 
 	/********************************************************************************************************
@@ -44,24 +44,36 @@ public class ROSNode_JointStates extends AbstractNodeMain {
 	 ********************************************************************************************************/
 	@Override
 	public void onStart(final ConnectedNode connectedNode) {
-
+	  
 		final Log log = connectedNode.getLog();
-
-		//Subscriber<sensor_msgs.JointState> subscriberJointStates =
-		//		connectedNode.newSubscriber(connectedNode.getName().toString(), sensor_msgs.JointState._TYPE);
-		//subscriberJointStates.addMessageListener(new MessageListener<sensor_msgs.JointState>()
-		//{
-		//	@Override
-		//	public void onNewMessage(sensor_msgs.JointState message) {
- 		//
-		//		log.info(message.getHeader().getSeq()); // log message package seq number
-		//
-		//		double gripper_distance = message.getPosition()[7] + message.getPosition()[8];	// jointState.position[8] + jointState.position[9]
-		//		m_device.setGripperDistance(gripper_distance);
-		//
-		//		log.info("gripper distance is: " + gripper_distance);
-		//	}
-		//});
+	  
+		 //Subscriber<franka_msgs.FrankaState> subscriberFrankaStates =
+		 //		connectedNode.newSubscriber(connectedNode.getName().toString(), franka_msgs.FrankaState._TYPE);
+		 //
+		 //subscriberFrankaStates.addMessageListener(new MessageListener<franka_msgs.FrankaState>()
+		 //{
+		 //	@Override
+		 //	public void onNewMessage(franka_msgs.FrankaState message) {
+ 		 //
+		 //		log.info(message.getHeader().getSeq()); // log message package seq number
+ 		 //
+		 //		byte robot_mode = message.getRobotMode();    	// frankaState.robot_mode
+		 //		double effector_pos_X = message.getOTEE()[12];	// frankaState.O_T_EE[12]
+		 //		double effector_pos_Y = message.getOTEE()[13]; 	// frankaState.O_T_EE[13]
+		 //		double effector_pos_Z = message.getOTEE()[14];	// frankaState.O_T_EE[14]
+		 //		double z_force = message.getOFExtHatK()[3];		// frankaState.O_F_ext_hat_K[3]
+		 //
+		 //		m_device.setRobotMode(robot_mode);
+		 //		m_device.setPositionX(effector_pos_X);
+		 //		m_device.setPositionY(effector_pos_Y);
+		 //		m_device.setPositionZ(effector_pos_Z);
+		 //		m_device.setForceZ(z_force);
+ 		 //
+		 //		log.info("robot mode is: " + robot_mode);
+		 //		log.info("effector position for xyz is: " + effector_pos_X + "," + effector_pos_Y + "," + effector_pos_Z);
+		 //		log.info("force on z-axis is: " + z_force);
+		 //	}
+		 //});
 	}
 
 	

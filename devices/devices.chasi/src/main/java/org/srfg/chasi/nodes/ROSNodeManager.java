@@ -20,14 +20,12 @@ import java.net.URI;
 public class ROSNodeManager {
 
     // ROS Nodes listening to messages from their topics
-    private ROSNode_FrankaStates nodeFrankaStates;
-    private ROSNode_JointStates nodeJointStates;
+    private ROSNode_JoyCon nodeJoyCon;
     private NodeMainExecutor nodeMainExecutor;
 
     public ROSNodeManager(ChasiDevice device)
     {
-        nodeFrankaStates = new ROSNode_FrankaStates(device);
-        nodeJointStates = new ROSNode_JointStates(device);
+        nodeJoyCon = new ROSNode_JoyCon(device);
     }
 
     public void startROSNodes()
@@ -43,11 +41,8 @@ public class ROSNodeManager {
         //NodeConfiguration subNodeConfiguration = NodeConfiguration.newPublic("192.168.48.41", masteruri); // Load the subscriber(listener)
         NodeConfiguration subNodeConfiguration = NodeConfiguration.newPrivate(masteruri);
 
-        Preconditions.checkState(nodeFrankaStates != null);
-        nodeMainExecutor.execute(nodeFrankaStates, subNodeConfiguration);
-
-        Preconditions.checkState(nodeJointStates != null);
-        nodeMainExecutor.execute(nodeJointStates, subNodeConfiguration);
+        Preconditions.checkState(nodeJoyCon != null);
+        nodeMainExecutor.execute(nodeJoyCon, subNodeConfiguration);
     }
 
     public void shutdownROSNodes()
