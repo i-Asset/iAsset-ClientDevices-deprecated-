@@ -115,20 +115,19 @@ public class MainOtherDevice extends BaseOtherDevice {
                     while (true) {
                         Thread.sleep(500);
 
+                        double linear_posX = (double) model.getElementValue(new Reference("/properties/linear_posX"));
+                        double linear_posY = (double) model.getElementValue(new Reference("/properties/linear_posY"));
+                        double linear_posZ = (double) model.getElementValue(new Reference("/properties/linear_posZ"));
+                        double angular_posX = (double) model.getElementValue(new Reference("/properties/angular_posX"));
+                        double angular_posY = (double) model.getElementValue(new Reference("/properties/angular_posY"));
+                        double angular_posZ = (double) model.getElementValue(new Reference("/properties/angular_posZ"));
 
-                        byte robotmode = (byte)((int) model.getElementValue(new Reference("/properties/robotmode")));
-                        double posX = (double) model.getElementValue(new Reference("/properties/posX"));
-                        double posY = (double) model.getElementValue(new Reference("/properties/posY"));
-                        double posZ = (double) model.getElementValue(new Reference("/properties/posZ"));
-                        double forceZ = (double) model.getElementValue(new Reference("/properties/forceZ"));
-                        double gripperDistance = (double) model.getElementValue(new Reference("/properties/gripperDistance"));
-
-                        jTextArea1.setText( "Robot Mode: " + robotmode + "\n" +
-                                            "Position X: " + posX + "\n" +
-                                            "Position Y: " + posY + "\n" +
-                                            "Position Z: " + posZ + "\n" +
-                                            "Force Z: " + forceZ + "\n" +
-                                            "Gripper Distance: " + gripperDistance );
+                        jTextArea1.setText( "Linear Position X: " + linear_posX + "\n" +
+                                            "Linear Position Y: " + linear_posY + "\n" +
+                                            "Linear Position Z: " + linear_posZ + "\n" +
+                                            "Angular Position X: " + angular_posX + "\n" +
+                                            "Angular Position Y: " + angular_posY + "\n" +
+                                            "Angular Position Z: " + angular_posZ );
                     }
                 } catch (InterruptedException ex) {
                     // stop the thread now

@@ -29,15 +29,12 @@ public class ChasiDevice extends BaseDevice {
 	private ChasiListener listener;
 	private boolean active;
 
-	private double speed;
-	private double distanceRun;
-
-	private byte robotMode;
-	private double positonX;
-	private double positonY;
-	private double positonZ;
-	private double forceZ;
-	private double gripperDistance;
+	private double linear_posX;
+	private double linear_posY;
+	private double linear_posZ;
+	private double angular_posX;
+	private double angular_posY;
+	private double angular_posZ;
 
 
 	/*********************************************************************************************************
@@ -72,7 +69,7 @@ public class ChasiDevice extends BaseDevice {
 		if (!isActive()) {
 
 			nodeManager.startROSNodes();
-			System.out.println(String.format("Starting chasi %s with speed (%s)", this.getName() + "01", Double.toString(speed)));
+			System.out.println(String.format("Starting chasi %s", this.getName() + "01"));
 			active = true;
 
 			new Thread(new ChasiRunner()).start();
@@ -87,7 +84,7 @@ public class ChasiDevice extends BaseDevice {
 		if (isActive()) {
 
 			nodeManager.shutdownROSNodes();
-			System.out.println(String.format("Stopping chasi %s, current speed setting (%s)", this.getName() + "01", Double.toString(speed)));
+			System.out.println(String.format("Stopping chasi %s", this.getName() + "01"));
 			active = false;
 		}
 	}
@@ -121,82 +118,84 @@ public class ChasiDevice extends BaseDevice {
 	}
 
 	/*********************************************************************************************************
-	 * ChasiListener - RobotMode
+	 * ChasiListener - LinearPositionX
 	 ********************************************************************************************************/
-	public byte getRobotMode() {
-		return robotMode;
+	public double getLinearPositionX() {
+		return linear_posX;
 	}
-	public void setRobotMode(byte robotMode) {
-		this.robotMode = robotMode;
+	public void setLinearPositionX(double positionX) {
+		this.linear_posX = positionX;
 		if (listener != null) {
-			listener.robotModeChanged();
+			listener.linear_posX_Changed();
 		}
 	}
 
 	/*********************************************************************************************************
-	 * ChasiListener - PositionX
+	 * ChasiListener - LinearPositionY
 	 ********************************************************************************************************/
-	public double getPositionX() {
-		return positonX;
+	public double getLinearPositionY() {
+		return linear_posY;
 	}
-	public void setPositionX(double positionX) {
-		this.positonX = positionX;
+	public void setLinearPositionY(double positionY) {
+		this.linear_posY = positionY;
 		if (listener != null) {
-			listener.posXChanged();
+			listener.linear_posY_Changed();
 		}
 	}
 
 	/*********************************************************************************************************
-	 * ChasiListener - PositionY
+	 * ChasiListener - LinearPositionZ
 	 ********************************************************************************************************/
-	public double getPositionY() {
-		return positonY;
+	public double getLinearPositionZ() {
+		return linear_posZ;
 	}
-	public void setPositionY(double positionY) {
-		this.positonY = positionY;
+	public void setLinearPositionZ(double positionZ) {
+		this.linear_posZ = positionZ;
 		if (listener != null) {
-			listener.posYChanged();
+			listener.linear_posZ_Changed();
 		}
 	}
 
 	/*********************************************************************************************************
-	 * ChasiListener - PositionZ
+	 * ChasiListener - AngularPositionX
 	 ********************************************************************************************************/
-	public double getPositionZ() {
-		return positonZ;
+	public double getAngularPositionX() {
+		return angular_posX;
 	}
-	public void setPositionZ(double positionZ) {
-		this.positonZ = positionZ;
+	public void setAngularPositionX(double positionX) {
+		this.angular_posX = positionX;
 		if (listener != null) {
-			listener.posZChanged();
+			listener.angular_posX_Changed();
 		}
 	}
 
 	/*********************************************************************************************************
-	 * ChasiListener - forceZ
+	 * ChasiListener - AngularPositionY
 	 ********************************************************************************************************/
-	public double getForceZ() {
-		return forceZ;
+	public double getAngularPositionY() {
+		return angular_posY;
 	}
-	public void setForceZ(double forceZ) {
-		this.forceZ = forceZ;
+	public void setAngularPositionY(double positionY) {
+		this.angular_posY = positionY;
 		if (listener != null) {
-			listener.forceZChanged();
+			listener.angular_posY_Changed();
 		}
 	}
 
 	/*********************************************************************************************************
-	 * ChasiListener - gripperDistance
+	 * ChasiListener - AngularPositionZ
 	 ********************************************************************************************************/
-	public double getGripperDistance() {
-		return gripperDistance;
+	public double getAngularPositionZ() {
+		return angular_posZ;
 	}
-	public void setGripperDistance(double gripperDistance) {
-		this.gripperDistance = gripperDistance;
+	public void setAngularPositionZ(double positionZ) {
+		this.angular_posZ = positionZ;
 		if (listener != null) {
-			listener.gripperDistanceChanged();
+			listener.angular_posZ_Changed();
 		}
 	}
+
+
 
 	/*********************************************************************************************************
 	 * ChasiListener
@@ -255,50 +254,49 @@ public class ChasiDevice extends BaseDevice {
 		LinkedList<ReferableElement> listSpecificationsForces = new LinkedList<ReferableElement>();
 		listSpecificationsForces.add(new Reference("Newton", KeyElementsEnum.Property));
 
-		// add property for robot mode
-		Property modeProp = new Property();
-		modeProp.setIdShort("robotMode");
-		modeProp.setSemanticId(new Reference("0173-1#02-AAK543#004", KeyElementsEnum.Property)); // e-class-ID "anwenderrelevante Ausführung"
-		modeProp.setDescription("en", "robot mode represents current state of ARTI Chasi robot");
-		info.addSubmodelElement(modeProp);
+		// add properties for positions in 3D working env
+		Property linear_posXProp = new Property();
+		linear_posXProp.setIdShort("linear_posX");
+		linear_posXProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
+		linear_posXProp.setDescription("en", "ARTI Chasi robot linear motion X");
+		linear_posXProp.setDataSpecification(listSpecificationsPositions);
+		info.addSubmodelElement(linear_posXProp);
+
+		Property linear_posYProp = new Property();
+		linear_posYProp.setIdShort("linear_posY");
+		linear_posYProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
+		linear_posYProp.setDescription("en", "ARTI Chasi robot linear motion Y");
+		linear_posYProp.setDataSpecification(listSpecificationsPositions);
+		info.addSubmodelElement(linear_posYProp);
+
+		Property linear_posZProp = new Property();
+		linear_posZProp.setIdShort("linear_posZ");
+		linear_posZProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
+		linear_posZProp.setDescription("en", "ARTI Chasi robot linear motion Z");
+		linear_posZProp.setDataSpecification(listSpecificationsPositions);
+		info.addSubmodelElement(linear_posZProp);
 
 		// add properties for positions in 3D working env
-		Property positionXProp = new Property();
-		positionXProp.setIdShort("posX");
-		positionXProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
-		positionXProp.setDescription("en", "ARTI Chasi robot end effector position X");
-		positionXProp.setDataSpecification(listSpecificationsPositions);
-		info.addSubmodelElement(positionXProp);
+		Property angular_posXProp = new Property();
+		angular_posXProp.setIdShort("angular_posX");
+		linear_posXProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
+		angular_posXProp.setDescription("en", "ARTI Chasi robot angular motion X");
+		angular_posXProp.setDataSpecification(listSpecificationsPositions);
+		info.addSubmodelElement(angular_posXProp);
 
-		Property positionYProp = new Property();
-		positionYProp.setIdShort("posY");
-		positionYProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
-		positionYProp.setDescription("en", "ARTI Chasi robot end effector position Y");
-		positionYProp.setDataSpecification(listSpecificationsPositions);
-		info.addSubmodelElement(positionYProp);
+		Property angular_posYProp = new Property();
+		angular_posYProp.setIdShort("angular_posY");
+		angular_posYProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
+		angular_posYProp.setDescription("en", "ARTI Chasi robot angular motion Y");
+		angular_posYProp.setDataSpecification(listSpecificationsPositions);
+		info.addSubmodelElement(angular_posYProp);
 
-		Property positionZProp = new Property();
-		positionZProp.setIdShort("posZ");
-		positionZProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
-		positionZProp.setDescription("en", "ARTI Chasi robot end effector position Z");
-		positionZProp.setDataSpecification(listSpecificationsPositions);
-		info.addSubmodelElement(positionZProp);
-
-		// add property for chasi force
-		Property forceProp = new Property();
-		forceProp.setIdShort("z-force");
-		forceProp.setSemanticId(new Reference("0173-1#02-AAI621#002", KeyElementsEnum.Property)); // e-class-ID "Hebekraft"
-		forceProp.setDescription("en", "ARTI Chasi robot force for z-axis");
-		forceProp.setDataSpecification(listSpecificationsForces);
-		info.addSubmodelElement(forceProp);
-
-		// add property for gripper states
-		Property gripperProp = new Property();
-		gripperProp.setIdShort("gripper distance");
-		gripperProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
-		gripperProp.setDescription("en", "distance of gripper parts to each other");
-		gripperProp.setDataSpecification(listSpecificationsPositions);
-		info.addSubmodelElement(gripperProp);
+		Property angular_posZProp = new Property();
+		angular_posZProp.setIdShort("angular_posZ");
+		angular_posZProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
+		angular_posZProp.setDescription("en", "ARTI Chasi robot angular motion Z");
+		angular_posZProp.setDataSpecification(listSpecificationsPositions);
+		info.addSubmodelElement(angular_posZProp);
 
 		return info;
 	}
@@ -313,29 +311,29 @@ public class ChasiDevice extends BaseDevice {
 		properties.put("id", this.getName() + "01");
 		properties.put("desc", "Model connected with the edge device");
 
-		// add robotmode property
-		Supplier<Object> lambdaFunction3 = () -> this.getRobotMode();
-		properties.put("robotmode", lambdaFunction3);
+		// add linear position X property
+		Supplier<Object> lambdaFunction3 = () -> this.getLinearPositionX();
+		properties.put("linear_posX", lambdaFunction3);
 
-		// add posX property
-		Supplier<Object> lambdaFunction4 = () -> this.getPositionX();
-		properties.put("posX", lambdaFunction4);
+		// add linear position Y property
+		Supplier<Object> lambdaFunction4 = () -> this.getLinearPositionY();
+		properties.put("linear_posY", lambdaFunction4);
 
-		// add posY property
-		Supplier<Object> lambdaFunction5 = () -> this.getPositionY();
-		properties.put("posY", lambdaFunction5);
+		// add linear position Z property
+		Supplier<Object> lambdaFunction5 = () -> this.getLinearPositionZ();
+		properties.put("linear_posZ", lambdaFunction5);
 
-		// add posZ property
-		Supplier<Object> lambdaFunction6 = () -> this.getPositionZ();
-		properties.put("posZ", lambdaFunction6);
+		// add angular position X property
+		Supplier<Object> lambdaFunction6 = () -> this.getAngularPositionX();
+		properties.put("angular_posX", lambdaFunction6);
 
-		// add forceZ property
-		Supplier<Object> lambdaFunction7 = () -> this.getForceZ();
-		properties.put("forceZ", lambdaFunction7);
+		// add angular position Y property
+		Supplier<Object> lambdaFunction7 = () -> this.getAngularPositionY();
+		properties.put("angular_posY", lambdaFunction7);
 
-		// add gripperDistance property
-		Supplier<Object> lambdaFunction8 = () -> this.getGripperDistance();
-		properties.put("gripperDistance", lambdaFunction8);
+		// add angular position Z property
+		Supplier<Object> lambdaFunction8 = () -> this.getAngularPositionZ();
+		properties.put("angular_posZ", lambdaFunction8);
 
 
 		// Create an empty container for custom operations

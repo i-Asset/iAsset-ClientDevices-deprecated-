@@ -29,9 +29,6 @@ public class PandaDevice extends BaseDevice {
 	private PandaListener listener;
 	private boolean active;
 
-	private double speed;
-	private double distanceRun;
-
 	private byte robotMode;
 	private double positonX;
 	private double positonY;
@@ -72,7 +69,7 @@ public class PandaDevice extends BaseDevice {
 		if (!isActive()) {
 
 			nodeManager.startROSNodes();
-			System.out.println(String.format("Starting panda %s with speed (%s)", this.getName() + "01", Double.toString(speed)));
+			System.out.println(String.format("Starting panda %s", this.getName() + "01"));
 			active = true;
 
 			new Thread(new PandaRunner()).start();
@@ -87,7 +84,7 @@ public class PandaDevice extends BaseDevice {
 		if (isActive()) {
 
 			nodeManager.shutdownROSNodes();
-			System.out.println(String.format("Stopping panda %s, current speed setting (%s)", this.getName() + "01", Double.toString(speed)));
+			System.out.println(String.format("Stopping panda %s", this.getName() + "01"));
 			active = false;
 		}
 	}

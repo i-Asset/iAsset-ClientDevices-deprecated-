@@ -5,10 +5,11 @@ package org.srfg.chasi;
  ********************************************************************************************************/
 public interface ChasiListener {
 
-    public void robotModeChanged();
-    public void posXChanged();
-    public void posYChanged();
-    public void posZChanged();
-    public void forceZChanged();
-    public void gripperDistanceChanged();
+    public void linear_posX_Changed();
+    public void linear_posY_Changed();
+    public void linear_posZ_Changed();
+    public void angular_posX_Changed();
+    public void angular_posY_Changed();
+    public void angular_posZ_Changed();
+
 }

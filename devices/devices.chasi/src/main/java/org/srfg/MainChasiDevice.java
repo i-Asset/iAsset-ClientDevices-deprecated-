@@ -24,19 +24,19 @@ public class MainChasiDevice extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTree jTree1;
 
-    private javax.swing.JLabel jLabelRobotMode;
-    private javax.swing.JLabel jLabelPosX;
-    private javax.swing.JLabel jLabelPosY;
-    private javax.swing.JLabel jLabelPosZ;
-    private javax.swing.JLabel jLabelForceZ;
-    private javax.swing.JLabel jLabelGripperDistance;
+    private javax.swing.JLabel jLabelLinearPositionX;
+    private javax.swing.JLabel jLabelLinearPositionY;
+    private javax.swing.JLabel jLabelLinearPositionZ;
+    private javax.swing.JLabel jLabelAngularPositionX;
+    private javax.swing.JLabel jLabelAngularPositionY;
+    private javax.swing.JLabel jLabelAngularPositionZ;
 
-    private javax.swing.JTextField jTextFieldRobotMode;
-    private javax.swing.JTextField jTextFieldPositionX;
-    private javax.swing.JTextField jTextFieldPositionY;
-    private javax.swing.JTextField jTextFieldPositionZ;
-    private javax.swing.JTextField jTextFieldForceZ;
-    private javax.swing.JTextField jTextFieldGripperDistance;
+    private javax.swing.JTextField jTextFieldLinearPositionX;
+    private javax.swing.JTextField jTextFieldLinearPositionY;
+    private javax.swing.JTextField jTextFieldLinearPositionZ;
+    private javax.swing.JTextField jTextFieldAngularPositionX;
+    private javax.swing.JTextField jTextFieldAngularPositionY;
+    private javax.swing.JTextField jTextFieldAngularPositionZ;
     // End of variables declaration//GEN-END:variables
 
     /*********************************************************************************************************
@@ -48,33 +48,31 @@ public class MainChasiDevice extends javax.swing.JFrame {
         ChasiListener listener = new ChasiListener() {
 
             @Override
-            public void robotModeChanged() {
-                jTextFieldRobotMode.setText("" + chasi.getRobotMode());
+            public void linear_posX_Changed() {
+                jTextFieldLinearPositionX.setText("" + chasi.getLinearPositionX()); }
+
+            @Override
+            public void linear_posY_Changed() {
+                jTextFieldLinearPositionY.setText("" + chasi.getLinearPositionY());
             }
 
             @Override
-            public void posXChanged() {
-                jTextFieldPositionX.setText("" + chasi.getPositionX());
+            public void linear_posZ_Changed() {
+                jTextFieldLinearPositionZ.setText("" + chasi.getLinearPositionZ());
             }
 
             @Override
-            public void posYChanged() {
-                jTextFieldPositionY.setText("" + chasi.getPositionY());
+            public void angular_posX_Changed() {
+                jTextFieldAngularPositionX.setText("" + chasi.getAngularPositionX()); }
+
+            @Override
+            public void angular_posY_Changed() {
+                jTextFieldAngularPositionY.setText("" + chasi.getAngularPositionY());
             }
 
             @Override
-            public void posZChanged() {
-                jTextFieldPositionZ.setText("" + chasi.getPositionZ());
-            }
-
-            @Override
-            public void forceZChanged() {
-                jTextFieldForceZ.setText("" + chasi.getForceZ());
-            }
-
-            @Override
-            public void gripperDistanceChanged() {
-                jTextFieldGripperDistance.setText("" + chasi.getGripperDistance());
+            public void angular_posZ_Changed() {
+                jTextFieldAngularPositionZ.setText("" + chasi.getAngularPositionZ());
             }
 
         };
@@ -100,19 +98,19 @@ public class MainChasiDevice extends javax.swing.JFrame {
         jToggleButtonComponent = new javax.swing.JToggleButton();
         jPanel1 = new javax.swing.JPanel();
 
-        jLabelRobotMode = new javax.swing.JLabel();
-        jLabelPosX = new javax.swing.JLabel();
-        jLabelPosY = new javax.swing.JLabel();
-        jLabelPosZ = new javax.swing.JLabel();
-        jLabelForceZ = new javax.swing.JLabel();
-        jLabelGripperDistance = new javax.swing.JLabel();
+        jLabelLinearPositionX = new javax.swing.JLabel();
+        jLabelLinearPositionY = new javax.swing.JLabel();
+        jLabelLinearPositionZ = new javax.swing.JLabel();
+        jLabelAngularPositionX = new javax.swing.JLabel();
+        jLabelAngularPositionY = new javax.swing.JLabel();
+        jLabelAngularPositionZ = new javax.swing.JLabel();
 
-        jTextFieldRobotMode = new javax.swing.JTextField();
-        jTextFieldPositionX = new javax.swing.JTextField();
-        jTextFieldPositionY = new javax.swing.JTextField();
-        jTextFieldPositionZ = new javax.swing.JTextField();
-        jTextFieldForceZ = new javax.swing.JTextField();
-        jTextFieldGripperDistance = new javax.swing.JTextField();
+        jTextFieldLinearPositionX = new javax.swing.JTextField();
+        jTextFieldLinearPositionY = new javax.swing.JTextField();
+        jTextFieldLinearPositionZ = new javax.swing.JTextField();
+        jTextFieldAngularPositionX = new javax.swing.JTextField();
+        jTextFieldAngularPositionY = new javax.swing.JTextField();
+        jTextFieldAngularPositionZ = new javax.swing.JTextField();
 
         jScrollPane1.setViewportView(jTree1);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -153,52 +151,52 @@ public class MainChasiDevice extends javax.swing.JFrame {
         jToolBar1.add(jToggleButtonChasi);
 
         // assign text to all labels
-        jLabelRobotMode.setText("Robot Mode");
-        jLabelPosX.setText("Position X");
-        jLabelPosY.setText("Position Y");
-        jLabelPosZ.setText("Position Z");
-        jLabelForceZ.setText("Force Z");
-        jLabelGripperDistance.setText("Gripper Distance");
+        jLabelLinearPositionX.setText("Linear Position X");
+        jLabelLinearPositionY.setText("Linear Position Y");
+        jLabelLinearPositionZ.setText("Linear Position Z");
+        jLabelAngularPositionX.setText("Angular Position X");
+        jLabelAngularPositionY.setText("Angular Position Y");
+        jLabelAngularPositionZ.setText("Angular Position Z");
 
-        jTextFieldRobotMode.setText("robotModeField");
-        jTextFieldRobotMode.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldLinearPositionX.setText("linear_posX");
+        jTextFieldLinearPositionX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldRobotModeActionPerformed(evt);
+                jTextFieldLinearPositionXActionPerformed(evt);
             }
         });
 
-        jTextFieldPositionX.setText("posXField");
-        jTextFieldPositionX.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldLinearPositionY.setText("linear_posY");
+        jTextFieldLinearPositionZ.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldPosXActionPerformed(evt);
+                jTextFieldLinearPositionYActionPerformed(evt);
             }
         });
 
-        jTextFieldPositionY.setText("posYField");
-        jTextFieldPositionY.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldLinearPositionZ.setText("linear_posZ");
+        jTextFieldLinearPositionZ.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldPosYActionPerformed(evt);
+                jTextFieldLinearPositionZActionPerformed(evt);
             }
         });
 
-        jTextFieldPositionZ.setText("posZField");
-        jTextFieldPositionZ.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldAngularPositionX.setText("angular_posX");
+        jTextFieldAngularPositionX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldPosZActionPerformed(evt);
+                jTextFieldAngularPositionXActionPerformed(evt);
             }
         });
 
-        jTextFieldForceZ.setText("forceZField");
-        jTextFieldForceZ.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldAngularPositionY.setText("angular_posY");
+        jTextFieldAngularPositionY.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldForceZActionPerformed(evt);
+                jTextFieldAngularPositionYActionPerformed(evt);
             }
         });
 
-        jTextFieldGripperDistance.setText("gripperDistanceField");
-        jTextFieldGripperDistance.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldAngularPositionZ.setText("angular_posZ");
+        jTextFieldAngularPositionZ.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldGripperDistanceActionPerformed(evt);
+                jTextFieldAngularPositionZActionPerformed(evt);
             }
         });
 
@@ -211,20 +209,20 @@ public class MainChasiDevice extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabelRobotMode)
-                                        .addComponent(jLabelPosX)
-                                        .addComponent(jLabelPosY)
-                                        .addComponent(jLabelPosZ)
-                                        .addComponent(jLabelForceZ)
-                                        .addComponent(jLabelGripperDistance))
+                                        .addComponent(jLabelLinearPositionX)
+                                        .addComponent(jLabelLinearPositionY)
+                                        .addComponent(jLabelLinearPositionZ)
+                                        .addComponent(jLabelAngularPositionX)
+                                        .addComponent(jLabelAngularPositionY)
+                                        .addComponent(jLabelAngularPositionZ))
                                 .addGap(58, 58, 58)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jTextFieldRobotMode)
-                                        .addComponent(jTextFieldPositionX)
-                                        .addComponent(jTextFieldPositionY)
-                                        .addComponent(jTextFieldPositionZ)
-                                        .addComponent(jTextFieldForceZ)
-                                        .addComponent(jTextFieldGripperDistance, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+                                        .addComponent(jTextFieldLinearPositionX)
+                                        .addComponent(jTextFieldLinearPositionY)
+                                        .addComponent(jTextFieldLinearPositionZ)
+                                        .addComponent(jTextFieldAngularPositionX)
+                                        .addComponent(jTextFieldAngularPositionY)
+                                        .addComponent(jTextFieldAngularPositionZ, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -232,28 +230,28 @@ public class MainChasiDevice extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabelRobotMode)
-                                        .addComponent(jTextFieldRobotMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabelLinearPositionX)
+                                        .addComponent(jTextFieldLinearPositionX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabelPosX)
-                                        .addComponent(jTextFieldPositionX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabelLinearPositionY)
+                                        .addComponent(jTextFieldLinearPositionY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabelPosY)
-                                        .addComponent(jTextFieldPositionY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabelLinearPositionZ)
+                                        .addComponent(jTextFieldLinearPositionZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabelPosZ)
-                                        .addComponent(jTextFieldPositionZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabelAngularPositionX)
+                                        .addComponent(jTextFieldAngularPositionX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabelForceZ)
-                                        .addComponent(jTextFieldForceZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabelAngularPositionY)
+                                        .addComponent(jTextFieldAngularPositionY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabelGripperDistance)
-                                        .addComponent(jTextFieldGripperDistance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabelAngularPositionZ)
+                                        .addComponent(jTextFieldAngularPositionZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -286,14 +284,12 @@ public class MainChasiDevice extends javax.swing.JFrame {
     /*********************************************************************************************************
      * ActionPerformed - Functions
      ********************************************************************************************************/
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt){}
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt){}
-    private void jTextFieldRobotModeActionPerformed(java.awt.event.ActionEvent evt){}
-    private void jTextFieldPosXActionPerformed(java.awt.event.ActionEvent evt){}
-    private void jTextFieldPosYActionPerformed(java.awt.event.ActionEvent evt){}
-    private void jTextFieldPosZActionPerformed(java.awt.event.ActionEvent evt){}
-    private void jTextFieldForceZActionPerformed(java.awt.event.ActionEvent evt){}
-    private void jTextFieldGripperDistanceActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldLinearPositionXActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldLinearPositionYActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldLinearPositionZActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldAngularPositionXActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldAngularPositionYActionPerformed(java.awt.event.ActionEvent evt){}
+    private void jTextFieldAngularPositionZActionPerformed(java.awt.event.ActionEvent evt){}
 
     /*********************************************************************************************************
      * jToggleButton0ItemStateChanged

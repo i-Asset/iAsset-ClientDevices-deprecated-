@@ -21,12 +21,12 @@ import org.srfg.chasi.ChasiDevice;
  * 
  * @author mathias.schmoigl
  ********************************************************************************************************/
-public class ROSNode_JoyCon extends AbstractNodeMain {
+public class ROSNode_CMD_Vel extends AbstractNodeMain {
 
-	private static String ROS_TOPIC_FRANKA_STATES = "/franka_state_controller/franka_states";
+	private static String ROS_TOPIC_CHASI_CMD_VEL = "/cmd_vel"; // msg format = "geometry_msgs.Twist"
 	private ChasiDevice m_device;
 
-	public ROSNode_JoyCon(ChasiDevice device)
+	public ROSNode_CMD_Vel(ChasiDevice device)
 	{
 		m_device = device;
 	}
@@ -36,7 +36,7 @@ public class ROSNode_JoyCon extends AbstractNodeMain {
 	 ********************************************************************************************************/
 	@Override
 	public GraphName getDefaultNodeName() {
-		 return GraphName.of(ROS_TOPIC_FRANKA_STATES);
+		 return GraphName.of(ROS_TOPIC_CHASI_CMD_VEL);
 	}
 
 	/********************************************************************************************************
@@ -47,33 +47,33 @@ public class ROSNode_JoyCon extends AbstractNodeMain {
 	  
 		final Log log = connectedNode.getLog();
 	  
-		 //Subscriber<franka_msgs.FrankaState> subscriberFrankaStates =
-		 //		connectedNode.newSubscriber(connectedNode.getName().toString(), franka_msgs.FrankaState._TYPE);
-		 //
-		 //subscriberFrankaStates.addMessageListener(new MessageListener<franka_msgs.FrankaState>()
-		 //{
-		 //	@Override
-		 //	public void onNewMessage(franka_msgs.FrankaState message) {
- 		 //
-		 //		log.info(message.getHeader().getSeq()); // log message package seq number
- 		 //
-		 //		byte robot_mode = message.getRobotMode();    	// frankaState.robot_mode
-		 //		double effector_pos_X = message.getOTEE()[12];	// frankaState.O_T_EE[12]
-		 //		double effector_pos_Y = message.getOTEE()[13]; 	// frankaState.O_T_EE[13]
-		 //		double effector_pos_Z = message.getOTEE()[14];	// frankaState.O_T_EE[14]
-		 //		double z_force = message.getOFExtHatK()[3];		// frankaState.O_F_ext_hat_K[3]
-		 //
-		 //		m_device.setRobotMode(robot_mode);
-		 //		m_device.setPositionX(effector_pos_X);
-		 //		m_device.setPositionY(effector_pos_Y);
-		 //		m_device.setPositionZ(effector_pos_Z);
-		 //		m_device.setForceZ(z_force);
- 		 //
-		 //		log.info("robot mode is: " + robot_mode);
-		 //		log.info("effector position for xyz is: " + effector_pos_X + "," + effector_pos_Y + "," + effector_pos_Z);
-		 //		log.info("force on z-axis is: " + z_force);
-		 //	}
-		 //});
+		 Subscriber<geometry_msgs.Twist> subscriberFrankaStates =
+		 		connectedNode.newSubscriber(connectedNode.getName().toString(), geometry_msgs.Twist._TYPE);
+
+		 subscriberFrankaStates.addMessageListener(new MessageListener<geometry_msgs.Twist>()
+		 {
+		 	@Override
+		 	public void onNewMessage(geometry_msgs.Twist message) {
+
+				double linear_pos_X = message.getLinear().getX();
+				double linear_pos_Y = message.getLinear().getY();
+				double linear_pos_Z = message.getLinear().getZ();
+		 		double angular_pos_X = message.getAngular().getX();
+		 		double angular_pos_Y = message.getAngular().getY();
+				double angular_pos_Z = message.getAngular().getZ();
+
+				m_device.setLinearPositionX(linear_pos_X);
+				m_device.setLinearPositionY(linear_pos_Y);
+				m_device.setLinearPositionZ(linear_pos_Z);
+		 		m_device.setAngularPositionX(angular_pos_X);
+		 		m_device.setAngularPositionY(angular_pos_Y);
+		 		m_device.setAngularPositionZ(angular_pos_Z);
+
+		 		//log.info("robot mode is: " + robot_mode);
+		 		//log.info("effector position for xyz is: " + effector_pos_X + "," + effector_pos_Y + "," + effector_pos_Z);
+		 		//log.info("force on z-axis is: " + z_force);
+		 	}
+		 });
 	}
 
 	
