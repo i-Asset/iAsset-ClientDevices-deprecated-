@@ -76,29 +76,32 @@ public class ROSNode_FrankaStates extends AbstractNodeMain {
 		});
 	}
 
-	
+
 	/********************************************************************************************************
-	 * TODO
+	 * onError
 	 ********************************************************************************************************/
 	@Override
 	public void onError(Node arg0, Throwable arg1) {
-
 		if(arg0 != null) {
 			arg0.getLog().info("Error happened!");
 		}
 	}
 
+	/********************************************************************************************************
+	 * onShutdown
+	 ********************************************************************************************************/
 	@Override
 	public void onShutdown(Node arg0) {
-
 		if(arg0 != null) {
 			arg0.getLog().info("Shutdown happened!");
 		}
 	}
 
+	/********************************************************************************************************
+	 * onShutdownComplete
+	 ********************************************************************************************************/
 	@Override
 	public void onShutdownComplete(Node arg0) {
-
 		if(arg0 != null) {
 			arg0.getLog().info("Shutdown Complete happened!");
 		}

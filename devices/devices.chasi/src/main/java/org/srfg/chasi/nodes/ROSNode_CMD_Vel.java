@@ -13,12 +13,10 @@ import org.srfg.chasi.ChasiDevice;
 
 /********************************************************************************************************
  * This class represents a listener node subscribing to required chasi topics
- * 
+ *
  * tutorials:
- * http://rosjava.github.io/rosjava_core/latest/getting_started.html
- * https://answers.ros.org/question/313257/rosjava-how-to-start-to-use-rosjava_core-with-maven/
- * http://docs.ros.org/kinetic/api/franka_msgs/html/msg/FrankaState.html
- * 
+ * http://wiki.ros.org/Robots/TIAGo/Tutorials/motions/cmd_vel
+ *
  * @author mathias.schmoigl
  ********************************************************************************************************/
 public class ROSNode_CMD_Vel extends AbstractNodeMain {
@@ -69,36 +67,37 @@ public class ROSNode_CMD_Vel extends AbstractNodeMain {
 		 		m_device.setAngularPositionY(angular_pos_Y);
 		 		m_device.setAngularPositionZ(angular_pos_Z);
 
-		 		//log.info("robot mode is: " + robot_mode);
-		 		//log.info("effector position for xyz is: " + effector_pos_X + "," + effector_pos_Y + "," + effector_pos_Z);
-		 		//log.info("force on z-axis is: " + z_force);
+		 		log.info("linear position is: [" + linear_pos_X + ", " + linear_pos_Y + ", " + linear_pos_Z + "]");
+				log.info("linear position is: [" + angular_pos_X + ", " + angular_pos_Y + ", " + angular_pos_Z + "]");
 		 	}
 		 });
 	}
 
-	
 	/********************************************************************************************************
-	 * TODO
+	 * onError
 	 ********************************************************************************************************/
 	@Override
 	public void onError(Node arg0, Throwable arg1) {
-
 		if(arg0 != null) {
 			arg0.getLog().info("Error happened!");
 		}
 	}
 
+	/********************************************************************************************************
+	 * onShutdown
+	 ********************************************************************************************************/
 	@Override
 	public void onShutdown(Node arg0) {
-
 		if(arg0 != null) {
 			arg0.getLog().info("Shutdown happened!");
 		}
 	}
 
+	/********************************************************************************************************
+	 * onShutdownComplete
+	 ********************************************************************************************************/
 	@Override
 	public void onShutdownComplete(Node arg0) {
-
 		if(arg0 != null) {
 			arg0.getLog().info("Shutdown Complete happened!");
 		}
