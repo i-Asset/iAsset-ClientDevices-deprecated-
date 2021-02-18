@@ -45,10 +45,10 @@ public class ROSNode_CMD_Vel extends AbstractNodeMain {
 	  
 		final Log log = connectedNode.getLog();
 	  
-		 Subscriber<geometry_msgs.Twist> subscriberFrankaStates =
+		 Subscriber<geometry_msgs.Twist> subscriberCMDVel =
 		 		connectedNode.newSubscriber(connectedNode.getName().toString(), geometry_msgs.Twist._TYPE);
 
-		 subscriberFrankaStates.addMessageListener(new MessageListener<geometry_msgs.Twist>()
+		 subscriberCMDVel.addMessageListener(new MessageListener<geometry_msgs.Twist>()
 		 {
 		 	@Override
 		 	public void onNewMessage(geometry_msgs.Twist message) {

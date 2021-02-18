@@ -14,10 +14,12 @@ import java.net.URI;
  * The manager will init all ROS subscriber and publisher nodes. rosjava messages used;
  *
  * Connect with ARTI Chasi:
- * Step 1) Connect with ARTI Chasi WLAN Router
- * Step 2) Create SSH tunnel
- * Step 3) make sure corresponding ROS environment variables are set
- *
+ * Step 1) make sure corresponding ROS environment variables are set
+ *         -> export ROS_IP=x.x.x.x (your automatic IP)
+ *         -> export ROS_MASTER_URI=http://192.168.5.3:11311/
+ * Step 2) Connect with ARTI Chasi WLAN Router
+ * Step 3) Create SSH tunnel to raspberry pi
+ * Step 4) in cmd line: "roslaunch arti_chasi_mark3 arti_chasi_mark3_upstart_with_teleop.launch"
  *
  * @author mathias.schmoigl
  ********************************************************************************************************/
