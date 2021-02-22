@@ -1,25 +1,25 @@
 {
   "category": "iAssetLabor",
-  "idShort": "beltType",
+  "idShort": "peak2piType",
   "modelType": "AssetAdministrationShell",
   "administration": {
     "revision": "001",
     "version": "V0.01"
   },
   "identification": {
-    "id": "http://iasset.salzburgresearch.at/labor/belt#aas",
+    "id": "http://iasset.salzburgresearch.at/labor/peak2pi#aas",
     "idType": "IRI"
   },
   "asset": {
     "modelType": "Asset",
     "identification": {
-      "id": "http://iasset.salzburgresearch.at/labor/belt",
+      "id": "http://iasset.salzburgresearch.at/labor/peak2pi",
       "idType": "IRI"
     },
     "kind": "Type",
     "description": [
       {
-        "description": "i-Asset Labor - Förderband",
+        "description": "i-Asset Labor - Maschinendatenerfassung",
         "language": "de"
       }
     ]
@@ -29,7 +29,7 @@
       "modelType": "Reference",
       "keys": [
         {
-          "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+          "value": "http://iasset.salzburgresearch.at/labor/peak2pi#aas",
           "idType": "IRI",
           "local": true,
           "type": "AssetAdministrationShell"
@@ -46,7 +46,7 @@
       "modelType": "Reference",
       "keys": [
         {
-          "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+          "value": "http://iasset.salzburgresearch.at/labor/peak2pi#aas",
           "idType": "IRI",
           "local": true,
           "type": "AssetAdministrationShell"
@@ -63,7 +63,7 @@
       "modelType": "Reference",
       "keys": [
         {
-          "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+          "value": "http://iasset.salzburgresearch.at/labor/peak2pi#aas",
           "idType": "IRI",
           "local": true,
           "type": "AssetAdministrationShell"
@@ -80,7 +80,7 @@
       "modelType": "Reference",
       "keys": [
         {
-          "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+          "value": "http://iasset.salzburgresearch.at/labor/peak2pi#aas",
           "idType": "IRI",
           "local": true,
           "type": "AssetAdministrationShell"
@@ -96,7 +96,7 @@
   ],
   "description": [
     {
-      "description": "i-Asset Labor - Förderband",
+      "description": "i-Asset Labor - Maschinendatenerfassung",
       "language": "de"
     }
   ]
