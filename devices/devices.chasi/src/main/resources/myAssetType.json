@@ -1,648 +1,102 @@
 {
   "category": "iAssetLabor",
-  "idShort": "chasiType",
+  "idShort": "beltType",
   "modelType": "AssetAdministrationShell",
   "administration": {
     "revision": "001",
     "version": "V0.01"
   },
   "identification": {
-    "id": "http://iasset.salzburgresearch.at/labor/chasi#aas",
+    "id": "http://iasset.salzburgresearch.at/labor/belt#aas",
     "idType": "IRI"
   },
   "asset": {
     "modelType": "Asset",
     "identification": {
-      "id": "http://iasset.salzburgresearch.at/labor/chasi",
+      "id": "http://iasset.salzburgresearch.at/labor/belt",
       "idType": "IRI"
     },
     "kind": "Type",
     "description": [
       {
-        "description": "i-Asset Labor - Mobiler Kommissionierer",
+        "description": "i-Asset Labor - Förderband",
         "language": "de"
       }
     ]
   },
   "submodels": [
     {
-      "category": "iAssetLabor",
-      "idShort": "information",
-      "modelType": "Submodel",
-      "administration": {
-        "revision": "001",
-        "version": "V0.01"
-      },
-      "identification": {
-        "id": "http://iasset.salzburgresearch.at/labor/chasi#info",
-        "idType": "IRI"
-      },
-      "kind": "Instance",
-      "submodelElements": [
+      "modelType": "Reference",
+      "keys": [
         {
-          "modelType": "Property",
-          "category": "iAssetLabor",
-          "idShort": "manufacturer",
-          "kind": "Instance",
-          "value": "Hersteller Mobiler Kommissionierer",
-          "valueQualifier": "STRING",
-          "description": [
-            {
-              "description": "Hersteller",
-              "language": "de"
-            }
-          ],
-          "parent": {
-            "modelType": "Reference",
-            "keys": [
-              {
-                "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-                "idType": "IRI",
-                "local": true,
-                "type": "AssetAdministrationShell"
-              },
-              {
-                "value": "information",
-                "idType": "IdShort",
-                "local": true,
-                "type": "Submodel"
-              }
-            ]
-          },
-          "semanticId": {
-            "modelType": "Reference",
-            "keys": [
-              {
-                "value": "0173-1#02-AAO677#002",
-                "idType": "IRDI",
-                "local": true,
-                "type": "GlobalReference"
-              }
-            ]
-          }
+          "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+          "idType": "IRI",
+          "local": true,
+          "type": "AssetAdministrationShell"
         },
         {
-          "modelType": "EventElement",
-          "category": "iAssetLabor",
-          "idShort": "stateEvent",
-          "kind": "Type",
-          "qualifier": [],
-          "dataSpecification": [],
-          "direction": "Output",
-          "active": false,
-          "messageTopic": "topic",
-          "observableReference": {
-            "modelType": "Reference",
-            "keys": [
-              {
-                "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-                "idType": "IRI",
-                "local": true,
-                "type": "AssetAdministrationShell"
-              },
-              {
-                "value": "properties",
-                "idType": "IdShort",
-                "local": true,
-                "type": "Submodel"
-              },
-              {
-                "value": "chasiData",
-                "idType": "IdShort",
-                "local": true,
-                "type": "SubmodelElementCollection"
-              },
-              {
-                "value": "state",
-                "idType": "IdShort",
-                "local": true,
-                "type": "Property"
-              }
-            ]
-          },
-          "description": [
-            {
-              "description": "Status-Änderungen für Mobiler Kommissionierer",
-              "language": "de"
-            }
-          ],
-          "parent": {
-            "modelType": "Reference",
-            "keys": [
-              {
-                "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-                "idType": "IRI",
-                "local": true,
-                "type": "AssetAdministrationShell"
-              },
-              {
-                "value": "information",
-                "idType": "IdShort",
-                "local": true,
-                "type": "Submodel"
-              }
-            ]
-          }
+          "value": "information",
+          "idType": "IdShort",
+          "local": true,
+          "type": "Submodel"
         }
-      ],
-      "description": [
-        {
-          "description": "i-Asset Labor - Mobiler Kommissionierer-Infomodel",
-          "language": "de"
-        }
-      ],
-      "parent": {
-        "modelType": "Reference",
-        "keys": [
-          {
-            "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-            "idType": "IRI",
-            "local": true,
-            "type": "AssetAdministrationShell"
-          }
-        ]
-      }
+      ]
     },
     {
-      "category": "iAssetLabor",
-      "idShort": "events",
-      "modelType": "Submodel",
-      "administration": {
-        "revision": "001",
-        "version": "V0.01"
-      },
-      "identification": {
-        "id": "http://iasset.salzburgresearch.at/labor/chasi#events",
-        "idType": "IRI"
-      },
-      "kind": "Type",
-      "submodelElements": [
+      "modelType": "Reference",
+      "keys": [
         {
-          "modelType": "EventElement",
-          "category": "iAssetLabor",
-          "idShort": "stateEvent",
-          "kind": "Type",
-          "qualifier": [],
-          "dataSpecification": [],
-          "direction": "Output",
-          "active": false,
-          "messageTopic": "topic",
-          "observableReference": {
-            "modelType": "Reference",
-            "keys": [
-              {
-                "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-                "idType": "IRI",
-                "local": true,
-                "type": "AssetAdministrationShell"
-              },
-              {
-                "value": "properties",
-                "idType": "IdShort",
-                "local": true,
-                "type": "Submodel"
-              },
-              {
-                "value": "chasiData",
-                "idType": "IdShort",
-                "local": true,
-                "type": "SubmodelElementCollection"
-              },
-              {
-                "value": "state",
-                "idType": "IdShort",
-                "local": true,
-                "type": "Property"
-              }
-            ]
-          },
-          "description": [
-            {
-              "description": "Status-Änderungen für Mobiler Kommissionierer",
-              "language": "de"
-            }
-          ],
-          "parent": {
-            "modelType": "Reference",
-            "keys": [
-              {
-                "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-                "idType": "IRI",
-                "local": true,
-                "type": "AssetAdministrationShell"
-              },
-              {
-                "value": "events",
-                "idType": "IdShort",
-                "local": true,
-                "type": "Submodel"
-              }
-            ]
-          }
-        }
-      ],
-      "description": [
+          "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+          "idType": "IRI",
+          "local": true,
+          "type": "AssetAdministrationShell"
+        },
         {
-          "description": "i-Asset Labor - Mobiler Kommissionierer-Ereignisse",
-          "language": "de"
+          "value": "events",
+          "idType": "IdShort",
+          "local": true,
+          "type": "Submodel"
         }
-      ],
-      "parent": {
-        "modelType": "Reference",
-        "keys": [
-          {
-            "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-            "idType": "IRI",
-            "local": true,
-            "type": "AssetAdministrationShell"
-          }
-        ]
-      }
+      ]
     },
     {
-      "category": "iAssetLabor",
-      "idShort": "operations",
-      "modelType": "Submodel",
-      "administration": {
-        "revision": "001",
-        "version": "V0.01"
-      },
-      "identification": {
-        "id": "http://iasset.salzburgresearch.at/labor/chasi#operations",
-        "idType": "IRI"
-      },
-      "kind": "Type",
-      "submodelElements": [
+      "modelType": "Reference",
+      "keys": [
         {
-          "modelType": "Operation",
-          "category": "iAssetLabor",
-          "idShort": "setSpeed",
-          "kind": "Type",
-          "qualifier": [],
-          "dataSpecification": [],
-          "in": [
-            {
-              "modelType": "OperationVariable",
-              "idShort": "speed",
-              "kind": "Type",
-              "qualifier": [],
-              "dataSpecification": [],
-              "direction": "Input",
-              "value": {
-                "modelType": "Property",
-                "category": "iAssetLabor",
-                "idShort": "speed",
-                "kind": "Type",
-                "valueQualifier": "DECIMAL",
-                "description": [
-                  {
-                    "description": "Geschwindigkeit für Mobiler Kommissionierer",
-                    "language": "de"
-                  }
-                ],
-                "parent": {
-                  "modelType": "Reference",
-                  "keys": [
-                    {
-                      "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-                      "idType": "IRI",
-                      "local": true,
-                      "type": "AssetAdministrationShell"
-                    },
-                    {
-                      "value": "properties",
-                      "idType": "IdShort",
-                      "local": true,
-                      "type": "Submodel"
-                    },
-                    {
-                      "value": "chasiData",
-                      "idType": "IdShort",
-                      "local": true,
-                      "type": "SubmodelElementCollection"
-                    }
-                  ]
-                }
-              },
-              "description": [
-                {
-                  "description": "Input-Variable für Maintenance History",
-                  "language": "de"
-                }
-              ],
-              "parent": {
-                "modelType": "Reference",
-                "keys": [
-                  {
-                    "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-                    "idType": "IRI",
-                    "local": true,
-                    "type": "AssetAdministrationShell"
-                  },
-                  {
-                    "value": "operations",
-                    "idType": "IdShort",
-                    "local": true,
-                    "type": "Submodel"
-                  },
-                  {
-                    "value": "setSpeed",
-                    "idType": "IdShort",
-                    "local": true,
-                    "type": "Operation"
-                  }
-                ]
-              }
-            }
-          ],
-          "out": [],
-          "description": [
-            {
-              "description": "Geschwindigkeit für Mobiler Kommissionierer einstellen",
-              "language": "de"
-            }
-          ],
-          "parent": {
-            "modelType": "Reference",
-            "keys": [
-              {
-                "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-                "idType": "IRI",
-                "local": true,
-                "type": "AssetAdministrationShell"
-              },
-              {
-                "value": "operations",
-                "idType": "IdShort",
-                "local": true,
-                "type": "Submodel"
-              }
-            ]
-          }
-        }
-      ],
-      "description": [
+          "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+          "idType": "IRI",
+          "local": true,
+          "type": "AssetAdministrationShell"
+        },
         {
-          "description": "i-Asset Labor - Mobiler Kommissionierer-Funktionen",
-          "language": "de"
+          "value": "operations",
+          "idType": "IdShort",
+          "local": true,
+          "type": "Submodel"
         }
-      ],
-      "parent": {
-        "modelType": "Reference",
-        "keys": [
-          {
-            "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-            "idType": "IRI",
-            "local": true,
-            "type": "AssetAdministrationShell"
-          }
-        ]
-      }
+      ]
     },
     {
-      "category": "iAssetLabor",
-      "idShort": "properties",
-      "modelType": "Submodel",
-      "administration": {
-        "revision": "001",
-        "version": "V0.01"
-      },
-      "identification": {
-        "id": "http://iasset.salzburgresearch.at/labor/chasi#properties",
-        "idType": "IRI"
-      },
-      "kind": "Type",
-      "submodelElements": [
+      "modelType": "Reference",
+      "keys": [
         {
-          "modelType": "SubmodelElementCollection",
-          "idShort": "chasiData",
-          "kind": "Type",
-          "submodelElements": [
-            {
-              "modelType": "Property",
-              "category": "iAssetLabor",
-              "idShort": "state",
-              "kind": "Type",
-              "valueQualifier": "BOOLEAN",
-              "description": [
-                {
-                  "description": "Status On/Off",
-                  "language": "de"
-                }
-              ],
-              "parent": {
-                "modelType": "Reference",
-                "keys": [
-                  {
-                    "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-                    "idType": "IRI",
-                    "local": true,
-                    "type": "AssetAdministrationShell"
-                  },
-                  {
-                    "value": "properties",
-                    "idType": "IdShort",
-                    "local": true,
-                    "type": "Submodel"
-                  },
-                  {
-                    "value": "chasiData",
-                    "idType": "IdShort",
-                    "local": true,
-                    "type": "SubmodelElementCollection"
-                  }
-                ]
-              },
-              "semanticId": {
-                "modelType": "Reference",
-                "keys": [
-                  {
-                    "value": "http://iasset.salzburgresearch.at/dictionary/manufacturer",
-                    "idType": "IRI",
-                    "local": true,
-                    "type": "ConceptDescription"
-                  }
-                ]
-              }
-            },
-            {
-              "modelType": "Property",
-              "category": "iAssetLabor",
-              "idShort": "direction",
-              "kind": "Type",
-              "valueQualifier": "STRING",
-              "description": [
-                {
-                  "description": "Bewegungsrichtung",
-                  "language": "de"
-                }
-              ],
-              "parent": {
-                "modelType": "Reference",
-                "keys": [
-                  {
-                    "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-                    "idType": "IRI",
-                    "local": true,
-                    "type": "AssetAdministrationShell"
-                  },
-                  {
-                    "value": "properties",
-                    "idType": "IdShort",
-                    "local": true,
-                    "type": "Submodel"
-                  },
-                  {
-                    "value": "chasiData",
-                    "idType": "IdShort",
-                    "local": true,
-                    "type": "SubmodelElementCollection"
-                  }
-                ]
-              },
-              "semanticId": {
-                "modelType": "Reference",
-                "keys": [
-                  {
-                    "value": "http://iasset.salzburgresearch.at/dictionary/manufacturer",
-                    "idType": "IRI",
-                    "local": true,
-                    "type": "ConceptDescription"
-                  }
-                ]
-              }
-            },
-            {
-              "modelType": "Property",
-              "category": "iAssetLabor",
-              "idShort": "distance",
-              "kind": "Type",
-              "valueQualifier": "DECIMAL",
-              "description": [
-                {
-                  "description": "Zurückgelegte Distanz",
-                  "language": "de"
-                }
-              ],
-              "parent": {
-                "modelType": "Reference",
-                "keys": [
-                  {
-                    "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-                    "idType": "IRI",
-                    "local": true,
-                    "type": "AssetAdministrationShell"
-                  },
-                  {
-                    "value": "properties",
-                    "idType": "IdShort",
-                    "local": true,
-                    "type": "Submodel"
-                  },
-                  {
-                    "value": "chasiData",
-                    "idType": "IdShort",
-                    "local": true,
-                    "type": "SubmodelElementCollection"
-                  }
-                ]
-              },
-              "semanticId": {
-                "modelType": "Reference",
-                "keys": [
-                  {
-                    "value": "http://iasset.salzburgresearch.at/dictionary/manufacturer",
-                    "idType": "IRI",
-                    "local": true,
-                    "type": "ConceptDescription"
-                  }
-                ]
-              }
-            },
-            {
-              "modelType": "Property",
-              "category": "iAssetLabor",
-              "idShort": "speed",
-              "kind": "Type",
-              "valueQualifier": "DECIMAL",
-              "description": [
-                {
-                  "description": "Geschwindigkeit für Mobiler Kommissionierer",
-                  "language": "de"
-                }
-              ],
-              "parent": {
-                "modelType": "Reference",
-                "keys": [
-                  {
-                    "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-                    "idType": "IRI",
-                    "local": true,
-                    "type": "AssetAdministrationShell"
-                  },
-                  {
-                    "value": "properties",
-                    "idType": "IdShort",
-                    "local": true,
-                    "type": "Submodel"
-                  },
-                  {
-                    "value": "chasiData",
-                    "idType": "IdShort",
-                    "local": true,
-                    "type": "SubmodelElementCollection"
-                  }
-                ]
-              }
-            }
-          ],
-          "description": [
-            {
-              "description": "Mobiler Kommissionierer Daten",
-              "language": "de"
-            }
-          ],
-          "parent": {
-            "modelType": "Reference",
-            "keys": [
-              {
-                "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-                "idType": "IRI",
-                "local": true,
-                "type": "AssetAdministrationShell"
-              },
-              {
-                "value": "properties",
-                "idType": "IdShort",
-                "local": true,
-                "type": "Submodel"
-              }
-            ]
-          }
-        }
-      ],
-      "description": [
+          "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+          "idType": "IRI",
+          "local": true,
+          "type": "AssetAdministrationShell"
+        },
         {
-          "description": "i-Asset Labor - Mobiler Kommissionierer-Properties",
-          "language": "de"
+          "value": "properties",
+          "idType": "IdShort",
+          "local": true,
+          "type": "Submodel"
         }
-      ],
-      "parent": {
-        "modelType": "Reference",
-        "keys": [
-          {
-            "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
-            "idType": "IRI",
-            "local": true,
-            "type": "AssetAdministrationShell"
-          }
-        ]
-      }
+      ]
     }
   ],
   "description": [
     {
-      "description": "i-Asset Labor - Mobiler Kommissionierer",
+      "description": "i-Asset Labor - Förderband",
       "language": "de"
     }
   ]
