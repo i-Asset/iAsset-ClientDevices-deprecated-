@@ -1,25 +1,25 @@
 {
   "category": "iAssetLabor",
-  "idShort": "beltType",
+  "idShort": "chasiType",
   "modelType": "AssetAdministrationShell",
   "administration": {
     "revision": "001",
     "version": "V0.01"
   },
   "identification": {
-    "id": "http://iasset.salzburgresearch.at/labor/belt#aas",
+    "id": "http://iasset.salzburgresearch.at/labor/chasi#aas",
     "idType": "IRI"
   },
   "asset": {
     "modelType": "Asset",
     "identification": {
-      "id": "http://iasset.salzburgresearch.at/labor/belt",
+      "id": "http://iasset.salzburgresearch.at/labor/chasi",
       "idType": "IRI"
     },
     "kind": "Type",
     "description": [
       {
-        "description": "i-Asset Labor - Förderband",
+        "description": "i-Asset Labor - Mobiler Kommissionierer",
         "language": "de"
       }
     ]
@@ -34,7 +34,7 @@
         "version": "V0.01"
       },
       "identification": {
-        "id": "http://iasset.salzburgresearch.at/labor/belt#info",
+        "id": "http://iasset.salzburgresearch.at/labor/chasi#info",
         "idType": "IRI"
       },
       "kind": "Instance",
@@ -44,7 +44,7 @@
           "category": "iAssetLabor",
           "idShort": "manufacturer",
           "kind": "Instance",
-          "value": "Hersteller Förderband",
+          "value": "Hersteller Mobiler Kommissionierer",
           "valueQualifier": "STRING",
           "description": [
             {
@@ -56,7 +56,7 @@
             "modelType": "Reference",
             "keys": [
               {
-                "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+                "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
                 "idType": "IRI",
                 "local": true,
                 "type": "AssetAdministrationShell"
@@ -95,7 +95,7 @@
             "modelType": "Reference",
             "keys": [
               {
-                "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+                "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
                 "idType": "IRI",
                 "local": true,
                 "type": "AssetAdministrationShell"
@@ -107,7 +107,7 @@
                 "type": "Submodel"
               },
               {
-                "value": "beltData",
+                "value": "chasiData",
                 "idType": "IdShort",
                 "local": true,
                 "type": "SubmodelElementCollection"
@@ -122,7 +122,7 @@
           },
           "description": [
             {
-              "description": "Status-Änderungen für Förderband",
+              "description": "Status-Änderungen für Mobiler Kommissionierer",
               "language": "de"
             }
           ],
@@ -130,7 +130,7 @@
             "modelType": "Reference",
             "keys": [
               {
-                "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+                "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
                 "idType": "IRI",
                 "local": true,
                 "type": "AssetAdministrationShell"
@@ -147,7 +147,7 @@
       ],
       "description": [
         {
-          "description": "i-Asset Labor - Förderband-Infomodel",
+          "description": "i-Asset Labor - Mobiler Kommissionierer-Infomodel",
           "language": "de"
         }
       ],
@@ -155,7 +155,7 @@
         "modelType": "Reference",
         "keys": [
           {
-            "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+            "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
             "idType": "IRI",
             "local": true,
             "type": "AssetAdministrationShell"
@@ -172,7 +172,7 @@
         "version": "V0.01"
       },
       "identification": {
-        "id": "http://iasset.salzburgresearch.at/labor/belt#events",
+        "id": "http://iasset.salzburgresearch.at/labor/chasi#events",
         "idType": "IRI"
       },
       "kind": "Type",
@@ -191,7 +191,7 @@
             "modelType": "Reference",
             "keys": [
               {
-                "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+                "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
                 "idType": "IRI",
                 "local": true,
                 "type": "AssetAdministrationShell"
@@ -203,7 +203,7 @@
                 "type": "Submodel"
               },
               {
-                "value": "beltData",
+                "value": "chasiData",
                 "idType": "IdShort",
                 "local": true,
                 "type": "SubmodelElementCollection"
@@ -218,7 +218,7 @@
           },
           "description": [
             {
-              "description": "Status-Änderungen für Förderband",
+              "description": "Status-Änderungen für Mobiler Kommissionierer",
               "language": "de"
             }
           ],
@@ -226,7 +226,7 @@
             "modelType": "Reference",
             "keys": [
               {
-                "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+                "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
                 "idType": "IRI",
                 "local": true,
                 "type": "AssetAdministrationShell"
@@ -243,7 +243,7 @@
       ],
       "description": [
         {
-          "description": "i-Asset Labor - Förderband-Ereignisse",
+          "description": "i-Asset Labor - Mobiler Kommissionierer-Ereignisse",
           "language": "de"
         }
       ],
@@ -251,7 +251,7 @@
         "modelType": "Reference",
         "keys": [
           {
-            "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+            "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
             "idType": "IRI",
             "local": true,
             "type": "AssetAdministrationShell"
@@ -268,7 +268,7 @@
         "version": "V0.01"
       },
       "identification": {
-        "id": "http://iasset.salzburgresearch.at/labor/belt#operations",
+        "id": "http://iasset.salzburgresearch.at/labor/chasi#operations",
         "idType": "IRI"
       },
       "kind": "Type",
@@ -296,7 +296,7 @@
                 "valueQualifier": "DECIMAL",
                 "description": [
                   {
-                    "description": "Geschwindigkeit für Förderband",
+                    "description": "Geschwindigkeit für Mobiler Kommissionierer",
                     "language": "de"
                   }
                 ],
@@ -304,7 +304,7 @@
                   "modelType": "Reference",
                   "keys": [
                     {
-                      "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+                      "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
                       "idType": "IRI",
                       "local": true,
                       "type": "AssetAdministrationShell"
@@ -316,7 +316,7 @@
                       "type": "Submodel"
                     },
                     {
-                      "value": "beltData",
+                      "value": "chasiData",
                       "idType": "IdShort",
                       "local": true,
                       "type": "SubmodelElementCollection"
@@ -334,7 +334,7 @@
                 "modelType": "Reference",
                 "keys": [
                   {
-                    "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+                    "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
                     "idType": "IRI",
                     "local": true,
                     "type": "AssetAdministrationShell"
@@ -358,7 +358,7 @@
           "out": [],
           "description": [
             {
-              "description": "Geschwindigkeit für Förderband einstellen",
+              "description": "Geschwindigkeit für Mobiler Kommissionierer einstellen",
               "language": "de"
             }
           ],
@@ -366,7 +366,7 @@
             "modelType": "Reference",
             "keys": [
               {
-                "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+                "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
                 "idType": "IRI",
                 "local": true,
                 "type": "AssetAdministrationShell"
@@ -383,7 +383,7 @@
       ],
       "description": [
         {
-          "description": "i-Asset Labor - Förderband-Funktionen",
+          "description": "i-Asset Labor - Mobiler Kommissionierer-Funktionen",
           "language": "de"
         }
       ],
@@ -391,7 +391,7 @@
         "modelType": "Reference",
         "keys": [
           {
-            "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+            "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
             "idType": "IRI",
             "local": true,
             "type": "AssetAdministrationShell"
@@ -408,14 +408,14 @@
         "version": "V0.01"
       },
       "identification": {
-        "id": "http://iasset.salzburgresearch.at/labor/belt#properties",
+        "id": "http://iasset.salzburgresearch.at/labor/chasi#properties",
         "idType": "IRI"
       },
       "kind": "Type",
       "submodelElements": [
         {
           "modelType": "SubmodelElementCollection",
-          "idShort": "beltData",
+          "idShort": "chasiData",
           "kind": "Type",
           "submodelElements": [
             {
@@ -434,7 +434,7 @@
                 "modelType": "Reference",
                 "keys": [
                   {
-                    "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+                    "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
                     "idType": "IRI",
                     "local": true,
                     "type": "AssetAdministrationShell"
@@ -446,7 +446,7 @@
                     "type": "Submodel"
                   },
                   {
-                    "value": "beltData",
+                    "value": "chasiData",
                     "idType": "IdShort",
                     "local": true,
                     "type": "SubmodelElementCollection"
@@ -481,7 +481,7 @@
                 "modelType": "Reference",
                 "keys": [
                   {
-                    "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+                    "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
                     "idType": "IRI",
                     "local": true,
                     "type": "AssetAdministrationShell"
@@ -493,7 +493,7 @@
                     "type": "Submodel"
                   },
                   {
-                    "value": "beltData",
+                    "value": "chasiData",
                     "idType": "IdShort",
                     "local": true,
                     "type": "SubmodelElementCollection"
@@ -528,7 +528,7 @@
                 "modelType": "Reference",
                 "keys": [
                   {
-                    "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+                    "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
                     "idType": "IRI",
                     "local": true,
                     "type": "AssetAdministrationShell"
@@ -540,7 +540,7 @@
                     "type": "Submodel"
                   },
                   {
-                    "value": "beltData",
+                    "value": "chasiData",
                     "idType": "IdShort",
                     "local": true,
                     "type": "SubmodelElementCollection"
@@ -567,7 +567,7 @@
               "valueQualifier": "DECIMAL",
               "description": [
                 {
-                  "description": "Geschwindigkeit für Förderband",
+                  "description": "Geschwindigkeit für Mobiler Kommissionierer",
                   "language": "de"
                 }
               ],
@@ -575,7 +575,7 @@
                 "modelType": "Reference",
                 "keys": [
                   {
-                    "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+                    "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
                     "idType": "IRI",
                     "local": true,
                     "type": "AssetAdministrationShell"
@@ -587,7 +587,7 @@
                     "type": "Submodel"
                   },
                   {
-                    "value": "beltData",
+                    "value": "chasiData",
                     "idType": "IdShort",
                     "local": true,
                     "type": "SubmodelElementCollection"
@@ -598,7 +598,7 @@
           ],
           "description": [
             {
-              "description": "Förderband Daten",
+              "description": "Mobiler Kommissionierer Daten",
               "language": "de"
             }
           ],
@@ -606,7 +606,7 @@
             "modelType": "Reference",
             "keys": [
               {
-                "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+                "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
                 "idType": "IRI",
                 "local": true,
                 "type": "AssetAdministrationShell"
@@ -623,7 +623,7 @@
       ],
       "description": [
         {
-          "description": "i-Asset Labor - Förderband-Properties",
+          "description": "i-Asset Labor - Mobiler Kommissionierer-Properties",
           "language": "de"
         }
       ],
@@ -631,7 +631,7 @@
         "modelType": "Reference",
         "keys": [
           {
-            "value": "http://iasset.salzburgresearch.at/labor/belt#aas",
+            "value": "http://iasset.salzburgresearch.at/labor/chasi#aas",
             "idType": "IRI",
             "local": true,
             "type": "AssetAdministrationShell"
@@ -642,7 +642,7 @@
   ],
   "description": [
     {
-      "description": "i-Asset Labor - Förderband",
+      "description": "i-Asset Labor - Mobiler Kommissionierer",
       "language": "de"
     }
   ]
