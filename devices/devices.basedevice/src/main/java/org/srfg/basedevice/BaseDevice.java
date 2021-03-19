@@ -26,27 +26,7 @@ public abstract class BaseDevice {
                                  .componentAtPort(5000); // device address will be assigned automatically
 
         // Auto-register with local type if no type exists
-
-        // Step 1) use ".fromType"-function to check for existing type on server (in repository) -> will create instance based on type!
-        instance = registry.fromType(
-                new Identifier("http://iasset.labor/" + this.getName()),
-                new Identifier("http://iasset.salzburgresearch.at/labor/" + this.getName() +"#aas"));
-
-        if(instance == null) // if type does not exist
-        {
-            // register local asset type stored in JSON file (kind.type);
-            type = createNewType();
-            registerType();
-
-            // then register instance based on that type (kind.instance);
-            instance = this.createNewInstance();
-            // TODO: refer instance to created type
-        }
-        else // if type DOES exist -> register instance with reference to existing online type ((1)kind.instance)
-        {
-            // set properties of root aas
-            alterExistingInstance(instance);
-        }
+        registerAssetTypeAutomaticallyIfNotExists();
     }
 
 
@@ -70,7 +50,7 @@ public abstract class BaseDevice {
     protected abstract Map<String, Object> createModel();
 
     /*********************************************************************************************************
-     * create a basic Asset Administration Shell
+     * alter an existing base instance, received from server
      ********************************************************************************************************/
     protected IAssetProvider alterExistingInstance(IAssetProvider existingInstance) {
 
@@ -106,8 +86,34 @@ public abstract class BaseDevice {
     protected AssetModel createNewType() {
 
         // TODO load AAS from JSON file and create type
-
         return null;
+    }
+
+    /*********************************************************************************************************
+     * registerTypeAutomaticallyIfNeeded
+     ********************************************************************************************************/
+    protected void registerAssetTypeAutomaticallyIfNotExists() {
+
+        // use ".fromType"-function to check for existing type on server repository -> will create instance based on type!
+        instance = registry.fromType(
+                new Identifier("http://iasset.labor/" + this.getName()),
+                new Identifier("http://iasset.salzburgresearch.at/labor/" + this.getName() +"#aas"));
+
+        if(instance == null) // if type does not exist
+        {
+            // register local asset type stored in JSON file (kind.type);
+            type = createNewType();
+            registerType();
+
+            // then register instance based on that type (kind.instance);
+            instance = this.createNewInstance();
+            // TODO: refer instance to created type
+        }
+        else // if type DOES exist -> register instance with reference to existing online type ((1)kind.instance)
+        {
+            // set properties of root aas
+            alterExistingInstance(instance);
+        }
     }
 
     /*********************************************************************************************************
