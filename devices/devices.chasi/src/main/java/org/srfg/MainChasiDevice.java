@@ -298,7 +298,7 @@ public class MainChasiDevice extends javax.swing.JFrame {
 
         switch (evt.getStateChange()) {
             case 1:
-                chasi.register();
+                chasi.registerInstance();
                 break;
             case 2:
                 break;
@@ -354,7 +354,7 @@ public class MainChasiDevice extends javax.swing.JFrame {
             chasi.startHostComponent();
 
             System.out.println("\n Trying to register ARTI Chasi:");
-            chasi.register();
+            chasi.registerInstance();
 
             System.out.println("\n Trying to start ARTI Chasi communication:");
             chasi.start();

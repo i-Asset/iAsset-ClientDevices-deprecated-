@@ -252,7 +252,7 @@ public class MainConveyorBelt extends javax.swing.JFrame {
 
         switch (evt.getStateChange()) {
             case 1:
-                belt.register();
+                belt.registerInstance();
                 break;
             case 2:
                 break;
@@ -309,7 +309,7 @@ public class MainConveyorBelt extends javax.swing.JFrame {
             belt.startHostComponent();
 
             System.out.println("\n Trying to register Belt:");
-            belt.register();
+            belt.registerInstance();
 
             System.out.println("\n Trying to start Belt communication:");
             belt.start();

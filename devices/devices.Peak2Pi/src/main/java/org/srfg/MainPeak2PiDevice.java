@@ -303,7 +303,7 @@ public class MainPeak2PiDevice extends javax.swing.JFrame {
 
         switch (evt.getStateChange()) {
             case 1:
-                peak2pi.register();
+                peak2pi.registerInstance();
                 break;
             case 2:
                 break;
@@ -359,7 +359,7 @@ public class MainPeak2PiDevice extends javax.swing.JFrame {
             peak2pi.startHostComponent();
 
             System.out.println("\n Trying to register Peak2Pi:");
-            peak2pi.register();
+            peak2pi.registerInstance();
 
             System.out.println("\n Trying to start Peak2Pi communication:");
             peak2pi.start();

@@ -302,7 +302,7 @@ public class MainIPSADevice extends javax.swing.JFrame {
 
         switch (evt.getStateChange()) {
             case 1:
-                ipsa.register();
+                ipsa.registerInstance();
                 break;
             case 2:
                 break;
@@ -358,7 +358,7 @@ public class MainIPSADevice extends javax.swing.JFrame {
             ipsa.startHostComponent();
 
             System.out.println("\n Trying to register IPSAAdapter:");
-            ipsa.register();
+            ipsa.registerInstance();
 
             System.out.println("\n Trying to start IPSAAdapter communication:");
             ipsa.start();

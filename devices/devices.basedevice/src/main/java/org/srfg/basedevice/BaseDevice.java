@@ -2,6 +2,7 @@ package org.srfg.basedevice;
 
 import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
 import at.srfg.iot.common.datamodel.asset.provider.impl.AssetModel;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 import at.srfg.iot.common.registryconnector.IAssetRegistry;
@@ -15,6 +16,7 @@ public abstract class BaseDevice {
     private MyProperties properties;
     private IAssetRegistry registry;
     private IAssetProvider instance;
+    private IAssetProvider type;
 
     public BaseDevice()
     {
@@ -23,12 +25,28 @@ public abstract class BaseDevice {
         registry = IAssetRegistry.componentWithRegistry(properties.getServerAddress())
                                  .componentAtPort(5000); // device address will be assigned automatically
 
-        // create AAS (the instance root) and instance
-        //instance = registry.fromType(
-        //        new Identifier("http://iasset.labor/" + this.getName()),
-        //        new Identifier("http://iasset.salzburgresearch.at/labor/" + this.getName() +"#aas"));
+        // Auto-register with local type if no type exists
 
-        this.createInstance();
+        // Step 1) use ".fromType"-function to check for existing type on server (in repository) -> will create instance based on type!
+        instance = registry.fromType(
+                new Identifier("http://iasset.labor/" + this.getName()),
+                new Identifier("http://iasset.salzburgresearch.at/labor/" + this.getName() +"#aas"));
+
+        if(instance == null) // if type does not exist
+        {
+            // register local asset type stored in JSON file (kind.type);
+            type = createNewType();
+            registerType();
+
+            // then register instance based on that type (kind.instance);
+            instance = this.createNewInstance();
+            // TODO: refer instance to created type
+        }
+        else // if type DOES exist -> register instance with reference to existing online type ((1)kind.instance)
+        {
+            // set properties of root aas
+            alterExistingInstance(instance);
+        }
     }
 
 
@@ -54,19 +72,42 @@ public abstract class BaseDevice {
     /*********************************************************************************************************
      * create a basic Asset Administration Shell
      ********************************************************************************************************/
-    protected void createInstance() {
+    protected IAssetProvider alterExistingInstance(IAssetProvider existingInstance) {
+
+        existingInstance.getRoot().setIdentification(new Identifier(this.getName() + "01"));
+        existingInstance.getRoot().setIdShort(this.getName() + "01");
+
+        return existingInstance;
+    }
+
+    /*********************************************************************************************************
+     * create a basic Asset Administration Shell
+     ********************************************************************************************************/
+    protected AssetModel createNewInstance() {
 
         AssetAdministrationShell aas = new AssetAdministrationShell();
         aas.setIdentification(new Identifier(this.getName() + "01"));
         aas.setIdShort(this.getName() + "01");
 
         Submodel id = createIdentification();
+        id.setKind(Kind.Instance);
         aas.addSubmodel(id);
 
         Submodel prop = createProperties();
+        prop.setKind(Kind.Instance);
         aas.addSubmodel(prop);
 
-        instance = new AssetModel(aas);
+        return new AssetModel(aas);
+    }
+
+    /*********************************************************************************************************
+     * create a basic Asset Administration Shell
+     ********************************************************************************************************/
+    protected AssetModel createNewType() {
+
+        // TODO load AAS from JSON file and create type
+
+        return null;
     }
 
     /*********************************************************************************************************
@@ -86,12 +127,26 @@ public abstract class BaseDevice {
     }
 
     /*********************************************************************************************************
-     * register
+     * registerInstance
      *
      * Register the INSTANCE with the registry. Creates a copy of the instance in the repository
      ********************************************************************************************************/
-    public void register()
+    public void registerType()
     {
+        registry.serve(type, this.getName());
+        registry.start();
+        registry.register(type);
+    }
+
+    /*********************************************************************************************************
+     * registerInstance
+     *
+     * Register the INSTANCE with the registry. Creates a copy of the instance in the repository
+     ********************************************************************************************************/
+    public void registerInstance()
+    {
+        registry.serve(instance, this.getName());
+        registry.start();
         registry.register(instance);
     }
 }

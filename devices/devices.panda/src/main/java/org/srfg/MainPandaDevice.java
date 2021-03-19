@@ -303,7 +303,7 @@ public class MainPandaDevice extends javax.swing.JFrame {
 
         switch (evt.getStateChange()) {
             case 1:
-                panda.register();
+                panda.registerInstance();
                 break;
             case 2:
                 break;
@@ -359,7 +359,7 @@ public class MainPandaDevice extends javax.swing.JFrame {
             panda.startHostComponent();
 
             System.out.println("\n Trying to register Panda:");
-            panda.register();
+            panda.registerInstance();
 
             System.out.println("\n Trying to start Panda communication:");
             panda.start();
