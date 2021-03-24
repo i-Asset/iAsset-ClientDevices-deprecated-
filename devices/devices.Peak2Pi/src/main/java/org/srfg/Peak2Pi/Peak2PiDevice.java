@@ -1,5 +1,10 @@
 package org.srfg.Peak2Pi;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.HashMap;
@@ -43,6 +48,20 @@ public class Peak2PiDevice extends BaseDevice {
 
 	@Override
 	public String getDirectory() {return "/lab/peak2pi/peak2pi01";}
+
+	@Override
+	public String getAssetTypeFromResources()
+	{
+		byte[] bytes = new byte[0];
+		try {
+			URL resource = Peak2PiDevice.class.getClassLoader().getResource("MyAssetType.json");
+			bytes = Files.readAllBytes(Paths.get(resource.toURI()));
+		}
+		catch (IOException e) { e.printStackTrace(); }
+		catch (URISyntaxException e) {e.printStackTrace();}
+
+		return new String(bytes);
+	}
 
 	/*********************************************************************************************************
 	 * Peak2PiRunner

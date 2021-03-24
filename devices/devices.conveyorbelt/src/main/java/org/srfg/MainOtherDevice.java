@@ -157,7 +157,7 @@ public class MainOtherDevice extends BaseOtherDevice {
 
         AbstractButton abstractButton = (AbstractButton) evt.getSource();
 
-        Map<String,Object> params = new HashMap<String, Object>();
+        Map<String,Object> params = new HashMap<String, Object>(); // TODO for monday: check if this works at all?
         params.put("light", abstractButton.getModel().isSelected());
         registry.invokeOperation(connectedDevice.getRoot().getIdentification(), "operations/setLight", params);
     }
@@ -177,7 +177,7 @@ public class MainOtherDevice extends BaseOtherDevice {
             default: speed = 0.0; break;
         }
 
-        if ( registry != null ) {
+        if ( registry != null ) { // TODO for monday: check if this works at all?
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("speed", 5.5);
             registry.invokeOperation(connectedDevice.getRoot().getIdentification(), "operations/setSpeed", params);

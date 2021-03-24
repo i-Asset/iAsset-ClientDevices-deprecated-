@@ -1,5 +1,10 @@
 package org.srfg.chasi;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.HashMap;
@@ -47,6 +52,20 @@ public class ChasiDevice extends BaseDevice {
 
 	@Override
 	public String getDirectory() {return "/lab/chasi/chasi01";}
+
+	@Override
+	public String getAssetTypeFromResources()
+	{
+		byte[] bytes = new byte[0];
+		try {
+			URL resource = ChasiDevice.class.getClassLoader().getResource("MyAssetType.json");
+			bytes = Files.readAllBytes(Paths.get(resource.toURI()));
+		}
+		catch (IOException e) { e.printStackTrace(); }
+		catch (URISyntaxException e) {e.printStackTrace();}
+
+		return new String(bytes);
+	}
 
 	/*********************************************************************************************************
 	 * ChasiListener

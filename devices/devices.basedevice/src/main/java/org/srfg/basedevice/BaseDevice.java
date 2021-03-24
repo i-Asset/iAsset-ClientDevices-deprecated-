@@ -35,6 +35,7 @@ public abstract class BaseDevice {
      ********************************************************************************************************/
     public abstract String getName();
     public abstract String getDirectory();
+    public abstract String getAssetTypeFromResources();
 
     /*********************************************************************************************************
      * abstract start/stop
@@ -85,7 +86,11 @@ public abstract class BaseDevice {
      ********************************************************************************************************/
     protected AssetModel createNewType() {
 
-        // TODO load AAS from JSON file and create type
+        String str = this.getAssetTypeFromResources();
+        System.out.println(str);
+
+        // TODO create type object based on loaded AssetType (TODO Montag)
+
         return null;
     }
 
@@ -107,7 +112,7 @@ public abstract class BaseDevice {
 
             // then register instance based on that type (kind.instance);
             instance = this.createNewInstance();
-            // TODO: refer instance to created type
+            // TODO: refer instance to created type (TODO Montag - add parsed and registered type to instance)
         }
         else // if type DOES exist -> register instance with reference to existing online type ((1)kind.instance)
         {

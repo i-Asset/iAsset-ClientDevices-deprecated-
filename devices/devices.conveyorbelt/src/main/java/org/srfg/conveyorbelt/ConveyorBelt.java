@@ -1,5 +1,10 @@
 package org.srfg.conveyorbelt;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.function.Function;
@@ -48,6 +53,20 @@ public class ConveyorBelt extends BaseDevice {
 
 	@Override
 	public String getDirectory() {return "/lab/belt/belt01";}
+
+	@Override
+	public String getAssetTypeFromResources()
+	{
+		byte[] bytes = new byte[0];
+		try {
+			URL resource = ConveyorBelt.class.getClassLoader().getResource("MyAssetType.json");
+			bytes = Files.readAllBytes(Paths.get(resource.toURI()));
+		}
+		catch (IOException e) { e.printStackTrace(); }
+		catch (URISyntaxException e) {e.printStackTrace();}
+
+		return new String(bytes);
+	}
 
 	/*********************************************************************************************************
 	 * Listener
