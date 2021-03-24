@@ -3,11 +3,13 @@ package org.srfg.basedevice;
 import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
 import at.srfg.iot.common.datamodel.asset.provider.impl.AssetModel;
 import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 import at.srfg.iot.common.registryconnector.IAssetRegistry;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
 
+import org.json.JSONObject;
 import org.srfg.properties.MyProperties;
 import java.util.Map;
 
@@ -87,11 +89,8 @@ public abstract class BaseDevice {
     protected AssetModel createNewType() {
 
         String str = this.getAssetTypeFromResources();
-        System.out.println(str);
-
-        // TODO create type object based on loaded AssetType (TODO Montag)
-
-        return null;
+        AssetAdministrationShell aas = new AssetAdministrationShell(new JSONObject(str)); // init with JSONFile
+        return new AssetModel(aas);
     }
 
     /*********************************************************************************************************
@@ -112,7 +111,10 @@ public abstract class BaseDevice {
 
             // then register instance based on that type (kind.instance);
             instance = this.createNewInstance();
-            // TODO: refer instance to created type (TODO Montag - add parsed and registered type to instance)
+
+            // refer instance to created type
+            JSONObject jsonObject = new JSONObject(this.getAssetTypeFromResources());
+            instance.setElement(new Reference((String)jsonObject.get("idShort")), null);
         }
         else // if type DOES exist -> register instance with reference to existing online type ((1)kind.instance)
         {
