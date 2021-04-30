@@ -1,15 +1,17 @@
 package org.srfg;
 
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
-import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
-import org.srfg.basedevice.BaseOtherDevice;
-
-import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.AbstractButton;
+
+import org.srfg.basedevice.BaseOtherDevice;
+
+import at.srfg.iot.common.aas.IAssetModel;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
 
 /********************************************************************************************************
  * This class contains the main function implementation and
@@ -188,7 +190,7 @@ public class MainOtherDevice extends BaseOtherDevice {
      * doIt
      ********************************************************************************************************/
     @Override
-    protected Thread doIt(final IAssetProvider model) {
+    protected Thread doIt(final IAssetModel model) {
         Runnable runnable = new Runnable() {
 
             @Override
@@ -196,11 +198,20 @@ public class MainOtherDevice extends BaseOtherDevice {
                 try {
                     while (true) {
                         Thread.sleep(500);
-
+                        
                         // Retrieve the current temperature from the model provider
-                        jTextArea1.setText( "Belt State: " + model.getElementValue(new Reference("/properties/beltstate")) + "\n" +
-                                            "Belt Distance: " + model.getElementValue(new Reference("/properties/beltdist")) + "\n" +
-                                            "Belt Moving: " + model.getElementValue(new Reference("/properties/beltmoving")) );
+                        Object result = model.getElementValue("properties/beltData");
+//                        if (Map.class.isInstance(result)) {
+//                        	Map<String, Object> res = (Map<String,Object>) result);
+//                          jTextArea1.setText( "Belt State: " + res.get + "\n" +
+//                          "Belt Distance: " + model.getElementValue(new Reference("/properties/beltdist")) + "\n" +
+//                          "Belt Moving: " + model.getElementValue(new Reference("/properties/beltmoving")) );
+//
+//                        }
+                        jTextArea1.setText(model.getElementValue("properties").toString());
+//                        jTextArea1.setText( "Belt State: " + model.getElementValue(new Reference("/properties/beltstate")) + "\n" +
+//                                            "Belt Distance: " + model.getElementValue(new Reference("/properties/beltdist")) + "\n" +
+//                                            "Belt Moving: " + model.getElementValue(new Reference("/properties/beltmoving")) );
                     }
                 } catch (InterruptedException ex) {
                     // stop the thread now

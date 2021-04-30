@@ -1,9 +1,10 @@
 package org.srfg.basedevice;
 
-import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
-import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
-import at.srfg.iot.common.registryconnector.IAssetRegistry;
 import org.srfg.properties.MyProperties;
+
+import at.srfg.iot.common.aas.IAssetModel;
+import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
+import at.srfg.iot.common.registryconnector.IAssetRegistry;
 
 public abstract class BaseOtherDevice extends javax.swing.JFrame {
 
@@ -11,9 +12,9 @@ public abstract class BaseOtherDevice extends javax.swing.JFrame {
 
     // needed for model thread
     protected Thread runner;
-    protected IAssetProvider model;
+    protected IAssetModel model;
     protected IAssetRegistry registry;
-    protected IAssetProvider connectedDevice;
+    protected IAssetModel connectedDevice;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JToggleButton jToggleButton;
@@ -45,7 +46,7 @@ public abstract class BaseOtherDevice extends javax.swing.JFrame {
      * abstract functions
      ********************************************************************************************************/
     protected abstract void initComponents();
-    protected abstract Thread doIt(final IAssetProvider model);
+    protected abstract Thread doIt(final IAssetModel model);
 
     /*********************************************************************************************************
      * abstract getters name/dir
@@ -56,17 +57,16 @@ public abstract class BaseOtherDevice extends javax.swing.JFrame {
     /*********************************************************************************************************
      * connectToDevice
      ********************************************************************************************************/
-    protected IAssetProvider connectToDevice()
+    protected IAssetModel connectToDevice()
     {
         String fullAddress = properties.getDeviceAddress() + ":" + properties.getDevicePort() + "/" + this.getName();
-        registry = IAssetRegistry.componentWithRegistry(properties.getServerAddress())
-                                 .componentAtPort(5000); // device address will be assigned automatically
-
+        registry = IAssetRegistry.componentWithRegistry(properties.getServerAddress());
+        Identifier id = new Identifier("http://iasset.labor/" + this.getName());
         //IAssetProvider instance = registry.fromType(
         //        new Identifier(this.getName()),
         //        new Identifier(this.getName() +"#aas"));
 
-        connectedDevice = registry.connect(new Identifier("properties"));
+        connectedDevice = registry.connect(id);
         return connectedDevice;
     }
 }
