@@ -1,31 +1,31 @@
 package org.srfg.basedevice;
 
-import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
-import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
-import at.srfg.iot.common.datamodel.asset.provider.impl.AssetModel;
-import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
-import at.srfg.iot.common.registryconnector.IAssetRegistry;
-import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
+import java.util.Map;
 
 import org.json.JSONObject;
 import org.srfg.properties.MyProperties;
-import java.util.Map;
+
+import at.srfg.iot.common.aas.AssetModel;
+import at.srfg.iot.common.aas.IAssetModel;
+import at.srfg.iot.common.datamodel.asset.aas.basic.AssetAdministrationShell;
+import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
+import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
+import at.srfg.iot.common.registryconnector.IAssetRegistry;
 
 public abstract class BaseDevice {
 
     private MyProperties properties;
     private IAssetRegistry registry;
-    private IAssetProvider instance;
-    private IAssetProvider type;
+    private IAssetModel instance;
+    private IAssetModel type;
 
     public BaseDevice()
     {
         // create class members
         properties = new MyProperties();
-        registry = IAssetRegistry.componentWithRegistry(properties.getServerAddress())
-                                 .componentAtPort(5000); // device address will be assigned automatically
+        registry = IAssetRegistry.componentWithRegistry(properties.getServerAddress());
 
         // Auto-register with local type if no type exists
         registerAssetTypeAutomaticallyIfNotExists();
@@ -55,7 +55,7 @@ public abstract class BaseDevice {
     /*********************************************************************************************************
      * alter an existing base instance, received from server
      ********************************************************************************************************/
-    protected IAssetProvider alterExistingInstance(IAssetProvider existingInstance) {
+    protected IAssetModel alterExistingInstance(IAssetModel existingInstance) {
 
         existingInstance.getRoot().setIdentification(new Identifier(this.getName() + "01"));
         existingInstance.getRoot().setIdShort(this.getName() + "01");
@@ -66,7 +66,7 @@ public abstract class BaseDevice {
     /*********************************************************************************************************
      * create a basic Asset Administration Shell
      ********************************************************************************************************/
-    protected AssetModel createNewInstance() {
+    protected IAssetModel createNewInstance() {
 
         AssetAdministrationShell aas = new AssetAdministrationShell();
         aas.setIdentification(new Identifier(this.getName() + "01"));
@@ -80,17 +80,17 @@ public abstract class BaseDevice {
         prop.setKind(Kind.Instance);
         aas.addSubmodel(prop);
 
-        return new AssetModel(aas);
+        return registry.create(getName(), aas);
     }
 
     /*********************************************************************************************************
      * create a basic Asset Administration Shell
      ********************************************************************************************************/
-    protected AssetModel createNewType() {
+    protected IAssetModel createNewType() {
 
         String str = this.getAssetTypeFromResources();
         AssetAdministrationShell aas = new AssetAdministrationShell(new JSONObject(str)); // init with JSONFile
-        return new AssetModel(aas);
+        return registry.create(getName(), aas);
     }
 
     /*********************************************************************************************************
@@ -99,7 +99,7 @@ public abstract class BaseDevice {
     protected void registerAssetTypeAutomaticallyIfNotExists() {
 
         // use ".fromType"-function to check for existing type on server repository -> will create instance based on type!
-        instance = registry.fromType(
+        instance = registry.create(this.getName(),
                 new Identifier("http://iasset.labor/" + this.getName()),
                 new Identifier("http://iasset.salzburgresearch.at/labor/" + this.getName() +"#aas"));
 
@@ -119,7 +119,7 @@ public abstract class BaseDevice {
         else // if type DOES exist -> register instance with reference to existing online type ((1)kind.instance)
         {
             // set properties of root aas
-            alterExistingInstance(instance);
+            // alterExistingInstance(instance);
         }
     }
 
@@ -131,8 +131,8 @@ public abstract class BaseDevice {
      ********************************************************************************************************/
     public void startHostComponent()
     {
-        registry.serve(instance, this.getName());
-        registry.start();
+//        registry.serve(instance, this.getName());
+        registry.start(5000);
     }
     public void stopHostComponent()
     {
@@ -146,8 +146,8 @@ public abstract class BaseDevice {
      ********************************************************************************************************/
     public void registerType()
     {
-        registry.serve(type, this.getName());
-        registry.start();
+//        registry.serve(type, this.getName());
+//        registry.start();
         registry.register(type);
     }
 
@@ -158,8 +158,8 @@ public abstract class BaseDevice {
      ********************************************************************************************************/
     public void registerInstance()
     {
-        registry.serve(instance, this.getName());
-        registry.start();
+//        registry.serve(instance, this.getName());
+//        registry.start();
         registry.register(instance);
     }
 }
