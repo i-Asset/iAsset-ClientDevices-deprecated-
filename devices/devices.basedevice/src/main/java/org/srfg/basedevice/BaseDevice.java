@@ -12,6 +12,7 @@ import at.srfg.iot.common.datamodel.asset.aas.basic.Identifier;
 import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
+import at.srfg.iot.common.registryconnector.AssetComponent;
 import at.srfg.iot.common.registryconnector.IAssetRegistry;
 
 public abstract class BaseDevice {
@@ -20,6 +21,7 @@ public abstract class BaseDevice {
     private IAssetRegistry registry;
     private IAssetModel instance;
     private IAssetModel type;
+    private AssetComponent edgeServer;
 
     public BaseDevice()
     {
@@ -131,12 +133,16 @@ public abstract class BaseDevice {
      ********************************************************************************************************/
     public void startHostComponent()
     {
+    	edgeServer = registry.getComponent(5000);
+    	edgeServer.serve(instance, this.getName());
 //        registry.serve(instance, this.getName());
-        registry.start(5000);
+        edgeServer.start();
     }
     public void stopHostComponent()
     {
-        registry.stop();
+    	if ( edgeServer != null ) {
+    		edgeServer.stop();
+    	}
     }
 
     /*********************************************************************************************************
