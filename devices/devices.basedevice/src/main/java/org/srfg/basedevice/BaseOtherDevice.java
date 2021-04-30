@@ -59,7 +59,6 @@ public abstract class BaseOtherDevice extends javax.swing.JFrame {
      ********************************************************************************************************/
     protected IAssetModel connectToDevice()
     {
-        String fullAddress = properties.getDeviceAddress() + ":" + properties.getDevicePort() + "/" + this.getName();
         registry = IAssetRegistry.componentWithRegistry(properties.getServerAddress());
         Identifier id = new Identifier("http://iasset.labor/" + this.getName());
         //IAssetProvider instance = registry.fromType(
