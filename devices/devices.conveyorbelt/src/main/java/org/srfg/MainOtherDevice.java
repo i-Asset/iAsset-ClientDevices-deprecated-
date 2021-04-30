@@ -161,7 +161,8 @@ public class MainOtherDevice extends BaseOtherDevice {
 
         Map<String,Object> params = new HashMap<String, Object>(); // TODO for monday: check if this works at all?
         params.put("light", abstractButton.getModel().isSelected());
-        registry.invokeOperation(connectedDevice.getRoot().getIdentification(), "operations/setLight", params);
+        connectedDevice.execute("operations/setLight", params);
+//        registry.invokeOperation(connectedDevice.getRoot().getIdentification(), "operations/setLight", params);
     }
 
 
@@ -182,7 +183,9 @@ public class MainOtherDevice extends BaseOtherDevice {
         if ( registry != null ) { // TODO for monday: check if this works at all?
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("speed", 5.5);
-            registry.invokeOperation(connectedDevice.getRoot().getIdentification(), "operations/setSpeed", params);
+            Map<String,Object> result = connectedDevice.execute("operations/setSpeed", params);
+            System.out.println(result.get("success"));
+//            registry.invokeOperation(connectedDevice.getRoot().getIdentification(), "operations/setSpeed", params);
         }
     }
 
@@ -201,17 +204,18 @@ public class MainOtherDevice extends BaseOtherDevice {
                         
                         // Retrieve the current temperature from the model provider
                         Object result = model.getElementValue("properties/beltData");
-//                        if (Map.class.isInstance(result)) {
-//                        	Map<String, Object> res = (Map<String,Object>) result);
-//                          jTextArea1.setText( "Belt State: " + res.get + "\n" +
-//                          "Belt Distance: " + model.getElementValue(new Reference("/properties/beltdist")) + "\n" +
-//                          "Belt Moving: " + model.getElementValue(new Reference("/properties/beltmoving")) );
-//
-//                        }
-                        jTextArea1.setText(model.getElementValue("properties").toString());
-//                        jTextArea1.setText( "Belt State: " + model.getElementValue(new Reference("/properties/beltstate")) + "\n" +
-//                                            "Belt Distance: " + model.getElementValue(new Reference("/properties/beltdist")) + "\n" +
-//                                            "Belt Moving: " + model.getElementValue(new Reference("/properties/beltmoving")) );
+                        if ( Map.class.isInstance(result)) {
+                        	@SuppressWarnings("unchecked")
+							Map<String,Object> map = (Map<String,Object>) result;
+                          jTextArea1.setText( "Belt Distance:    " + map.get("distance") + "\n" +
+                        		  			  "Belt State: " + map.get("state") + "\n" +
+                        		  			  "Belt Direction:" + map.get("direction") + "\n" +
+                        		  			  "Belt Speed:    " + map.get("speed")  );
+                        	
+                        }
+                        else {
+                        	jTextArea1.setText(result.toString());
+                        }
                     }
                 } catch (InterruptedException ex) {
                     // stop the thread now
