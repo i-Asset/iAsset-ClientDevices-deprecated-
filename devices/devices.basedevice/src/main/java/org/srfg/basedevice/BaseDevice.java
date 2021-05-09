@@ -154,7 +154,7 @@ public abstract class BaseDevice {
     {
 //        registry.serve(type, this.getName());
 //        registry.start();
-        registry.register(type);
+//        registry.register(type);
     }
 
     /*********************************************************************************************************
@@ -166,6 +166,6 @@ public abstract class BaseDevice {
     {
 //        registry.serve(instance, this.getName());
 //        registry.start();
-        registry.register(instance);
+//        registry.register(instance);
     }
 }
