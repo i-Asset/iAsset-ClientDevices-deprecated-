@@ -284,4 +284,12 @@
 	  </dependency>-->
 
   </dependencies>
+	<modules>
+		<module>devices.basedevice</module>
+		<module>devices.conveyorbelt</module>
+		<module>devices.chasi</module>
+		<module>devices.panda</module>
+		<module>devices.IPSA</module>
+		<module>devices.Peak2Pi</module>
+	</modules>
 </project>
