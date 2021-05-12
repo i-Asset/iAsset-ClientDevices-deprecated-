@@ -73,7 +73,7 @@
 						  <outputDirectory>${basedir}/target/dependency-jars/</outputDirectory>
 						  <resources>
 							  <resource>
-								  <directory>../../BASE/basys.basedevice/src/main/resources/</directory>
+								  <directory>../devices.basedevice/src/main/resources/</directory>
 								  <filtering>true</filtering>
 							  </resource>
 						  </resources>
