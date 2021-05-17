@@ -1,7 +1,7 @@
 package org.srfg;
 
+import at.srfg.iot.common.aas.IAssetModel;
 import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
-import at.srfg.iot.common.datamodel.asset.provider.IAssetProvider;
 import org.srfg.basedevice.BaseOtherDevice;
 
 import java.util.logging.Level;
@@ -106,7 +106,7 @@ public class MainOtherDevice extends BaseOtherDevice {
      * doIt
      ********************************************************************************************************/
     @Override
-    protected Thread doIt(final IAssetProvider model) {
+    protected Thread doIt(final IAssetModel model) {
         Runnable runnable = new Runnable() {
 
             @Override
