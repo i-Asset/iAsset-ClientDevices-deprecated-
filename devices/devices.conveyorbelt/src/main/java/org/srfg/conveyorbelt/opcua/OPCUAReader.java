@@ -16,10 +16,10 @@ import org.srfg.conveyorbelt.ConveyorBelt;
 public class OPCUAReader extends ClientBase {
 
     private final int m_fiNamespaceIndex = 2;
-    //private final int m_fiServerTime = 2;
-    private final int m_fiConBeltState = 5;
-    private final int m_fiConBeltDist = 6;
-    private final int m_fiConBeltMoving = 7;
+    private final int m_fiServerTime = 2;
+    private final int m_fiConBeltState = 10;
+    private final int m_fiConBeltDist = 11;
+    private final int m_fiConBeltMoving = 12;
 
     /*********************************************************************************************************
      * CTOR

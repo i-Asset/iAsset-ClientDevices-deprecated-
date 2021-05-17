@@ -16,7 +16,7 @@ public class OPCUAWriter extends ClientBase {
 
     private final int m_fiNamespaceIndex = 2;
     private final int m_fiMoveBelt = 3;
-    private final int m_fiSwitchBusyLight = 4;
+    private final int m_fiSwitchBusyLight = 7;
 
     /*********************************************************************************************************
      * CTOR
