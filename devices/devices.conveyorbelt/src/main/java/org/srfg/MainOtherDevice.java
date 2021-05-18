@@ -160,8 +160,8 @@ public class MainOtherDevice extends BaseOtherDevice {
         AbstractButton abstractButton = (AbstractButton) evt.getSource();
 
         Map<String,Object> params = new HashMap<String, Object>(); // TODO for monday: check if this works at all?
-        params.put("light", abstractButton.getModel().isSelected());
-        connectedDevice.execute("operations/setLight", params);
+        params.put("state", abstractButton.getModel().isSelected());
+        connectedDevice.execute("operations/switchBusyLight", params);
 //        registry.invokeOperation(connectedDevice.getRoot().getIdentification(), "operations/setLight", params);
     }
 
@@ -174,16 +174,17 @@ public class MainOtherDevice extends BaseOtherDevice {
         double speed = 0.0;
         switch(evt.getItem().toString()) {
             case "Geringe Distanz": speed = 0.1; break;
-            case "Mittlere Distanz": speed = 1.0; break;
-            case "Weite Distanz": speed = 1.5; break;
-            case "Sehr weite Distanz": speed = 5.5; break;
+            case "Mittlere Distanz": speed = 0.2; break;
+            case "Weite Distanz": speed = 0.25; break;
+            case "Sehr weite Distanz": speed = 0.4; break;
             default: speed = 0.0; break;
         }
 
         if ( registry != null ) { // TODO for monday: check if this works at all?
             Map<String, Object> params = new HashMap<String, Object>();
-            params.put("speed", 5.5);
-            Map<String,Object> result = connectedDevice.execute("operations/setSpeed", params);
+            params.put("direction", "left");
+            params.put("distance", speed);
+            Map<String,Object> result = connectedDevice.execute("operations/moveBelt", params);
             System.out.println(result.get("success"));
 //            registry.invokeOperation(connectedDevice.getRoot().getIdentification(), "operations/setSpeed", params);
         }
