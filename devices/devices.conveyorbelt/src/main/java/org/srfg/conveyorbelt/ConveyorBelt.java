@@ -211,14 +211,11 @@ public class ConveyorBelt extends BaseDevice {
 						throw new IllegalStateException("Missing parameter [state]");
 					}
 					// type check der input parameter
-					// is direction gültig?? 
-					
-					// 
 					Object state = t.get("state");
 					if ( Boolean.class.isInstance(state)) {
 						// 
-						//
-						return String.format("SWITCH light Command passed to ConveyorBelt: state %s distance %s", state) ;
+						switchBusyLight((Boolean) state);
+						return String.format("SWITCH light Command passed to ConveyorBelt: state %s", state) ;
 					}
 					return String.format("SWITCH light Command failed") ;
 
