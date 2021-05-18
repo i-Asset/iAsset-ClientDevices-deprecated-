@@ -94,7 +94,12 @@ public abstract class BaseDevice {
         AssetAdministrationShell aas = new AssetAdministrationShell(new JSONObject(str)); // init with JSONFile
         return registry.create(getName(), aas);
     }
-
+    protected IAssetModel getModel() {
+    	if ( instance == null) {
+    		registerAssetTypeAutomaticallyIfNotExists();
+    	}
+    	return instance;
+    }
     /*********************************************************************************************************
      * registerTypeAutomaticallyIfNeeded
      ********************************************************************************************************/

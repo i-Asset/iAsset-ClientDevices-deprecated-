@@ -191,6 +191,67 @@ public class ConveyorBelt extends BaseDevice {
 			this.setBeltMoving(false);
 
 			new Thread(new BeltRunner()).start();
+			// combine the model with the AAS
+			getModel().setValueSupplier("properties/beltData/distance",
+					// the getter function must return a string
+					() -> beltdist) ;
+			getModel().setValueSupplier("properties/beltData/serverTime",
+					// the getter function must return a string
+					() -> "" + System.currentTimeMillis()) ;
+			getModel().setValueSupplier("properties/beltData/state",
+					// the getter function must return a string
+					() -> beltstate) ;
+			getModel().setValueSupplier("properties/beltData/moving",
+					// the getter function must return a string
+					() -> beltmoving ? "true": "false")  ;
+			getModel().setFunction("operations/switchBusyLight", new Function<Map<String,Object>, Object>() {
+				@Override
+				public Object apply(Map<String, Object> t) {
+					
+					if (!t.containsKey("state")) {
+						throw new IllegalStateException("Missing parameter [state]");
+					}
+					// type check der input parameter
+					// is direction gültig?? 
+					
+					// 
+					Object state = t.get("state");
+					if ( Boolean.class.isInstance(state)) {
+						// 
+						//
+						return String.format("SWITCH light Command passed to ConveyorBelt: state %s distance %s", state) ;
+					}
+					return String.format("SWITCH light Command failed") ;
+
+				}
+			});
+			getModel().setFunction("operations/moveBelt", new Function<Map<String,Object>, Object>() {
+				
+				@Override
+				public Object apply(Map<String, Object> t) {
+					if (!t.containsKey("direction")) {
+						throw new IllegalStateException("Missing parameter [direction]");
+					}
+					if (!t.containsKey("distance")) {
+						throw new IllegalStateException("Missing parameter [distance]");
+					}
+					// type check der input parameter
+					// is direction gültig?? 
+					
+					// 
+					Object distance = t.get("distance");
+					Object direction = t.get("direction");
+					Double d = 0.0d;
+					if ( Number.class.isInstance(distance)) {
+						// 
+						d = new Double(distance.toString());
+						// AND dieser stelle braucht es eine METHODE welche die OPC-UA ROUTINE aufruft
+						
+						return String.format("MoveBelt Command passed to ConveyorBelt: direction %s distance %s", direction, distance) ;
+					}
+					return String.format("Command not successful") ;
+				}
+			});
 		}
 	}
 
@@ -202,6 +263,10 @@ public class ConveyorBelt extends BaseDevice {
 		if (isActive()) {
 			this.opcuaManager.StopReadThread();
             active = false;
+			getModel().setValueSupplier("properties/beltData/distance", null);
+			getModel().setValueSupplier("properties/beltData/serverTime", null);
+			getModel().setValueSupplier("properties/beltData/state", null);
+			getModel().setValueSupplier("properties/beltData/moving", null);
 		}
 	}
 
