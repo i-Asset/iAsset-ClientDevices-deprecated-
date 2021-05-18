@@ -83,12 +83,12 @@ public class ConveyorBelt extends BaseDevice {
 	public float getMoveBelt() {
 		return movebelt;
 	}
-	public void setMoveBelt(float newSpeed) {
+	public void setMoveBelt(String direction, float distance) {
 
-		if (this.movebelt != newSpeed)
-			opcuaManager.WriteValue(OPCUAManager.WriteLocation.MoveBelt, new Variant(newSpeed));
+		if (this.movebelt != distance)
+			opcuaManager.callMethod(OPCUAManager.WriteLocation.MoveBelt, new Variant[]{new Variant(direction), new Variant(distance)});
 
-		this.movebelt = newSpeed;
+		this.movebelt = distance;
 		if (listener != null) {
 			listener.MoveBeltChanged();
 		}
@@ -103,7 +103,7 @@ public class ConveyorBelt extends BaseDevice {
 	public void setSwitchBusyLight(boolean newLightValue) {
 
 		if(this.switchbusylight != newLightValue)
-			opcuaManager.WriteValue(OPCUAManager.WriteLocation.Switchlight, new Variant(newLightValue));
+			opcuaManager.callMethod(OPCUAManager.WriteLocation.Switchlight, new Variant[]{new Variant(newLightValue)});
 
 		this.switchbusylight = newLightValue;
 		if (listener != null) {
@@ -181,7 +181,7 @@ public class ConveyorBelt extends BaseDevice {
 	public void start() {
 		if (!isActive()) {
 
-			this.opcuaManager.StartReadThread();
+			this.opcuaManager.startReadThread();
 			active = true;
 
 			// init read properties
@@ -241,7 +241,7 @@ public class ConveyorBelt extends BaseDevice {
 					if ( Number.class.isInstance(distance)) {
 						// 
 						d = Double.valueOf(distance.toString());
-						// AND dieser stelle braucht es eine METHODE welche die OPC-UA ROUTINE aufruft
+						// AN dieser stelle folgt die METHODE welche die OPC-UA ROUTINE aufruft
 						moveBelt((String) direction, d.floatValue());
 						
 						return String.format("MoveBelt Command passed to ConveyorBelt: direction %s distance %s", direction, distance) ;
@@ -258,7 +258,7 @@ public class ConveyorBelt extends BaseDevice {
 	@Override
 	public void stop() {
 		if (isActive()) {
-			this.opcuaManager.StopReadThread();
+			this.opcuaManager.stopReadThread();
             active = false;
 			getModel().setValueSupplier("properties/beltData/distance", null);
 			getModel().setValueSupplier("properties/beltData/serverTime", null);
@@ -289,6 +289,7 @@ public class ConveyorBelt extends BaseDevice {
 	 * createIdentification
 	 ********************************************************************************************************/
 	@Override
+	@Deprecated
 	protected Submodel createIdentification() {
 
 		// create the sub model
@@ -327,6 +328,7 @@ public class ConveyorBelt extends BaseDevice {
 	 * can not be retrieved from supplier automatically
 	 ********************************************************************************************************/
 	@Override
+	@Deprecated
 	protected Submodel createProperties() {
 
 		Submodel info = new Submodel();
@@ -342,7 +344,8 @@ public class ConveyorBelt extends BaseDevice {
 			return String.valueOf(this.getMoveBelt());
 		});
 		movebelt.setSetter((args) -> { // Consumer Function (Setter)
-			this.setMoveBelt(Float.parseFloat(args));
+			// disabled, because of deprecation of function
+			//this.setMoveBelt(Float.parseFloat(args));
 		});
 		movebelt.setValueQualifier(DataTypeEnum.DECIMAL); // DOUBLE
 		info.addSubmodelElement(movebelt);
@@ -390,6 +393,7 @@ public class ConveyorBelt extends BaseDevice {
 	 * createModel
 	 ********************************************************************************************************/
 	@Override
+	@Deprecated
 	protected Map<String, Object> createModel() {
 
 		Map<String, Object> properties = new HashMap<>();
@@ -436,7 +440,8 @@ public class ConveyorBelt extends BaseDevice {
 		Function<Object, Object> setSpeedFunction = (args) -> {
 			Object[] params = (Object[]) args;
 			if (params.length == 1) {
-				this.setMoveBelt(((Double) params[0]).floatValue());
+				// disabled, because of deprecation of function
+				//this.setMoveBelt(((Double) params[0]).floatValue());
 			}
 			return null;
 		};
@@ -458,7 +463,7 @@ public class ConveyorBelt extends BaseDevice {
 	}
 	private void switchBusyLight(boolean newLightValue) {
 		if(this.switchbusylight != newLightValue)
-			opcuaManager.WriteValue(OPCUAManager.WriteLocation.Switchlight, new Variant(newLightValue));
+			opcuaManager.callMethod(OPCUAManager.WriteLocation.Switchlight, new Variant[]{new Variant(newLightValue)});
 
 		this.switchbusylight = newLightValue;
 		if (listener != null) {
@@ -469,7 +474,7 @@ public class ConveyorBelt extends BaseDevice {
 	private void moveBelt(String direction, float distance) {
 
 		// FIXME: Direction is always "left"
-		opcuaManager.WriteValue(OPCUAManager.WriteLocation.MoveBelt, new Variant(distance));
+		opcuaManager.callMethod(OPCUAManager.WriteLocation.MoveBelt, new Variant[]{new Variant(direction), new Variant(distance)});
 		if (listener != null) {
 			listener.MoveBeltChanged();
 		}

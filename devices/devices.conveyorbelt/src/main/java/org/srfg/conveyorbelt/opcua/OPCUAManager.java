@@ -24,6 +24,7 @@ public class OPCUAManager {
     Thread m_reader_thread;
     OPCUAReader m_reader;
     OPCUAWriter m_writer;
+    OPCUAMethodCall opcuaMethodCall;
 
     String endpointUrl = "opc.tcp://192.168.48.42:4840/";
     //String endpointIP = "192.168.48.42";
@@ -35,15 +36,17 @@ public class OPCUAManager {
     {
         this.m_reader = new OPCUAReader(endpointUrl, belt);
         this.m_writer = new OPCUAWriter(endpointUrl, belt);
+        this.opcuaMethodCall = new OPCUAMethodCall(endpointUrl, belt);
 
         this.m_reader.ConnectClient();
         this.m_writer.ConnectClient();
+        this.opcuaMethodCall.ConnectClient();
     }
 
     /*********************************************************************************************************
      * StartReadThread
      ********************************************************************************************************/
-    public void StartReadThread()
+    public void startReadThread()
     {
         m_reader_thread = new Thread(new Runnable()
         {
@@ -78,12 +81,27 @@ public class OPCUAManager {
     }
 
     /*********************************************************************************************************
+     * callMethod
+     ********************************************************************************************************/
+    public void callMethod(WriteLocation method, Variant[] val)
+    {
+        if(method == WriteLocation.Switchlight)
+        {
+            opcuaMethodCall.callSwitchBusyLight(val[0]);
+        }
+        else if(method == WriteLocation.MoveBelt)
+        {
+            opcuaMethodCall.callMoveBelt(val[0], val[1]);
+        }
+    }
+    /*********************************************************************************************************
      * StopThreads
      ********************************************************************************************************/
-    public void StopReadThread()
+    public void stopReadThread()
     {
         m_reader_thread.stop();
         m_reader.DisconnectClient();
         m_writer.DisconnectClient();
+        opcuaMethodCall.DisconnectClient();
     }
 }
