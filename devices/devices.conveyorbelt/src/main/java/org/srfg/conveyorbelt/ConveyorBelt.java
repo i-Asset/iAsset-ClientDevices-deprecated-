@@ -1,25 +1,24 @@
 package org.srfg.conveyorbelt;
 
+import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
+import at.srfg.iot.common.datamodel.asset.aas.common.types.DataTypeEnum;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
+import com.digitalpetri.opcua.stack.core.types.builtin.Variant;
+import org.srfg.basedevice.BaseDevice;
+import org.srfg.conveyorbelt.opcua.OPCUAManager;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
-import at.srfg.iot.common.datamodel.asset.aas.common.types.DataTypeEnum;
-import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
-
-import com.digitalpetri.opcua.stack.core.types.builtin.Variant;
-import org.srfg.basedevice.BaseDevice;
-import org.srfg.conveyorbelt.opcua.OPCUAManager;
 
 
 
@@ -244,8 +243,9 @@ public class ConveyorBelt extends BaseDevice {
 					Double d = 0.0d;
 					if ( Number.class.isInstance(distance)) {
 						// 
-						d = new Double(distance.toString());
+						d = Double.valueOf(distance.toString());
 						// AND dieser stelle braucht es eine METHODE welche die OPC-UA ROUTINE aufruft
+						moveBelt((String) direction, d.floatValue());
 						
 						return String.format("MoveBelt Command passed to ConveyorBelt: direction %s distance %s", direction, distance) ;
 					}
@@ -458,5 +458,24 @@ public class ConveyorBelt extends BaseDevice {
 		myModel.put("operations", operations);
 		myModel.put("properties", properties);
 		return myModel;
+	}
+	private void switchBusyLight(boolean newLightValue) {
+		if(this.switchbusylight != newLightValue)
+			opcuaManager.WriteValue(OPCUAManager.WriteLocation.Switchlight, new Variant(newLightValue));
+
+		this.switchbusylight = newLightValue;
+		if (listener != null) {
+			listener.SwitchBusyLightChanged();
+		}
+
+	}
+	private void moveBelt(String direction, float distance) {
+
+		// FIXME: Direction is always "left"
+		opcuaManager.WriteValue(OPCUAManager.WriteLocation.MoveBelt, new Variant(distance));
+		if (listener != null) {
+			listener.MoveBeltChanged();
+		}
+
 	}
 }
