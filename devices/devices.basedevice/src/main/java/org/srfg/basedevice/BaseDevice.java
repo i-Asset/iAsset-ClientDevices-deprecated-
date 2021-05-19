@@ -171,6 +171,6 @@ public abstract class BaseDevice {
     {
 //        registry.serve(instance, this.getName());
 //        registry.start();
-//        registry.register(instance);
+        registry.save(instance);
     }
 }

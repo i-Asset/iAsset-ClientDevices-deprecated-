@@ -22,6 +22,9 @@ public abstract class BaseOtherDevice extends javax.swing.JFrame {
     protected javax.swing.JCheckBox jCheckBox;
     protected javax.swing.JLabel jLabel1;
     protected javax.swing.JLabel jLabel2;
+    protected javax.swing.JLabel jLabel3;
+    protected javax.swing.JButton jMoveBelt;
+    protected javax.swing.JComboBox<String> jComboBox3;
     protected javax.swing.JScrollPane jScrollPane1;
     protected javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
@@ -36,6 +39,9 @@ public abstract class BaseOtherDevice extends javax.swing.JFrame {
         jCheckBox = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jMoveBelt = new javax.swing.JButton();
+        jComboBox3 = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
 

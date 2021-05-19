@@ -52,21 +52,38 @@ public class MainOtherDevice extends BaseOtherDevice {
                 jToggleButton1ItemStateChanged(evt);
             }
         });
-
+        jMoveBelt.setText("Ausführen");
         jLabel1.setText("Distanz");
         jLabel2.setText("Lampe ein/ausschalten");
-
-        jComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Geringe Distanz", "Mittlere Distanz", "Weite Distanz", "Sehr weite Distanz" }));
-        jComboBox.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox1ItemStateChanged(evt);
-            }
-        });
-        jComboBox.addActionListener(new java.awt.event.ActionListener() {
+        jLabel3.setText("Richtung");
+        jComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ganz minimal", "Minimal", "Weiter", "Zu weit?" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vorwärts", "Rückwärts"}));
+//        jComboBox.addItemListener(new java.awt.event.ItemListener() {
+//            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+//                jComboBox1ItemStateChanged(evt);
+//            }
+//        });
+        jMoveBelt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
             }
         });
+//        jComboBox.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                jComboBox1ActionPerformed(evt);
+//            }
+//        });
+
+        jCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+//        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                jComboBox3ActionPerformed(evt);
+//            }
+//        });
 
         jCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -91,6 +108,13 @@ public class MainOtherDevice extends BaseOtherDevice {
                                                 .addComponent(jComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGap(36, 36, 36)
+                                                .addComponent(jLabel3)
+                                                .addGap(39, 39, 39)
+                                                .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGap(39, 39, 39)
+                                                .addComponent(jMoveBelt))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(36, 36, 36)
                                                 .addComponent(jLabel2)
                                                 .addGap(39, 39, 39)
                                                 .addComponent(jCheckBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -112,6 +136,10 @@ public class MainOtherDevice extends BaseOtherDevice {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel1)
                                         .addComponent(jComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jMoveBelt))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel2)
@@ -127,7 +155,15 @@ public class MainOtherDevice extends BaseOtherDevice {
     /*********************************************************************************************************
      * jComboBox1ActionPerformed
      ********************************************************************************************************/
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {}
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {
+    	moveBelt();
+    }
+    /*********************************************************************************************************
+     * jComboBox3ActionPerformed
+     ********************************************************************************************************/
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {
+    	moveBelt();
+    }
 
     /*********************************************************************************************************
      * jToggleButton1ItemStateChanged
@@ -161,7 +197,10 @@ public class MainOtherDevice extends BaseOtherDevice {
 
         Map<String,Object> params = new HashMap<String, Object>(); // TODO for monday: check if this works at all?
         params.put("state", abstractButton.getModel().isSelected());
-        connectedDevice.execute("operations/switchBusyLight", params);
+        if ( connectedDevice != null ) {
+        	connectedDevice.execute("operations/switchBusyLight", params);
+        	
+        }
 //        registry.invokeOperation(connectedDevice.getRoot().getIdentification(), "operations/setLight", params);
     }
 
@@ -170,26 +209,50 @@ public class MainOtherDevice extends BaseOtherDevice {
      * jComboBox1ItemStateChanged
      ********************************************************************************************************/
     private void jComboBox1ItemStateChanged(ItemEvent evt) {
-
-        double speed = 0.0;
-        switch(evt.getItem().toString()) {
-            case "Geringe Distanz": speed = 0.1; break;
-            case "Mittlere Distanz": speed = 0.2; break;
-            case "Weite Distanz": speed = 0.25; break;
-            case "Sehr weite Distanz": speed = 0.4; break;
-            default: speed = 0.0; break;
-        }
-
-        if ( registry != null ) { // TODO for monday: check if this works at all?
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("direction", "left");
-            params.put("distance", speed);
-            Map<String,Object> result = connectedDevice.execute("operations/moveBelt", params);
-            System.out.println(result.get("success"));
-//            registry.invokeOperation(connectedDevice.getRoot().getIdentification(), "operations/setSpeed", params);
-        }
+    	if ( evt.getStateChange() == ItemEvent.SELECTED) {
+    		double speed = 0.0;
+    		switch(evt.getItem().toString()) {
+    		case "Geringe Distanz": speed = 0.1; break;
+    		case "Mittlere Distanz": speed = 0.2; break;
+    		case "Weite Distanz": speed = 0.25; break;
+    		case "Sehr weite Distanz": speed = 0.4; break;
+    		default: speed = 0.0; break;
+    		}
+    		
+    		if ( registry != null ) { // TODO for monday: check if this works at all?
+    			Map<String, Object> params = new HashMap<String, Object>();
+    			params.put("direction", "left");
+    			params.put("distance", speed);
+    			Map<String,Object> result = connectedDevice.execute("operations/moveBelt", params);
+    			System.out.println(result.get("success"));
+    		}
+    	}
     }
-
+    private void moveBelt() {
+    	String richtung = jComboBox3.getSelectedItem().toString();
+    	String entfernung = jComboBox.getSelectedItem().toString();
+    	String direction = (richtung == "Vorwärts"? "left" : "right");
+    	double distance = getEntfernung(entfernung);
+		if ( registry != null ) { // TODO for monday: check if this works at all?
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("direction", direction);
+			params.put("distance", distance);
+			Map<String,Object> result = connectedDevice.execute("operations/moveBelt", params);
+			System.out.println(result.get("success"));
+		}
+    	
+    }
+    private double getEntfernung(String txt) {
+        //jComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ganz minimal", "Minimal", "Weiter", "Zu weit?" }));
+    	switch (txt) {
+		case "Ganz minimal": return 0.1; 
+		case "Minimal": return 0.2; 
+		case "Weiter": return 0.25;
+		case "Zu weit?": return  0.4; 
+		default: return 0.0; 
+    	
+    	}
+    }
     /*********************************************************************************************************
      * doIt
      ********************************************************************************************************/
@@ -208,10 +271,10 @@ public class MainOtherDevice extends BaseOtherDevice {
                         if ( Map.class.isInstance(result)) {
                         	@SuppressWarnings("unchecked")
 							Map<String,Object> map = (Map<String,Object>) result;
-                          jTextArea1.setText( "Belt Distance:    " + map.get("distance") + "\n" +
-                        		  			  "Belt State: " + map.get("state") + "\n" +
-                        		  			  "Belt Direction:" + map.get("direction") + "\n" +
-                        		  			  "Belt Speed:    " + map.get("speed")  );
+                          jTextArea1.setText( "Distance: " + map.get("distance") + "\n" +
+                        		  			  "Status..: " + map.get("state") + "\n" +
+                        		  			  "Richtung: " + map.get("direction") + "\n" +
+                        		  			  "Aktiv...: " + map.get("moving")  );
                         	
                         }
                         else {
