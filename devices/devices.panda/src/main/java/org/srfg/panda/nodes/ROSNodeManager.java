@@ -9,6 +9,7 @@ import org.srfg.panda.PandaDevice;
 import java.net.URI;
 
 // This class will run a publisher and subscriber, and relay data between them.
+
 /********************************************************************************************************
  * This class implements manager of all used ROS nodes
  *
@@ -24,14 +25,12 @@ public class ROSNodeManager {
     private ROSNode_JointStates nodeJointStates;
     private NodeMainExecutor nodeMainExecutor;
 
-    public ROSNodeManager(PandaDevice device)
-    {
+    public ROSNodeManager(PandaDevice device) {
         nodeFrankaStates = new ROSNode_FrankaStates(device);
         nodeJointStates = new ROSNode_JointStates(device);
     }
 
-    public void startROSNodes()
-    {
+    public void startROSNodes() {
         // export ROS_MASTER_URI=http://192.168.48.41:11311
         URI masteruri = URI.create("http://192.168.48.41:11311");
 
@@ -50,8 +49,7 @@ public class ROSNodeManager {
         nodeMainExecutor.execute(nodeJointStates, subNodeConfiguration);
     }
 
-    public void shutdownROSNodes()
-    {
+    public void shutdownROSNodes() {
         nodeMainExecutor.shutdown();
     }
 }
