@@ -1,377 +1,391 @@
 package org.srfg.panda;
 
+import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.ReferableElement;
+import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
+import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
+import org.srfg.basedevice.BaseDevice;
+import org.srfg.panda.nodes.ROSNodeManager;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import at.srfg.iot.common.datamodel.asset.aas.basic.Submodel;
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.KeyElementsEnum;
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Kind;
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.ReferableElement;
-import at.srfg.iot.common.datamodel.asset.aas.modeling.submodelelement.Property;
-import at.srfg.iot.common.datamodel.asset.aas.common.referencing.Reference;
-
-import org.srfg.basedevice.BaseDevice;
-import org.srfg.panda.nodes.ROSNodeManager;
 
 
 /********************************************************************************************************
  * This class implements the smart manufacturing robot franka panda
- * 
+ *
  * @author mathias.schmoigl
  ********************************************************************************************************/
 public class PandaDevice extends BaseDevice {
 
-	// needed for ROS communication
-	private ROSNodeManager nodeManager;
-	private PandaListener listener;
-	private boolean active;
+    // needed for ROS communication
+    private ROSNodeManager nodeManager;
+    private PandaListener listener;
+    private boolean active;
 
-	private byte robotMode;
-	private double positonX;
-	private double positonY;
-	private double positonZ;
-	private double forceZ;
-	private double gripperDistance;
+    private byte robotMode;
+    private double positionX;
+    private double positionY;
+    private double positionZ;
+    private double forceZ;
+    private double gripperDistance;
 
 
-	/*********************************************************************************************************
-	 * CTOR
-	 ********************************************************************************************************/
-	public PandaDevice() { this.nodeManager = new ROSNodeManager(this); }
+    /*********************************************************************************************************
+     * CTOR
+     ********************************************************************************************************/
+    public PandaDevice() {
+        this.nodeManager = new ROSNodeManager(this);
+    }
 
-	@Override
-	public String getName() {return "panda";}
+    @Override
+    public String getName() {
+        return "panda";
+    }
 
-	@Override
-	public String getDirectory() {return "/lab/panda/panda01";}
+    @Override
+    public String getDirectory() {
+        return "/lab/panda/panda01";
+    }
 
-	@Override
-	public String getAssetTypeFromResources()
-	{
-		byte[] bytes = new byte[0];
-		try {
-			URL resource = PandaDevice.class.getClassLoader().getResource("MyAssetType.json");
-			bytes = Files.readAllBytes(Paths.get(resource.toURI()));
-		}
-		catch (IOException e) { e.printStackTrace(); }
-		catch (URISyntaxException e) {e.printStackTrace();}
+    @Override
+    public String getAssetTypeFromResources() {
+        byte[] bytes = new byte[0];
+        try {
+            URL resource = PandaDevice.class.getClassLoader().getResource("MyAssetType.json");
+            bytes = Files.readAllBytes(Paths.get(resource.toURI()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
-		return new String(bytes);
-	}
+        return new String(bytes);
+    }
 
-	/*********************************************************************************************************
-	 * PandaListener
-	 ********************************************************************************************************/
-	private class PandaRunner implements Runnable {
+    /*********************************************************************************************************
+     * PandaListener
+     ********************************************************************************************************/
+    private class PandaRunner implements Runnable {
 
-		@Override
-		public void run() {
-			while (active) {
+        @Override
+        public void run() {
+            while (active) {
                 // TODO: add cyclic stuff here
-			}
-		}
-	}
+            }
+        }
+    }
 
-	/*********************************************************************************************************
-	 * PandaListener
-	 ********************************************************************************************************/
-	@Override
-	public void start() {
-		if (!isActive()) {
+    /*********************************************************************************************************
+     * PandaListener
+     ********************************************************************************************************/
+    @Override
+    public void start() {
+        if (!isActive()) {
 
-			nodeManager.startROSNodes();
-			System.out.println(String.format("Starting panda %s", this.getName() + "01"));
-			active = true;
+            nodeManager.startROSNodes();
+            System.out.println(String.format("Starting panda %s", this.getName() + "01"));
+            active = true;
 
-			new Thread(new PandaRunner()).start();
-		}
-	}
+            new Thread(new PandaRunner()).start();
+        }
+    }
 
-	/*********************************************************************************************************
-	 * PandaListener
-	 ********************************************************************************************************/
-	@Override
-	public void stop() {
-		if (isActive()) {
+    /*********************************************************************************************************
+     * PandaListener
+     ********************************************************************************************************/
+    @Override
+    public void stop() {
+        if (isActive()) {
 
-			nodeManager.shutdownROSNodes();
-			System.out.println(String.format("Stopping panda %s", this.getName() + "01"));
-			active = false;
-		}
-	}
+            nodeManager.shutdownROSNodes();
+            System.out.println(String.format("Stopping panda %s", this.getName() + "01"));
+            active = false;
+        }
+    }
 
-	/*********************************************************************************************************
-	 * Active
-	 ********************************************************************************************************/
-	public boolean isActive() {
-		return active;
-	}
-	public void setActive(boolean active) {
-		if (active != this.active) {
-			if (active) {
-				start();
-			} else {
-				stop();
-			}
-		}
-		// no effect
-		this.active = active;
-	}
+    /*********************************************************************************************************
+     * Active
+     ********************************************************************************************************/
+    public boolean isActive() {
+        return active;
+    }
 
-	/*********************************************************************************************************
-	 * Listener
-	 ********************************************************************************************************/
-	public PandaListener getListener() {
-		return listener;
-	}
-	public void setListener(PandaListener listener) {
-		this.listener = listener;
-	}
+    public void setActive(boolean active) {
+        if (active != this.active) {
+            if (active) {
+                start();
+            } else {
+                stop();
+            }
+        }
+        // no effect
+        this.active = active;
+    }
 
-	/*********************************************************************************************************
-	 * PandaListener - RobotMode
-	 ********************************************************************************************************/
-	public byte getRobotMode() {
-		return robotMode;
-	}
-	public void setRobotMode(byte robotMode) {
-		this.robotMode = robotMode;
-		if (listener != null) {
-			listener.robotModeChanged();
-		}
-	}
+    /*********************************************************************************************************
+     * Listener
+     ********************************************************************************************************/
+    public PandaListener getListener() {
+        return listener;
+    }
 
-	/*********************************************************************************************************
-	 * PandaListener - PositionX
-	 ********************************************************************************************************/
-	public double getPositionX() {
-		return positonX;
-	}
-	public void setPositionX(double positionX) {
-		this.positonX = positionX;
-		if (listener != null) {
-			listener.posXChanged();
-		}
-	}
+    public void setListener(PandaListener listener) {
+        this.listener = listener;
+    }
 
-	/*********************************************************************************************************
-	 * PandaListener - PositionY
-	 ********************************************************************************************************/
-	public double getPositionY() {
-		return positonY;
-	}
-	public void setPositionY(double positionY) {
-		this.positonY = positionY;
-		if (listener != null) {
-			listener.posYChanged();
-		}
-	}
+    /*********************************************************************************************************
+     * PandaListener - RobotMode
+     ********************************************************************************************************/
+    public byte getRobotMode() {
+        return robotMode;
+    }
 
-	/*********************************************************************************************************
-	 * PandaListener - PositionZ
-	 ********************************************************************************************************/
-	public double getPositionZ() {
-		return positonZ;
-	}
-	public void setPositionZ(double positionZ) {
-		this.positonZ = positionZ;
-		if (listener != null) {
-			listener.posZChanged();
-		}
-	}
+    public void setRobotMode(byte robotMode) {
+        this.robotMode = robotMode;
+        if (listener != null) {
+            listener.robotModeChanged();
+        }
+    }
 
-	/*********************************************************************************************************
-	 * PandaListener - forceZ
-	 ********************************************************************************************************/
-	public double getForceZ() {
-		return forceZ;
-	}
-	public void setForceZ(double forceZ) {
-		this.forceZ = forceZ;
-		if (listener != null) {
-			listener.forceZChanged();
-		}
-	}
+    /*********************************************************************************************************
+     * PandaListener - PositionX
+     ********************************************************************************************************/
+    public double getPositionX() {
+        return positionX;
+    }
 
-	/*********************************************************************************************************
-	 * PandaListener - gripperDistance
-	 ********************************************************************************************************/
-	public double getGripperDistance() {
-		return gripperDistance;
-	}
-	public void setGripperDistance(double gripperDistance) {
-		this.gripperDistance = gripperDistance;
-		if (listener != null) {
-			listener.gripperDistanceChanged();
-		}
-	}
+    public void setPositionX(double positionX) {
+        this.positionX = positionX;
+        if (listener != null) {
+            listener.posXChanged();
+        }
+    }
 
-	/*********************************************************************************************************
-	 * PandaListener
-	 ********************************************************************************************************/
-	@Override
-	protected Submodel createIdentification() {
+    /*********************************************************************************************************
+     * PandaListener - PositionY
+     ********************************************************************************************************/
+    public double getPositionY() {
+        return positionY;
+    }
 
-		// create the sub model
-		Submodel info = new Submodel();
-		info.setIdShort("identification");
-		info.setSemanticId(new Reference("27380107", KeyElementsEnum.Submodel)); // e-class-ID "Roboterarm"
-		info.setDescription("de", "Herstellerinformationen");
-		info.setKind(Kind.Instance);
-		//info.setSemanticId(new Reference(new Key(KeyElements.SUBMODEL, false, "0173-1#02-AAV232#002", KeyType.IRDI)));
+    public void setPositionY(double positionY) {
+        this.positionY = positionY;
+        if (listener != null) {
+            listener.posYChanged();
+        }
+    }
 
-		Property manufacturer = new Property();
-		manufacturer.setIdShort("manufacturer");
-		manufacturer.setValue("FRANKA EMIKA Gmbh");
-		manufacturer.setSemanticId(new Reference("0173-1#02-AAO677#002", KeyElementsEnum.Property));
-		info.addSubmodelElement(manufacturer);
+    /*********************************************************************************************************
+     * PandaListener - PositionZ
+     ********************************************************************************************************/
+    public double getPositionZ() {
+        return positionZ;
+    }
 
-		Property gln = new Property();
-		gln.setIdShort("gln");
-		gln.setValue("GLN-Number Franka Panda");
-		gln.setSemanticId(new Reference("0173-1#02-AAY812#001", KeyElementsEnum.Property));
-		info.addSubmodelElement(gln);
+    public void setPositionZ(double positionZ) {
+        this.positionZ = positionZ;
+        if (listener != null) {
+            listener.posZChanged();
+        }
+    }
 
-		Property productFamily = new Property();
-		productFamily.setIdShort("productFamily");
-		productFamily.setValue("research robot arm");
-		productFamily.setSemanticId(new Reference("0173-1#02-AAY812#001", KeyElementsEnum.Property));
+    /*********************************************************************************************************
+     * PandaListener - forceZ
+     ********************************************************************************************************/
+    public double getForceZ() {
+        return forceZ;
+    }
 
-		info.addSubmodelElement(productFamily);
-		return info;
-	}
+    public void setForceZ(double forceZ) {
+        this.forceZ = forceZ;
+        if (listener != null) {
+            listener.forceZChanged();
+        }
+    }
 
-	/*********************************************************************************************************
-	 * PandaListener
-	 *
-	 * INFO: For lambda properties, the type has to be explicitly specified as it
-	 * can not be retrieved from supplier automatically
-	 ********************************************************************************************************/
-	@Override
-	protected Submodel createProperties() {
+    /*********************************************************************************************************
+     * PandaListener - gripperDistance
+     ********************************************************************************************************/
+    public double getGripperDistance() {
+        return gripperDistance;
+    }
 
-		Submodel info = new Submodel();
-		info.setIdShort("properties");
-		info.setDescription("de", "Statusinformationen");
-		info.setKind(Kind.Instance);
+    public void setGripperDistance(double gripperDistance) {
+        this.gripperDistance = gripperDistance;
+        if (listener != null) {
+            listener.gripperDistanceChanged();
+        }
+    }
 
-		// Panda Properties (ReadAccess)
-		LinkedList<ReferableElement> listSpecificationsPositions = new LinkedList<ReferableElement>();
-		listSpecificationsPositions.add(new Reference("Centimeters", KeyElementsEnum.Property));
-		listSpecificationsPositions.add(new Reference("Inches", KeyElementsEnum.Property));
+    /*********************************************************************************************************
+     * PandaListener
+     ********************************************************************************************************/
+    @Override
+    protected Submodel createIdentification() {
 
-		LinkedList<ReferableElement> listSpecificationsForces = new LinkedList<ReferableElement>();
-		listSpecificationsForces.add(new Reference("Newton", KeyElementsEnum.Property));
+        // create the sub model
+        Submodel info = new Submodel();
+        info.setIdShort("identification");
+        info.setSemanticId(new Reference("27380107", KeyElementsEnum.Submodel)); // e-class-ID "Roboterarm"
+        info.setDescription("de", "Herstellerinformationen");
+        info.setKind(Kind.Instance);
+        //info.setSemanticId(new Reference(new Key(KeyElements.SUBMODEL, false, "0173-1#02-AAV232#002", KeyType.IRDI)));
 
-		// add property for robot mode
-		Property modeProp = new Property();
-		modeProp.setIdShort("robotMode");
-		modeProp.setSemanticId(new Reference("0173-1#02-AAK543#004", KeyElementsEnum.Property)); // e-class-ID "anwenderrelevante Ausführung"
-		modeProp.setDescription("en", "robot mode represents current state of franka panda robot");
-		info.addSubmodelElement(modeProp);
+        Property manufacturer = new Property();
+        manufacturer.setIdShort("manufacturer");
+        manufacturer.setValue("FRANKA EMIKA Gmbh");
+        manufacturer.setSemanticId(new Reference("0173-1#02-AAO677#002", KeyElementsEnum.Property));
+        info.addSubmodelElement(manufacturer);
 
-		// add properties for positions in 3D working env
-		Property positionXProp = new Property();
-		positionXProp.setIdShort("posX");
-		positionXProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
-		positionXProp.setDescription("en", "franka panda robot end effector position X");
-		positionXProp.setDataSpecification(listSpecificationsPositions);
-		info.addSubmodelElement(positionXProp);
+        Property gln = new Property();
+        gln.setIdShort("gln");
+        gln.setValue("GLN-Number Franka Panda");
+        gln.setSemanticId(new Reference("0173-1#02-AAY812#001", KeyElementsEnum.Property));
+        info.addSubmodelElement(gln);
 
-		Property positionYProp = new Property();
-		positionYProp.setIdShort("posY");
-		positionYProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
-		positionYProp.setDescription("en", "franka panda robot end effector position Y");
-		positionYProp.setDataSpecification(listSpecificationsPositions);
-		info.addSubmodelElement(positionYProp);
+        Property productFamily = new Property();
+        productFamily.setIdShort("productFamily");
+        productFamily.setValue("research robot arm");
+        productFamily.setSemanticId(new Reference("0173-1#02-AAY812#001", KeyElementsEnum.Property));
 
-		Property positionZProp = new Property();
-		positionZProp.setIdShort("posZ");
-		positionZProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
-		positionZProp.setDescription("en", "franka panda robot end effector position Z");
-		positionZProp.setDataSpecification(listSpecificationsPositions);
-		info.addSubmodelElement(positionZProp);
+        info.addSubmodelElement(productFamily);
+        return info;
+    }
 
-		// add property for panda force
-		Property forceProp = new Property();
-		forceProp.setIdShort("z-force");
-		forceProp.setSemanticId(new Reference("0173-1#02-AAI621#002", KeyElementsEnum.Property)); // e-class-ID "Hebekraft"
-		forceProp.setDescription("en", "franka panda robot force for z-axis");
-		forceProp.setDataSpecification(listSpecificationsForces);
-		info.addSubmodelElement(forceProp);
+    /*********************************************************************************************************
+     * PandaListener
+     *
+     * INFO: For lambda properties, the type has to be explicitly specified as it
+     * can not be retrieved from supplier automatically
+     ********************************************************************************************************/
+    @Override
+    protected Submodel createProperties() {
 
-		// add property for gripper states
-		Property gripperProp = new Property();
-		gripperProp.setIdShort("gripper distance");
-		gripperProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
-		gripperProp.setDescription("en", "distance of gripper parts to each other");
-		gripperProp.setDataSpecification(listSpecificationsPositions);
-		info.addSubmodelElement(gripperProp);
+        Submodel info = new Submodel();
+        info.setIdShort("properties");
+        info.setDescription("de", "Statusinformationen");
+        info.setKind(Kind.Instance);
 
-		return info;
-	}
+        // Panda Properties (ReadAccess)
+        LinkedList<ReferableElement> listSpecificationsPositions = new LinkedList<ReferableElement>();
+        listSpecificationsPositions.add(new Reference("Centimeters", KeyElementsEnum.Property));
+        listSpecificationsPositions.add(new Reference("Inches", KeyElementsEnum.Property));
 
-	/*********************************************************************************************************
-	 * PandaListener
-	 ********************************************************************************************************/
-	@Override
-	protected Map<String, Object> createModel() {
+        LinkedList<ReferableElement> listSpecificationsForces = new LinkedList<ReferableElement>();
+        listSpecificationsForces.add(new Reference("Newton", KeyElementsEnum.Property));
 
-		Map<String, Object> properties = new HashMap<>();
-		properties.put("id", this.getName() + "01");
-		properties.put("desc", "Model connected with the edge device");
+        // add property for robot mode
+        Property modeProp = new Property();
+        modeProp.setIdShort("robotMode");
+        modeProp.setSemanticId(new Reference("0173-1#02-AAK543#004", KeyElementsEnum.Property)); // e-class-ID "anwenderrelevante Ausführung"
+        modeProp.setDescription("en", "robot mode represents current state of franka panda robot");
+        info.addSubmodelElement(modeProp);
 
-		// add robotmode property
-		Supplier<Object> lambdaFunction3 = () -> this.getRobotMode();
-		properties.put("robotmode", lambdaFunction3);
+        // add properties for positions in 3D working env
+        Property positionXProp = new Property();
+        positionXProp.setIdShort("posX");
+        positionXProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
+        positionXProp.setDescription("en", "franka panda robot end effector position X");
+        positionXProp.setDataSpecification(listSpecificationsPositions);
+        info.addSubmodelElement(positionXProp);
 
-		// add posX property
-		Supplier<Object> lambdaFunction4 = () -> this.getPositionX();
-		properties.put("posX", lambdaFunction4);
+        Property positionYProp = new Property();
+        positionYProp.setIdShort("posY");
+        positionYProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
+        positionYProp.setDescription("en", "franka panda robot end effector position Y");
+        positionYProp.setDataSpecification(listSpecificationsPositions);
+        info.addSubmodelElement(positionYProp);
 
-		// add posY property
-		Supplier<Object> lambdaFunction5 = () -> this.getPositionY();
-		properties.put("posY", lambdaFunction5);
+        Property positionZProp = new Property();
+        positionZProp.setIdShort("posZ");
+        positionZProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
+        positionZProp.setDescription("en", "franka panda robot end effector position Z");
+        positionZProp.setDataSpecification(listSpecificationsPositions);
+        info.addSubmodelElement(positionZProp);
 
-		// add posZ property
-		Supplier<Object> lambdaFunction6 = () -> this.getPositionZ();
-		properties.put("posZ", lambdaFunction6);
+        // add property for panda force
+        Property forceProp = new Property();
+        forceProp.setIdShort("z-force");
+        forceProp.setSemanticId(new Reference("0173-1#02-AAI621#002", KeyElementsEnum.Property)); // e-class-ID "Hebekraft"
+        forceProp.setDescription("en", "franka panda robot force for z-axis");
+        forceProp.setDataSpecification(listSpecificationsForces);
+        info.addSubmodelElement(forceProp);
 
-		// add forceZ property
-		Supplier<Object> lambdaFunction7 = () -> this.getForceZ();
-		properties.put("forceZ", lambdaFunction7);
+        // add property for gripper states
+        Property gripperProp = new Property();
+        gripperProp.setIdShort("gripper distance");
+        gripperProp.setSemanticId(new Reference("0173-1#02-AAZ424#001", KeyElementsEnum.Property)); // e-class-ID "Positionserkennung"
+        gripperProp.setDescription("en", "distance of gripper parts to each other");
+        gripperProp.setDataSpecification(listSpecificationsPositions);
+        info.addSubmodelElement(gripperProp);
 
-		// add gripperDistance property
-		Supplier<Object> lambdaFunction8 = () -> this.getGripperDistance();
-		properties.put("gripperDistance", lambdaFunction8);
+        return info;
+    }
+
+    /*********************************************************************************************************
+     * PandaListener
+     ********************************************************************************************************/
+    @Override
+    protected Map<String, Object> createModel() {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("id", this.getName() + "01");
+        properties.put("desc", "Model connected with the edge device");
+
+        // add robotmode property
+        Supplier<Object> lambdaFunction3 = () -> this.getRobotMode();
+        properties.put("robotmode", lambdaFunction3);
+
+        // add posX property
+        Supplier<Object> lambdaFunction4 = () -> this.getPositionX();
+        properties.put("posX", lambdaFunction4);
+
+        // add posY property
+        Supplier<Object> lambdaFunction5 = () -> this.getPositionY();
+        properties.put("posY", lambdaFunction5);
+
+        // add posZ property
+        Supplier<Object> lambdaFunction6 = () -> this.getPositionZ();
+        properties.put("posZ", lambdaFunction6);
+
+        // add forceZ property
+        Supplier<Object> lambdaFunction7 = () -> this.getForceZ();
+        properties.put("forceZ", lambdaFunction7);
+
+        // add gripperDistance property
+        Supplier<Object> lambdaFunction8 = () -> this.getGripperDistance();
+        properties.put("gripperDistance", lambdaFunction8);
 
 
-		// Create an empty container for custom operations
-		Map<String, Object> operations = new HashMap<>();
-		Function<Object, Object> activateFunction = (args) -> {
-			this.setActive(true);
-			return null;
-		};
-		operations.put("start", activateFunction);
+        // Create an empty container for custom operations
+        Map<String, Object> operations = new HashMap<>();
+        Function<Object, Object> activateFunction = (args) -> {
+            this.setActive(true);
+            return null;
+        };
+        operations.put("start", activateFunction);
 
-		// Add a function that deactivates the oven and implements a functional interface
-		Function<Object, Object> deactivateFunction = (args) -> {
-			this.setActive(false);
-			return null;
-		};
-		operations.put("stop", deactivateFunction);
+        // Add a function that deactivates the oven and implements a functional interface
+        Function<Object, Object> deactivateFunction = (args) -> {
+            this.setActive(false);
+            return null;
+        };
+        operations.put("stop", deactivateFunction);
 
-		Map<String, Object> myModel = new HashMap<>();
-		myModel.put("operations", operations);
-		myModel.put("properties", properties);
-		return myModel;
-	}
+        Map<String, Object> myModel = new HashMap<>();
+        myModel.put("operations", operations);
+        myModel.put("properties", properties);
+        return myModel;
+    }
 }
