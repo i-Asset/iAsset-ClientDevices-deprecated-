@@ -31,7 +31,7 @@
                       <manifest>
                           <addClasspath>true</addClasspath>
                           <classpathPrefix>dependency-jars/</classpathPrefix>
-                          <mainClass>org.srfg.MainPeak2PiDevice</mainClass>
+                          <mainClass>at.srfg.MainPeak2PiDevice</mainClass>
                       </manifest>
                   </archive>
               </configuration>
@@ -73,7 +73,7 @@
                           <outputDirectory>${basedir}/target/dependency-jars/</outputDirectory>
                           <resources>
                               <resource>
-                                  <directory>../../BASE/basys.basedevice/src/main/resources/</directory>
+                                  <directory>../../devices/src/main/resources/</directory>
                                   <filtering>true</filtering>
                               </resource>
                           </resources>

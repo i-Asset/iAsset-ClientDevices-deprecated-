@@ -32,7 +32,7 @@
                     <manifest>
                         <addClasspath>true</addClasspath>
                         <classpathPrefix>lib/</classpathPrefix>
-                        <mainClass>org.srfg.properties.MyProperties</mainClass>
+                        <mainClass>at.srfg.properties.MyProperties</mainClass>
                     </manifest>
                     <manifestEntries>
                         <Class-Path>.</Class-Path>

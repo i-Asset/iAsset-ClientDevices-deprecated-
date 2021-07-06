@@ -31,7 +31,7 @@
 					  <manifest>
 						  <addClasspath>true</addClasspath>
 						  <classpathPrefix>dependency-jars/</classpathPrefix>
-						  <mainClass>org.srfg.MainConveyorBelt</mainClass>
+						  <mainClass>at.srfg.MainConveyorBelt</mainClass>
 					  </manifest>
 				  </archive>
 			  </configuration>

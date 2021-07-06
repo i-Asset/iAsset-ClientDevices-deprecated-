@@ -73,7 +73,7 @@
 						  <outputDirectory>${basedir}/target/dependency-jars/</outputDirectory>
 						  <resources>
 							  <resource>
-								  <directory>../../BASE/basys.basedevice/src/main/resources/</directory>
+								  <directory>../../devices/src/main/resources/</directory>
 								  <filtering>true</filtering>
 							  </resource>
 						  </resources>
@@ -109,7 +109,7 @@
 	  <dependency>
 		  <groupId>org.ros.rosjava_messages</groupId>
 		  <artifactId>geometry_msgs</artifactId>
-		  <version>1.10.+</version>
+		  <version>1.12.7</version>
 	  </dependency>
 		
 	<dependency>
